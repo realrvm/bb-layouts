@@ -1,7 +1,7 @@
 function App() {
   return (
     <main>
-      <h1>bebemoney frontend part</h1>
+      <h1>bibimoney frontend</h1>
     </main>
   );
 }
