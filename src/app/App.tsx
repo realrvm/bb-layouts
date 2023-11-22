@@ -1,9 +1,13 @@
-function App() {
-  return (
-    <main>
-      <h1>bibimoney frontend</h1>
-    </main>
-  );
-}
+import { FC } from "react";
+import { AppRouter } from "./providers/router-dom-provider";
+import { Outlet } from "react-router-dom";
 
-export default App;
+type AppProps = Record<string, never>;
+
+export const App: FC<AppProps> = () => {
+  return (
+    <AppRouter>
+      <Outlet />
+    </AppRouter>
+  );
+};
