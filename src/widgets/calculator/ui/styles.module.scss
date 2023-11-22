@@ -1,0 +1,46 @@
+.bb__calc {
+  padding: 72px 0px;
+  background-color: var(--brand-light);
+
+  &_content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &_intro {
+    flex: 1;
+
+    & > h1 {
+      font: var(--heading1);
+      margin-bottom: 12px;
+    }
+
+    & > p {
+      font: var(--font-md);
+      margin-bottom: 134px;
+    }
+
+    &_footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 98px;
+
+      & dd {
+        font: var(--heading4);
+        color:var(--brand-primary);
+      }
+
+      & dt {
+        font: var(--font-md);
+      }
+    }
+  }
+
+  &_form {
+    flex-basis: 512px;
+    background-color: var(--bg-white);
+    padding: 36px;
+    border-radius: 12px;
+  }
+}

@@ -1,0 +1,153 @@
+.bb__footer {
+  padding: 48px 0;
+  background-color: var(--brand-light);
+
+  &_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+
+    & > a:last-child {
+      padding: 12px 20px;
+    }
+  }
+
+  &_banks,
+  &_info_,
+  &_links {
+    border-top: 1px solid var(--border-grey);
+  }
+
+  &_banks,
+  &_info {
+    padding: 24px 0;
+  }
+
+  &_details {
+    display: flex;
+    padding-bottom: 24px;
+    gap: 112px;
+
+    &_item {
+      flex: 1;
+
+      & > p,
+      & > a {
+        font: var(--font-sm);
+      }
+
+      & > a {
+        color: var(--brand-primary);
+        margin-top: 16px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      & > dl {
+        font: var(--font-sm);
+        display: grid;
+        grid-template-columns: 68px auto;
+
+        &:not(:first-child) {
+          margin-top: 12px;
+        }
+      }
+    }
+  }
+
+  &_banks {
+    display: flex;
+    gap: 112px;
+
+    &_item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      & > img {
+        align-self: flex-start;
+        margin-bottom: 20px;
+      }
+
+      & > a {
+        font: var(--font-sm);
+        color: var(--brand-primary);
+        align-self: flex-start;
+
+        &:not(:first-child) {
+          margin-top: 12px;
+        }
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      & > p {
+        font: var(--font-sm);
+        margin-top: 12px;
+      }
+    }
+  }
+
+  &_info {
+    &_title {
+      text-transform: uppercase;
+      font: var(--font-md);
+      margin-bottom: 12px;
+    }
+
+    &_items {
+      display: flex;
+      gap: 112px;
+    }
+
+    &_item {
+      flex: 1;
+
+      & a {
+        color: var(--brand-primary);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      &:first-child {
+        font: var(--font-sm);
+      }
+
+      &:last-child {
+        & > p:first-child {
+          font: var(--font-md);
+          margin-bottom: 4px;
+        }
+        p + p {
+          font: var(--font-sm);
+          margin-top: 12px;
+        }
+      }
+    }
+  }
+
+  &_links {
+    padding-top: 24px;
+
+    & > a {
+      font: var(--font-sm);
+      color: var(--brand-primary);
+      margin-bottom: 20px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    & > p {
+      font: var(--font-sm);
+    }
+  }
+}

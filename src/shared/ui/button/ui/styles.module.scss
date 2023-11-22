@@ -1,0 +1,22 @@
+.bb__btn {
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn_primary {
+  background-color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  color: var(--text-white);
+}
+
+.btn_outline {
+  background-color: transparent;
+  border: 1px solid var(--border-grey);
+  color: var(--text-black);
+}
+
+.btn_clean {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: var(--text-black);
+}

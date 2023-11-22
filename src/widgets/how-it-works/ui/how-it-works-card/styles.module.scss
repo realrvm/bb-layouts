@@ -1,0 +1,26 @@
+.bb__hit_card {
+  padding: 24px;
+  background-color: var(--brand-light);
+  border-radius: 8px;
+
+  &_number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--text-white);
+    background-color: var(--brand-primary);
+    font: var(--heading6);
+    margin-bottom: 16px;
+  }
+
+  &_title {
+    font: var(--heading4);
+    margin-bottom: 8px;
+  }
+
+  &_text {
+    font: var(--font-md);
+  }
+}

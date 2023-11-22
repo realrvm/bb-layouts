@@ -1,0 +1,28 @@
+.bb__app_link {
+  display: inline-block;
+}
+
+.app_link_primary {
+  background-color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  color: var(--text-white);
+  border-radius: 8px;
+}
+
+.app_link_outline {
+  background-color: transparent;
+  border: 1px solid var(--border-grey);
+  color: var(--text-black);
+  border-radius: 8px;
+}
+
+.app_link_clean {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: var(--text-black);
+  border-radius: 8px;
+}
+
+.app_link_basic {
+  color: inherit;
+}

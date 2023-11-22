@@ -1,0 +1,38 @@
+.bb__conditions {
+  padding: 88px 0 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > h2 {
+    font:
+      700 28px/32px "Inter",
+      sans-serif;
+    margin-bottom: 12px;
+  }
+
+  &_btns {
+    border-radius: 8px;
+    padding: 2px;
+    background-color: var(--bg-grl);
+    border: 1px solid var(--border-grey);
+    margin: 24px;
+
+    & > button {
+      padding: 6px 12px;
+      font: var(--heading6);
+
+      &:not(:last-child) {
+        margin-right: 2px;
+      }
+    }
+  }
+
+  &_cards {
+    align-self: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+  }
+}

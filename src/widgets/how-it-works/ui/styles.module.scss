@@ -1,0 +1,17 @@
+.bb__hit {
+  padding: 44px 0;
+
+  & > h2 {
+    font:
+      700 28px/32px "Inter",
+      sans-serif;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  &_cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+}

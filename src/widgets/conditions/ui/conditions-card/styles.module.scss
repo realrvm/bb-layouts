@@ -1,0 +1,9 @@
+.bb__conditions_card {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  font: var(--heading5);
+  padding: 38px 0;
+  border: 1px solid var(--border-grey);
+  border-radius: 8px;
+}

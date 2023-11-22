@@ -23,9 +23,15 @@ npm ci
 ```
 ## Start app
 
-- develpment mode
+- development mode
+
 ```shell
 npm run dev
+```
+- production mode
+
+```shell
+npm run build
 ```
 
 ## Dependencies
