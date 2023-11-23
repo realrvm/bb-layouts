@@ -2,11 +2,20 @@
   padding: 48px 0;
   background-color: var(--brand-light);
 
+  @media only screen and (max-width: 768px) {
+    padding: 28px 0;
+  }
+
   &_head {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 32px;
+
+    @media only screen and (max-width: 400px) {
+      flex-direction: column;
+      gap: 20px;
+    }
 
     & > a:last-child {
       padding: 12px 20px;
@@ -28,6 +37,11 @@
     display: flex;
     padding-bottom: 24px;
     gap: 112px;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px;
+    }
 
     &_item {
       flex: 1;
@@ -61,6 +75,11 @@
   &_banks {
     display: flex;
     gap: 112px;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: 20px;
+    }
 
     &_item {
       flex: 1;
@@ -103,6 +122,11 @@
     &_items {
       display: flex;
       gap: 112px;
+
+      @media only screen and (max-width: 768px) {
+        flex-direction: column;
+        gap: 20px;
+      }
     }
 
     &_item {

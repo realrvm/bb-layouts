@@ -4,6 +4,10 @@
   padding: 24px;
   cursor: pointer;
 
+  @media only screen and (max-width: 768px) {
+    padding: 16px;
+  }
+
   &_question {
     display: flex;
     align-items: center;
@@ -13,6 +17,10 @@
 
   &_title {
     font: var(--heading4);
+
+    @media only screen and (max-width: 768px) {
+      font: var(--heading5);
+    }
   }
 
   &_answer_wrap {

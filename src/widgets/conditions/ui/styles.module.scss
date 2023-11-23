@@ -4,11 +4,19 @@
   flex-direction: column;
   align-items: center;
 
+  @media only screen and (max-width: 768px) {
+    padding: 56px 0 27px;
+  }
+
   & > h2 {
     font:
       700 28px/32px "Inter",
       sans-serif;
     margin-bottom: 12px;
+
+    @media only screen and (max-width: 768px) {
+      font: var(--heading3);
+    }
   }
 
   &_btns {

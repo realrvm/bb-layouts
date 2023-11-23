@@ -7,6 +7,21 @@
   padding: 5px 48px;
 
   & > span {
-   font: var(--heading3);
+    font: var(--heading3);
+
+    @media only screen and (max-width: 768px) {
+      font: var(--heading4);
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    overflow: hidden;
+    padding: 5px 0 5px 20px;
+  }
+
+  & > img {
+    @media only screen and (max-width: 500px) {
+      transform: translateX(20%);
+    }
   }
 }

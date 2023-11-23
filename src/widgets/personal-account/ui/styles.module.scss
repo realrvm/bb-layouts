@@ -3,8 +3,16 @@
   border-radius: 12px;
   background-color: var(--brand-light);
 
+  @media only screen and (max-width: 768px) {
+    margin: 28px 0;
+  }
+
   &_wrapper {
     display: flex;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;
+    }
   }
 
   &_img,
@@ -15,6 +23,11 @@
   &_img {
     max-height: 515px;
     padding: 32px 48px 48px;
+
+    @media only screen and (max-width: 768px) {
+      padding: 24px;
+      max-height: unset;
+    }
 
     & > img {
       aspect-ratio: 1 / 1;
@@ -32,6 +45,10 @@
         700 28px/32px "Inter",
         sans-serif;
       margin-bottom: 36px;
+
+      @media only screen and (max-width: 768px) {
+        font: var(--heading3);
+      }
     }
 
     & > ul {
@@ -64,6 +81,15 @@
     &_link {
       padding: 12px 20px;
       border-radius: 8px;
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media only screen and (max-width: 768px) {
+      padding: 24px;
     }
   }
 }
