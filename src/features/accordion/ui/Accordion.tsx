@@ -14,11 +14,11 @@ type AccordionProps = {
 };
 
 export const Accordion: FC<AccordionProps> = ({ faqs }) => {
-  const [clicked, setClicked] = useState(0);
+  const [clicked, setClicked] = useState(333);
 
   const handleToggle = useCallback(
     (id: number) => {
-      return clicked === id ? setClicked(1) : setClicked(id);
+      return clicked === id ? setClicked(333) : setClicked(id);
     },
     [clicked],
   );

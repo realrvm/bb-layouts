@@ -34,10 +34,10 @@ export const Navbar: FC<NavbarProps> = () => {
             </div>
           </div>
           <div className={styles.bb__main_nav_action_btns}>
-            <AppLink to="/get_money" theme={AppLinkThemes.OUTLINE}>
+            <AppLink to="/identity" theme={AppLinkThemes.OUTLINE}>
               Личный кабинет
             </AppLink>
-            <AppLink to="/identity" theme={AppLinkThemes.PRIMARY}>
+            <AppLink to="/get_money" theme={AppLinkThemes.PRIMARY}>
               Получить займ
             </AppLink>
           </div>

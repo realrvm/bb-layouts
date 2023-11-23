@@ -1,9 +1,6 @@
 import { FC } from "react";
 
 import { Container } from "@/widgets/container";
-import { AppImage } from "@/shared/ui/app-image";
-
-import intro_car from "@/shared/assets/images/intro_car.png";
 
 import styles from "./styles.module.scss";
 
@@ -21,7 +18,6 @@ export const Calculator: FC<CalculatorProps> = () => {
               <br />
               быстро, без комиссий и страховок
             </p>
-            <AppImage src={intro_car} alt="intro_car" />
             <div className={styles.bb__calc_intro_footer}>
               <dl>
                 <dd>6,9%</dd>
