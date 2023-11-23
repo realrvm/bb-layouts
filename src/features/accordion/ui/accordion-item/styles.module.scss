@@ -1,0 +1,27 @@
+.bb__accordion_item {
+  border: 1px solid var(--border-grey);
+  border-radius: 8px;
+  padding: 24px;
+  cursor: pointer;
+
+  &_question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  &_title {
+    font: var(--heading4);
+  }
+
+  &_answer_wrap {
+    height: 0;
+    overflow: hidden;
+    transition: height ease 0.2s;
+  }
+
+  &_answer {
+    font: var(--font-lg);
+  }
+}
