@@ -3,6 +3,7 @@ import { FC } from "react";
 import { Container } from "@/widgets/container";
 
 import styles from "./styles.module.scss";
+import { CalculatorForm } from "./calculator-form/CalculatorForm";
 
 type CalculatorProps = Record<string, never>;
 
@@ -34,7 +35,7 @@ export const Calculator: FC<CalculatorProps> = () => {
             </div>
           </div>
           <div className={styles.bb__calc_form}>
-            <p>Форма</p>
+            <CalculatorForm />
           </div>
         </div>
       </Container>
