@@ -2,6 +2,29 @@
   padding: 72px 0px;
   background-color: var(--brand-light);
 
+  @media (max-width: 1200px) {
+    padding: 72px 0 40px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 0 28px;
+  }
+
+  &_wrap {
+    max-width: 1440px;
+    padding: 0 100px;
+    margin: 0 auto;
+    height: 100%;
+
+    @media only screen and (max-width: 1400px) {
+      padding: 0 20px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      padding: 0;
+    }
+  }
+
   &_content {
     display: flex;
     justify-content: space-between;
@@ -21,30 +44,61 @@
     background-size: 100%, 53%;
     min-height: 592px;
 
+    @media only screen and (max-width: 1200px) {
+      background-position:
+        -76px 81%,
+        76% center;
+    }
+
+    @media only screen and (max-width: 1200px) {
+      background-size: 120%, 53%;
+    }
+
+    @media only screen and (max-width: 1000px) {
+      background-size: 140%, 83%;
+    }
+
+    @media only screen and (max-width: 900px) {
+      background-size: 120%, 53%;
+    }
+
+    @media only screen and (max-width: 768px) {
+      background-size: 60%, 50%;
+      background-position:
+        113% 81%,
+        113% center;
+      min-height: 164px;
+      padding-left: 28px;
+    }
+
+    @media only screen and (max-width: 678px) {
+      background-size: 49%, 50%;
+      background-position:
+        98% 33%,
+        113% center;
+      min-height: 164px;
+    }
+
     & > h1 {
       font: var(--heading1);
       margin-bottom: 12px;
+
+      @media only screen and (max-width: 768px) {
+        margin-top: 28px;
+        width: 50%;
+        font:
+          700 28px/32px "Inter",
+          sans-serif;
+      }
     }
 
     & > p {
       font: var(--font-md);
       margin-bottom: 134px;
-    }
 
-    &_footer {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-right: 98px;
-
-      & dd {
-        font: var(--heading4);
-        color: var(--brand-primary);
-      }
-
-      & dt {
-        font: var(--font-md);
+      @media only screen and (max-width: 768px) {
+        font: var(--font-sm);
+        margin-bottom: 20px;
       }
     }
   }
@@ -54,5 +108,22 @@
     background-color: var(--bg-white);
     padding: 36px;
     border-radius: 12px;
+
+    @media only screen and (max-width: 1350px) {
+      flex-basis: 450px;
+    }
+
+    @media only screen and (max-width: 1300px) {
+      flex-basis: 400px;
+    }
+  }
+
+  &_bottom {
+    display: flex;
+    justify-content: center;
+
+    &_content {
+      gap: 40px;
+    }
   }
 }

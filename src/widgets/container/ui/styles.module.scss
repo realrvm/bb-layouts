@@ -1,10 +1,17 @@
-.bb__container {
+.bb__container,
+.bb__container_right {
   max-width: 1440px;
   padding: 0 100px;
   margin: 0 auto;
   height: 100%;
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 1400px) {
     padding: 0 20px;
+  }
+}
+
+.bb__container_right {
+  @media only screen and (max-width: 768px) {
+    padding: 0 0 0 20px;
   }
 }

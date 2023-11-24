@@ -3,6 +3,10 @@
   background-color: var(--brand-light);
   border-radius: 8px;
 
+  @media only screen and (max-width: 768px) {
+    padding: 20px;
+  }
+
   &_number {
     width: 32px;
     height: 32px;

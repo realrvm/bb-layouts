@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 
 import styles from "./styles.module.scss";
-import { Container } from "@/widgets/container";
+import { ContainerRight } from "@/widgets/container";
 import { HowItWorksCard } from "./how-it-works-card/HowItWorksCard";
+import { useSwipe } from "@/shared/lib/hooks/useSwipe";
 
 const hit_cards = [
   {
@@ -30,17 +31,20 @@ const hit_cards = [
 type HowItWorksProps = Record<string, never>;
 
 export const HowItWorks: FC<HowItWorksProps> = () => {
+  const refHit = useRef<HTMLDivElement | null>(null);
+  useSwipe(refHit);
+
   return (
-    <Container>
+    <ContainerRight>
       <section className={styles.bb__hit}>
         <h2>Как это работает</h2>
-        <div className={styles.bb__hit_cards}>
+        <div className={styles.bb__hit_cards} ref={refHit}>
           {hit_cards.map((card) => {
             const { id } = card;
             return <HowItWorksCard key={id} card={card} />;
           })}
         </div>
       </section>
-    </Container>
+    </ContainerRight>
   );
 };

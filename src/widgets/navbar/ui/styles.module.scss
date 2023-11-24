@@ -1,6 +1,10 @@
 .bb__header {
   height: 76px;
   box-shadow: 0px 0px 4px 0px rgba(7, 12, 19, 0.2);
+
+  @media only screen and (max-width: 768px) {
+    height: 80px;
+  }
 }
 
 .bb__main_nav {
@@ -8,6 +12,12 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
+
+  &_hamburger {
+    padding: 6px;
+    border-radius: 8px;
+    background-color: var(--brand-primary);
+  }
 
   &_logo {
     display: flex;

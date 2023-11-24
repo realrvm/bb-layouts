@@ -2,7 +2,7 @@
   padding: 44px 0;
 
   @media only screen and (max-width: 768px) {
-    padding: 28px;
+    padding: 28px 0;
   }
 
   & > h2 {
@@ -19,8 +19,15 @@
   }
 
   &_cards {
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 8px;
+    grid-gap: 8px;
+    grid-template-columns: repeat(4, minmax(260px, 304px));
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

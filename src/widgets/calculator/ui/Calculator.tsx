@@ -1,16 +1,20 @@
 import { FC } from "react";
 
-import { Container } from "@/widgets/container";
+import { CalculatorForm } from "./calculator-form/CalculatorForm";
+import { CalculatorFooter } from "./calculator-footer/CalculatorFooter";
+import { useWindowWidth } from "@/shared/lib/hooks/useWindowWidth";
+import { NOTEBOOK_WIDTH, DESKTOP_WIDTH } from "@/shared/lib/const";
 
 import styles from "./styles.module.scss";
-import { CalculatorForm } from "./calculator-form/CalculatorForm";
 
 type CalculatorProps = Record<string, never>;
 
 export const Calculator: FC<CalculatorProps> = () => {
+  const { width } = useWindowWidth();
+
   return (
     <section className={styles.bb__calc}>
-      <Container>
+      <div className={styles.bb__calc_wrap}>
         <div className={styles.bb__calc_content}>
           <div className={styles.bb__calc_intro}>
             <h1>Займы под залог ПТС</h1>
@@ -19,26 +23,25 @@ export const Calculator: FC<CalculatorProps> = () => {
               <br />
               быстро, без комиссий и страховок
             </p>
-            <div className={styles.bb__calc_intro_footer}>
-              <dl>
-                <dd>6,9%</dd>
-                <dt>Средний процент займа</dt>
-              </dl>
-              <dl>
-                <dd>30 мин.</dd>
-                <dt>На проверку заявки</dt>
-              </dl>
-              <dl>
-                <dd>до 70%</dd>
-                <dt>От стоимости автомобиля</dt>
-              </dl>
-            </div>
+            {width > DESKTOP_WIDTH ? <CalculatorFooter /> : null}
           </div>
+          {width > NOTEBOOK_WIDTH ? (
+            <div className={styles.bb__calc_form}>
+              <CalculatorForm />
+            </div>
+          ) : null}
+        </div>
+        {width < NOTEBOOK_WIDTH ? (
           <div className={styles.bb__calc_form}>
             <CalculatorForm />
           </div>
-        </div>
-      </Container>
+        ) : null}
+        {width < DESKTOP_WIDTH ? (
+          <div className={styles.bb__calc_bottom}>
+            <CalculatorFooter className={styles.bb__calc_bottom_content} />
+          </div>
+        ) : null}
+      </div>
     </section>
   );
 };

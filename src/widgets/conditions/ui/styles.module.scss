@@ -1,8 +1,5 @@
 .bb__conditions {
   padding: 88px 0 44px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
   @media only screen and (max-width: 768px) {
     padding: 56px 0 27px;
@@ -13,6 +10,7 @@
       700 28px/32px "Inter",
       sans-serif;
     margin-bottom: 12px;
+    text-align: center;
 
     @media only screen and (max-width: 768px) {
       font: var(--heading3);
@@ -24,15 +22,28 @@
     padding: 2px;
     background-color: var(--bg-grl);
     border: 1px solid var(--border-grey);
-    margin: 24px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    display: grid;
+    grid-template-columns: repeat(4, min-content);
+    gap: 2px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     & > button {
       padding: 6px 12px;
       font: var(--heading6);
+      white-space: nowrap;
+      outline: none;
+    }
 
-      &:not(:last-child) {
-        margin-right: 2px;
-      }
+    &_wrap {
+      display: flex;
+      justify-content: center;
     }
   }
 
