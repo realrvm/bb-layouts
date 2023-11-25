@@ -1,6 +1,8 @@
+export type Mods = Record<string, boolean | string | undefined>;
+
 export const cn = (
   className: string,
-  mods: Record<string, boolean | undefined> = {},
+  mods: Record<string, boolean | undefined | string> = {},
   additional: (string | undefined)[] = [],
 ): string => {
   const modsKeys: string[] = Object.entries(mods).reduce(

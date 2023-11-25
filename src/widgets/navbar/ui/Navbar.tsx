@@ -1,4 +1,5 @@
-import { FC } from "react";
+import { FC, useState } from "react";
+import Hamburger from "hamburger-react";
 
 import { Container } from "@/widgets/container";
 import logo from "@/shared/assets/images/logo.png";
@@ -8,14 +9,17 @@ import { AppLink } from "@/shared/ui/app-link/";
 import { Button, ButtonThemes } from "@/shared/ui/button";
 import { AppLinkThemes } from "@/shared/ui/app-link/types";
 import { useWindowWidth } from "@/shared/lib/hooks/useWindowWidth";
+import { Drawer } from "@/features/drawer";
+
+import { TABLET_WIDTH } from "@/shared/lib/const";
 
 import styles from "./styles.module.scss";
-import { TABLET_WIDTH } from "@/shared/lib/const";
-import Hamburger from "hamburger-react";
+import { cn } from "@/shared/lib/cn";
 
 type NavbarProps = Record<string, never>;
 
 export const Navbar: FC<NavbarProps> = () => {
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const { width } = useWindowWidth();
 
   return (
@@ -50,13 +54,52 @@ export const Navbar: FC<NavbarProps> = () => {
               </AppLink>
             </div>
           ) : (
-            <div className={styles.bb__main_nav_hamburger}>
-              <Hamburger
-                color={`#969696`}
-                size={24}
-                onToggle={() => console.log("hamburger")}
-              />
-            </div>
+            <>
+              <div
+                className={cn(styles.bb__main_nav_hamburger, {
+                  [styles["open"]]: isOpenDrawer,
+                })}
+              >
+                <Hamburger
+                  color={`#969696`}
+                  size={24}
+                  onToggle={() => setIsOpenDrawer(!isOpenDrawer)}
+                  toggled={isOpenDrawer}
+                />
+              </div>
+              <Drawer
+                isOpen={isOpenDrawer}
+                onClose={() => setIsOpenDrawer(false)}
+              >
+                <div
+                  className={cn(styles.bb__main_nav_logo_btns, {}, [
+                    styles["mobile"],
+                  ])}
+                >
+                  <Button onClick={() => console.log("to clients")}>
+                    Клиентам
+                  </Button>
+                  <Button
+                    onClick={() => console.log("to agents")}
+                    theme={ButtonThemes.CLEAN}
+                  >
+                    Агентам
+                  </Button>
+                </div>
+                <div
+                  className={cn(styles.bb__main_nav_action_btns, {}, [
+                    styles["mobile"],
+                  ])}
+                >
+                  <AppLink to="/get_money" theme={AppLinkThemes.PRIMARY}>
+                    Получить займ
+                  </AppLink>
+                  <AppLink to="/identity" theme={AppLinkThemes.OUTLINE}>
+                    Личный кабинет
+                  </AppLink>
+                </div>
+              </Drawer>
+            </>
           )}
         </nav>
       </Container>
