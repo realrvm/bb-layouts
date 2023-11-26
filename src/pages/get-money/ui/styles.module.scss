@@ -1,0 +1,77 @@
+.bb__gm {
+  &_container {
+    max-width: 615px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 48px auto 0;
+  }
+
+  &_icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-bottom: 24px;
+    background-color: var(--bg-bluish);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 6C4.89543 6 4 6.89543 4 8V16C4 17.1046 4.89543 18 6 18H11C11.5523 18 12 18.4477 12 19C12 19.5523 11.5523 20 11 20H6C3.79086 20 2 18.2091 2 16V8C2 5.79086 3.79086 4 6 4H18C20.2091 4 22 5.79086 22 8V16C22 16.5523 21.5523 17 21 17C20.4477 17 20 16.5523 20 16V8C20 6.89543 19.1046 6 18 6H6Z" fill="%23064CFF"/><path fill-rule="evenodd" clip-rule="evenodd" d="M2 10C2 9.44772 2.44772 9 3 9H21C21.5523 9 22 9.44772 22 10C22 10.5523 21.5523 11 21 11H3C2.44772 11 2 10.5523 2 10Z" fill="%23064CFF"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6 15C6 14.4477 6.44772 14 7 14H9C9.55228 14 10 14.4477 10 15C10 15.5523 9.55228 16 9 16H7C6.44772 16 6 15.5523 6 15Z" fill="%23064CFF"/><path fill-rule="evenodd" clip-rule="evenodd" d="M13 19C13 18.4477 13.4477 18 14 18H20C20.5523 18 21 18.4477 21 19C21 19.5523 20.5523 20 20 20H14C13.4477 20 13 19.5523 13 19Z" fill="%23064CFF"/><path fill-rule="evenodd" clip-rule="evenodd" d="M17 23C16.4477 23 16 22.5523 16 22V16C16 15.4477 16.4477 15 17 15C17.5523 15 18 15.4477 18 16V22C18 22.5523 17.5523 23 17 23Z" fill="%23064CFF"/></svg>');
+  }
+
+  &_title {
+    font: var(--heading2);
+    margin-bottom: 12px;
+  }
+
+  &_text {
+    font: var(--font-md);
+    margin-bottom: 48px;
+    text-align: center;
+  }
+
+  &_form {
+    display: flex;
+    flex-direction: column;
+    max-width: 408px;
+
+    & label {
+      margin-bottom: 8px;
+      font: var(--font-md);
+    }
+
+    & input[type="tel"] {
+      padding: 8px 12px;
+      margin-bottom: 24px;
+      border-radius: 8px;
+      outline: none;
+      border: 1px solid var(--border-grey);
+    }
+
+    & button[type="submit"] {
+      padding: 12px 20px;
+      font: var(--heading5);
+    }
+  }
+
+  &_checkbox {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 48px;
+
+    & input[type="checkbox"] {
+      transform: translateY(4px);
+    }
+
+    & > p {
+      font: var(--font-md);
+
+      & > a {
+        color: var(--text-brand);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
