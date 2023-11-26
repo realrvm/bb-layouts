@@ -1,0 +1,47 @@
+.bb__gm {
+  &_container {
+    max-width: 615px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 48px auto 0;
+
+    @media only screen and (max-width: 768px) {
+      margin: 56px auto 0;
+    }
+  }
+
+  &_title {
+    font: var(--heading2);
+    margin-bottom: 12px;
+
+    @media only screen and (max-width: 768px) {
+      font:
+        700 28px/32px "Inter",
+        sans-serif;
+    }
+  }
+
+  &_text {
+    font: var(--font-md);
+    margin-bottom: 48px;
+    text-align: center;
+  }
+
+  &_footer {
+    margin-top: 48px;
+    text-align: center;
+
+    & p:first-child {
+      margin-bottom: 12px;
+    }
+
+    & p:last-child {
+      & span {
+        color: var(--brand-primary);
+        display: inline-block;
+        margin-left: 8px;
+      }
+    }
+  }
+}

@@ -18,10 +18,16 @@ export const NavbarSimple: FC<NavbarSimpleProps> = ({ className }) => {
       className={cn(styles.bb__header, {}, [className && styles[className]])}
     >
       <Container>
-        <nav className={styles.bb__main_nav}>
-          <AppLink to="/">
-            <AppImage src={logo} alt="logo" />
-          </AppLink>
+        <nav
+          className={cn(styles.bb__main_nav, {}, [
+            className && styles[className],
+          ])}
+        >
+          <div className={styles.bb__logo_wrap}>
+            <AppLink to="/">
+              <AppImage src={logo} alt="logo" />
+            </AppLink>
+          </div>
           <div
             className={cn(styles.bb__main_nav_action_btns, {}, [
               className && styles[className],

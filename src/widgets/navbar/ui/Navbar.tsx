@@ -46,10 +46,13 @@ export const Navbar: FC<NavbarProps> = () => {
           </div>
           {width > TABLET_WIDTH ? (
             <div className={styles.bb__main_nav_action_btns}>
-              <AppLink to="/identity" theme={AppLinkThemes.OUTLINE}>
+              <AppLink
+                to="/identity/identity_form"
+                theme={AppLinkThemes.OUTLINE}
+              >
                 Личный кабинет
               </AppLink>
-              <AppLink to="/get_money" theme={AppLinkThemes.PRIMARY}>
+              <AppLink to="/get_money/gm_form" theme={AppLinkThemes.PRIMARY}>
                 Получить займ
               </AppLink>
             </div>
@@ -91,10 +94,16 @@ export const Navbar: FC<NavbarProps> = () => {
                     styles["mobile"],
                   ])}
                 >
-                  <AppLink to="/get_money" theme={AppLinkThemes.PRIMARY}>
+                  <AppLink
+                    to="/get_money/gm_form"
+                    theme={AppLinkThemes.PRIMARY}
+                  >
                     Получить займ
                   </AppLink>
-                  <AppLink to="/identity" theme={AppLinkThemes.OUTLINE}>
+                  <AppLink
+                    to="/identity/identity_form"
+                    theme={AppLinkThemes.OUTLINE}
+                  >
                     Личный кабинет
                   </AppLink>
                 </div>
