@@ -1,0 +1,13 @@
+.bb__navlink_wrap {
+  & > a {
+    padding: 12px 16px;
+    font: var(--heading5);
+    display: inline-block;
+    width: 100%;
+
+    &.active {
+      background-color: var(--brand-light);
+      border-radius: 8px;
+    }
+  }
+}

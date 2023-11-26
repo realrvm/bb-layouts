@@ -1,10 +1,28 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { GetMoney, GetMoneyCheckOut, GetMoneyForm } from "@/pages/get-money";
-import { Identity, IdentityCheckOut, IdentityForm } from "@/pages/identity";
 import { App } from "@/app/App";
 import { ErrorPage } from "@/pages/error-page";
 import { Main } from "@/pages/main";
+
+import { GetMoney, GetMoneyCheckOut, GetMoneyForm } from "@/pages/get-money";
+import { Identity, IdentityCheckOut, IdentityForm } from "@/pages/identity";
+
+import {
+  Applying,
+  ApplyingAuto,
+  ApplyingDocs,
+  ApplyingResult,
+  ApplyingSum,
+} from "@/pages/applying";
+
+import {
+  ReqAll,
+  ReqDocs,
+  ReqLoans,
+  ReqPersonal,
+  ReqProfile,
+  Requests,
+} from "@/pages/requests";
 
 import { Routes } from "../types";
 
@@ -28,6 +46,27 @@ export const router = createBrowserRouter([
         children: [
           { path: Routes.GM_CHECK_OUT, element: <GetMoneyCheckOut /> },
           { path: Routes.GM_FORM, element: <GetMoneyForm /> },
+        ],
+      },
+      {
+        path: Routes.APPLYING,
+        element: <Applying />,
+        children: [
+          { path: Routes.APPLYING_AUTO, element: <ApplyingAuto /> },
+          { path: Routes.APPLYING_SUM, element: <ApplyingSum /> },
+          { path: Routes.APPLYING_DOCS, element: <ApplyingDocs /> },
+          { path: Routes.APPLYING_RESULT, element: <ApplyingResult /> },
+        ],
+      },
+      {
+        path: Routes.REQUESTS,
+        element: <Requests />,
+        children: [
+          { path: Routes.REQ_ALL, element: <ReqAll /> },
+          { path: Routes.REQ_DOCS, element: <ReqDocs /> },
+          { path: Routes.REQ_LOANS, element: <ReqLoans /> },
+          { path: Routes.REQ_PERSONAL, element: <ReqPersonal /> },
+          { path: Routes.REQ_PROFILE, element: <ReqProfile /> },
         ],
       },
     ],

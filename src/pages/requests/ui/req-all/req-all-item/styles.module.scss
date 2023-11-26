@@ -1,0 +1,17 @@
+.bb__req_all_item {
+  padding: 16px 24px;
+  flex: 1;
+  border: 1px solid var(--border-grey);
+  border-radius: 8px;
+
+  & > a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &_date {
+    font: var(--font-md);
+    margin-right: 36px;
+  }
+}

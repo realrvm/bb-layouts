@@ -6,15 +6,14 @@ import logo from "@/shared/assets/images/logo.png";
 import { AppImage } from "@/shared/ui/app-image";
 
 import { AppLink } from "@/shared/ui/app-link/";
-import { Button, ButtonThemes } from "@/shared/ui/button";
 import { AppLinkThemes } from "@/shared/ui/app-link/types";
 import { useWindowWidth } from "@/shared/lib/hooks/useWindowWidth";
 import { Drawer } from "@/features/drawer";
 
+import { cn } from "@/shared/lib/cn";
 import { TABLET_WIDTH } from "@/shared/lib/const";
 
 import styles from "./styles.module.scss";
-import { cn } from "@/shared/lib/cn";
 
 type NavbarProps = Record<string, never>;
 
@@ -32,15 +31,15 @@ export const Navbar: FC<NavbarProps> = () => {
             </AppLink>
             {width > TABLET_WIDTH ? (
               <div className={styles.bb__main_nav_logo_btns}>
-                <Button onClick={() => console.log("to clients")}>
-                  Клиентам
-                </Button>
-                <Button
-                  onClick={() => console.log("to agents")}
-                  theme={ButtonThemes.CLEAN}
+                <AppLink
+                  to="/applying/applying_sum"
+                  theme={AppLinkThemes.PRIMARY}
                 >
+                  Клиентам
+                </AppLink>
+                <AppLink to="/requests/req_all" theme={AppLinkThemes.CLEAN}>
                   Агентам
-                </Button>
+                </AppLink>
               </div>
             ) : null}
           </div>
@@ -79,15 +78,15 @@ export const Navbar: FC<NavbarProps> = () => {
                     styles["mobile"],
                   ])}
                 >
-                  <Button onClick={() => console.log("to clients")}>
-                    Клиентам
-                  </Button>
-                  <Button
-                    onClick={() => console.log("to agents")}
-                    theme={ButtonThemes.CLEAN}
+                  <AppLink
+                    to="/applying/applying_sum"
+                    theme={AppLinkThemes.PRIMARY}
                   >
+                    Клиентам
+                  </AppLink>
+                  <AppLink to="/requests/req_all" theme={AppLinkThemes.CLEAN}>
                     Агентам
-                  </Button>
+                  </AppLink>
                 </div>
                 <div
                   className={cn(styles.bb__main_nav_action_btns, {}, [
