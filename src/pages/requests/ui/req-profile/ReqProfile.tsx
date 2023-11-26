@@ -1,11 +1,10 @@
 import { FC } from "react";
 
-import styles from "./styles.module.scss";
 
 type ReqProfileProps = {
   className?: string;
 };
 
-export const ReqProfile: FC<ReqProfileProps> = ({ className }) => {
+export const ReqProfile: FC<ReqProfileProps> = () => {
   return <>req profile</>;
 };
