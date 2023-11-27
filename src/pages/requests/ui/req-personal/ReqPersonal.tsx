@@ -4,9 +4,9 @@ import styles from "./styles.module.scss";
 import { ReqPersonalItem } from "./req-personal-item/ReqPersonalItem";
 
 const personal_items = [
-  { id: 1, val: "Паспортные данные" },
-  { id: 2, val: "ПТС" },
-  { id: 3, val: "Банковская карта" },
+  { id: 1, val: "Паспортные данные", path:'passport' },
+  { id: 2, val: "ПТС", path: 'pts' },
+  { id: 3, val: "Банковская карта", path: 'card' },
 ];
 
 type ReqPersonalProps = Record<string, never>;

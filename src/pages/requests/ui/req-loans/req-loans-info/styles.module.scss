@@ -1,0 +1,63 @@
+.bb__req_loans_info {
+  &_wrapper {
+    flex: 1;
+
+    & > h2 {
+      font:
+        700 28px/32px "Inter",
+        sans-serif;
+      margin-bottom: 16px;
+    }
+  }
+
+  &_inner {
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+    padding: 24px 0;
+
+    & > h3 {
+      font: var(--heading3);
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+
+    &_btns {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 24px;
+      gap: 8px;
+
+      & > button {
+        padding: 12px 20px;
+        font: var(--heading5);
+      }
+    }
+  }
+
+  &_table {
+    margin-bottom: 24px;
+    width: 100%;
+    border-collapse: collapse;
+
+    & > thead {
+      color: var(--text-grey);
+      background-color: var(--bg-bliush);
+    }
+
+    & th,
+    & td {
+      text-align: left;
+      padding: 12px;
+      font: var(--font-sm);
+    }
+
+    & > tbody > tr {
+      border-bottom: 1px solid var(--border-grey);
+
+    }
+
+    & > tbody > tr:last-child > td {
+      font: var(--heading5);
+    }
+  }
+}

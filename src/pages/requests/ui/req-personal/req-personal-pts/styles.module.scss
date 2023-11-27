@@ -1,0 +1,48 @@
+.bb__req_personal_pts {
+  &_wrapper {
+    flex: 1;
+    max-width: 472px;
+
+    & > h2 {
+      font:
+        700 28px/32px "Inter",
+        sans-serif;
+      margin-bottom: 24px;
+    }
+  }
+
+  &_inner {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+
+    &_item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      & > dl {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      & dt {
+        font: var(--font-sm);
+        color: var(--text-grey);
+      }
+
+      & dd {
+        font: var(--font-md);
+      }
+
+      &:nth-child(1) {
+        & dd {
+          font: var(--heading4);
+        }
+      }
+    }
+  }
+}

@@ -22,7 +22,10 @@ export const ReqLoansItem: FC<ReqLoansItemProps> = ({
       <div className={styles.bb__req_loans_item_info}>
         <span className={styles.bb__req_loans_item_date}>{date}</span>
         <dl className={styles.bb__req_loans_item_info_dl}>
-          <dt className={styles.bb__req_loans_item_info_dt}>{req}</dt>
+          <dt className={styles.bb__req_loans_item_info_dt}>
+            {" "}
+            Займ на сумму {req} ₽
+          </dt>
           <dd className={styles.bb__req_loans_item_info_dd}>
             <AppLink to="*" theme={AppLinkThemes.CLEAN}>
               Смотреть график платежей
@@ -37,7 +40,7 @@ export const ReqLoansItem: FC<ReqLoansItemProps> = ({
             До {date_refund}
           </dd>
         </dl>
-        <AppLink to="*" theme={AppLinkThemes.PRIMARY}>
+        <AppLink to="/requests/req_loans/1" theme={AppLinkThemes.PRIMARY}>
           Погасить
         </AppLink>
       </div>

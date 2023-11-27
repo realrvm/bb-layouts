@@ -1,0 +1,39 @@
+.bb__req_personal_card {
+  &_wrapper {
+    flex: 1;
+    max-width: 280px;
+
+    & > h2 {
+      font:
+        700 28px/32px "Inter",
+        sans-serif;
+      margin-bottom: 24px;
+    }
+  }
+
+  &_inner {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+  }
+
+  &_name {
+    text-transform: uppercase;
+    font: var(--font-md);
+  }
+
+  &_number {
+    font: var(--heading4);
+    display: flex;
+    gap: 4px;
+  }
+
+  &_info {
+    font: var(--heading5);
+    display: flex;
+    justify-content: space-between;
+  }
+}

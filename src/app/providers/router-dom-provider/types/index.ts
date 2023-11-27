@@ -15,6 +15,10 @@ export const enum Routes {
   REQ_ALL = "req_all",
   REQ_DOCS = "req_docs",
   REQ_LOANS = "req_loans",
+  REQ_LOANS_ID = "req_loans/:id",
   REQ_PERSONAL = "req_personal",
+  REQ_PERSONAL_PASSPORT = "req_personal/passport",
+  REQ_PERSONAL_PTS = "req_personal/pts",
+  REQ_PERSONAL_CARD = "req_personal/card",
   REQ_PROFILE = "req_profile",
 }

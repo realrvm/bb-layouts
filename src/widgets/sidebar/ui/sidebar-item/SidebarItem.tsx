@@ -14,7 +14,6 @@ export const SidebarItem: FC<SidebarItemProps> = ({ caption, path }) => {
       <NavLink
         to={path}
         className={({ isActive }) => (isActive ? styles.active : "")}
-        end
       >
         {caption}
       </NavLink>
