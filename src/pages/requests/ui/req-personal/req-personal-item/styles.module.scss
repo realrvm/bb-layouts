@@ -1,0 +1,21 @@
+.bb__req_personal_item {
+  padding: 16px 24px;
+  flex: 1;
+  border: 1px solid var(--border-grey);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &_val {
+    font: var(--heading5);
+  }
+
+  & > a {
+    color: var(--text-brand);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

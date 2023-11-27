@@ -14,4 +14,25 @@
     font: var(--font-md);
     margin-right: 36px;
   }
+
+  &_req,
+  &_res {
+    font: var(--heading5);
+  }
+
+  &_res.green {
+    color: var(--special-green);
+  }
+
+  &_res.red {
+    color: var(--special-red);
+  }
+
+  &_res.orange {
+    color: var(--special-orange);
+  }
+
+  &_res.grey {
+    color: var(--text-grey);
+  }
 }

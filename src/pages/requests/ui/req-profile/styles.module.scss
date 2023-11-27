@@ -1,0 +1,40 @@
+.bb__req_profile {
+  &_wrapper {
+    flex: 1;
+
+    & > h2 {
+      font:
+        700 28px/32px "Inter",
+        sans-serif;
+      margin-bottom: 24px;
+    }
+  }
+
+  &_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  &_footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: var(--font-md);
+    color: var(--text-grey);
+
+    & > input[type="checkbox"]:not(:checked) {
+      border: 2px solid var(--border-grey);
+    }
+
+    & > input[type="checkbox"]:checked + label {
+      color: var(--text-brand);
+    }
+
+    & > label,
+    & > input[type="checkbox"] {
+      cursor: pointer;
+    }
+  }
+}

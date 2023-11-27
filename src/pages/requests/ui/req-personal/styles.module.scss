@@ -1,0 +1,19 @@
+.bb__req_personal {
+  &_wrapper {
+    flex: 1;
+
+    & > h2 {
+      font:
+        700 28px/32px "Inter",
+        sans-serif;
+      margin-bottom: 24px;
+    }
+  }
+
+  &_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+}
