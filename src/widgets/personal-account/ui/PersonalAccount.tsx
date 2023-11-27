@@ -2,11 +2,6 @@ import { FC } from "react";
 
 import { Container } from "@/widgets/container";
 
-import card from "@/shared/assets/icons/credit-card.svg";
-import calendar from "@/shared/assets/icons/calendar.svg";
-import info from "@/shared/assets/icons/news.svg";
-import sum from "@/shared/assets/icons/sum.svg";
-
 import { AppImage } from "@/shared/ui/app-image";
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import phone from "@/shared/assets/images/phone.png";
@@ -31,27 +26,19 @@ export const PersonalAccount: FC<PersonalAccountProps> = () => {
             </h3>
             <ul>
               <li>
-                <span>
-                  <AppImage src={card} />
-                </span>
+                <span className={styles.bb__pa_details_icon_card}></span>
                 <span>Внести платёж банковской картой без комиссии</span>
               </li>
               <li>
-                <span>
-                  <AppImage src={calendar} />
-                </span>
+                <span className={styles.bb__pa_details_icon_calendar}></span>
                 <span>Проверить график платежей</span>
               </li>
               <li>
-                <span>
-                  <AppImage src={info} />
-                </span>
+                <span className={styles.bb__pa_details_icon_info}></span>
                 <span>Посмотреть информацию по договору</span>
               </li>
               <li>
-                <span>
-                  <AppImage src={sum} />
-                </span>
+                <span className={styles.bb__pa_details_icon_sum}></span>
                 <span>Узнать сумму для полного погашения</span>
               </li>
             </ul>
