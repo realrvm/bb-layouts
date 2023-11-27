@@ -25,6 +25,8 @@ import {
   ReqPersonalPassport,
   ReqPersonalPts,
   ReqProfile,
+  ReqProfileMail,
+  ReqProfilePhone,
   Requests,
 } from "@/pages/requests";
 
@@ -78,6 +80,8 @@ export const router = createBrowserRouter([
           },
           { path: Routes.REQ_PERSONAL_PTS, element: <ReqPersonalPts /> },
           { path: Routes.REQ_PERSONAL_CARD, element: <ReqPersonalCard /> },
+          { path: Routes.REQ_PROFILE_MAIL, element: <ReqProfileMail /> },
+          { path: Routes.REQ_PROFILE_PHONE, element: <ReqProfilePhone /> },
         ],
       },
     ],

@@ -6,8 +6,13 @@ import { ReqProfileItem } from "./req-profile-item/ReqProfileItem";
 import styles from "./styles.module.scss";
 
 const profile_items = [
-  { id: 1, val: "Телефонный номер", caption: "+7 924 225 92 27" },
-  { id: 2, val: "Почта", caption: "Не указана" },
+  {
+    id: 1,
+    val: "Телефонный номер",
+    caption: "+7 924 225 92 27",
+    path: "phone",
+  },
+  { id: 2, val: "Почта", caption: "Не указана", path: "mail" },
 ];
 
 type ReqProfileProps = Record<string, never>;

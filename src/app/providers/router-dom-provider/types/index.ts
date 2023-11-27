@@ -21,4 +21,6 @@ export const enum Routes {
   REQ_PERSONAL_PTS = "req_personal/pts",
   REQ_PERSONAL_CARD = "req_personal/card",
   REQ_PROFILE = "req_profile",
+  REQ_PROFILE_PHONE = "req_profile/phone",
+  REQ_PROFILE_MAIL = "req_profile/mail",
 }

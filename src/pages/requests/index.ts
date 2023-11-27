@@ -10,3 +10,6 @@ export { ReqLoansInfo } from "./ui/req-loans/req-loans-info/ReqLoansInfo";
 export { ReqPersonalPassport } from "./ui/req-personal/req-personal-passport/ReqPersonalPassport";
 export { ReqPersonalPts } from "./ui/req-personal/req-personal-pts/ReqPersonalPts";
 export { ReqPersonalCard } from "./ui/req-personal/req-personal-card/ReqPersnalCard";
+
+export { ReqProfileMail } from "./ui/req-profile/req-profile-mail/ReqProfileMail";
+export { ReqProfilePhone } from "./ui/req-profile/req-profile-phone/ReqProfilePhone";
