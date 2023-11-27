@@ -16,6 +16,7 @@ import {
 } from "@/pages/applying";
 
 import {
+  Application,
   ReqAll,
   ReqDocs,
   ReqLoans,
@@ -82,6 +83,7 @@ export const router = createBrowserRouter([
           { path: Routes.REQ_PERSONAL_CARD, element: <ReqPersonalCard /> },
           { path: Routes.REQ_PROFILE_MAIL, element: <ReqProfileMail /> },
           { path: Routes.REQ_PROFILE_PHONE, element: <ReqProfilePhone /> },
+          { path: Routes.REQUESTS_ID, element: <Application /> },
         ],
       },
     ],

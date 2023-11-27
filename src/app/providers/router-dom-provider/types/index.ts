@@ -12,6 +12,7 @@ export const enum Routes {
   APPLYING_RESULT = "applying_result",
   APPLYING_SUM = "applying_sum",
   REQUESTS = "/requests",
+  REQUESTS_ID = "req_all/:id",
   REQ_ALL = "req_all",
   REQ_DOCS = "req_docs",
   REQ_LOANS = "req_loans",

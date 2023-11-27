@@ -16,7 +16,7 @@ export const ReqAllItem: FC<ReqAllItemProps> = ({ date, req, res }) => {
 
   return (
     <div className={styles.bb__req_all_item}>
-      <AppLink to="*">
+      <AppLink to='1'>
         <div>
           <span className={styles.bb__req_all_item_date}>{date}</span>
           <span className={styles.bb__req_all_item_req}>{req}</span>
