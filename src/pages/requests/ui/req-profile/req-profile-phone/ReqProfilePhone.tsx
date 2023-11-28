@@ -15,8 +15,10 @@ export const ReqProfilePhone: FC<ReqProfilePhoneProps> = () => {
   }, []);
   return (
     <div className={styles.bb__req_profile_phone_wrapper}>
-      <BackButton />
-      <h2>Телефонный номер</h2>
+      <div className={styles.bb__req_profile_phone_title}>
+        <BackButton />
+        <h2>Телефонный номер</h2>
+      </div>
       <p>
         Введите новый номер телефона, который будет привязан к вашему аккаунту
       </p>
@@ -32,17 +34,19 @@ export const ReqProfilePhone: FC<ReqProfilePhoneProps> = () => {
         </Button>
       </div>
       <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
-        <div className={styles.bb__modal_content}>
+        <div className={styles.bb__modal_wrapper}>
           <Button
             onClick={() => setIsOpenModal(false)}
             theme={ButtonThemes.CLEAN}
           >
             <span></span>
           </Button>
-          <h3>Введите код из SMS для подтверждения</h3>
-          <p>SMS-сообщение отправлено на номер</p>
-          <span>+7 ··· ··· ·· 27</span>
-          <Button theme={ButtonThemes.OUTLINE}>Отправить код ещё раз</Button>
+          <div className={styles.bb__modal_content}>
+            <h3>Введите код из SMS для подтверждения</h3>
+            <p>SMS-сообщение отправлено на номер</p>
+            <span>+7 ··· ··· ·· 27</span>
+            <Button theme={ButtonThemes.OUTLINE}>Отправить код ещё раз</Button>
+          </div>
         </div>
       </Modal>
     </div>

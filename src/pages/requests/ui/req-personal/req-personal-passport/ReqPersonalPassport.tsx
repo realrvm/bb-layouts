@@ -8,8 +8,10 @@ type ReqPersonalPassportProps = Record<string, never>;
 export const ReqPersonalPassport: FC<ReqPersonalPassportProps> = () => {
   return (
     <div className={styles.bb__req_personal_passport_wrapper}>
-      <BackButton />
-      <h2>Паспортные данные</h2>
+      <div className={styles.bb__req_personal_passport_title}>
+        <BackButton />
+        <h2>Паспортные данные</h2>
+      </div>
       <div className={styles.bb__req_personal_passport_inner}>
         <h4>Игорёв Игорь Игоревич</h4>
         <div className={styles.bb__req_personal_passport_inner_item}>

@@ -16,6 +16,13 @@
   transition: transform var(--transition-speed) ease;
   z-index: 1000;
   transform: scale(0);
+  position: relative;
+
+  @media only screen and (max-width: 768px) {
+    max-width: 100%;
+    width: 100%;
+    min-height: 100%;
+  }
 }
 
 .bb__modal.in.open {

@@ -1,23 +1,49 @@
 .bb__req_all_item {
   padding: 16px 24px;
-  flex: 1;
   border: 1px solid var(--border-grey);
   border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--bg-grl);
+  }
 
   & > a {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media only screen and (max-width: 768px) {
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  }
+
+  &_mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   &_date {
     font: var(--font-md);
     margin-right: 36px;
+
+    @media only screen and (max-width: 768px) {
+      font: var(--font-sm);
+    }
   }
 
   &_req,
   &_res {
     font: var(--heading5);
+  }
+
+  &_res {
+    @media only screen and (max-width: 768px) {
+      font: var(--font-sm);
+    }
   }
 
   &_res.green {

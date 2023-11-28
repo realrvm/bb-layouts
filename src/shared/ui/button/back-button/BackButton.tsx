@@ -12,7 +12,7 @@ export const BackButton: FC<BackButtonProps> = () => {
   return (
     <Button onClick={() => navigate(-1)} theme={ButtonThemes.BACK}>
       <span></span>
-      Назад
+      <span>Назад</span>
     </Button>
   );
 };

@@ -15,14 +15,17 @@ export const Application: FC<ApplicationProps> = () => {
       <div className={styles.bb__req_application_inner}>
         <div className={styles.bb__req_application_content}>
           <div className={styles.bb__req_application_content_title}>
-            <h2>Заявка на займ</h2>
-            <span
-              className={cn(styles.bb__req_application_content_answer, {}, [
-                styles["bb__green"],
-              ])}
-            >
-              Одобрена
-            </span>
+            <BackButton />
+            <div>
+              <h2>Заявка на займ</h2>
+              <span
+                className={cn(styles.bb__req_application_content_answer, {}, [
+                  styles["bb__green"],
+                ])}
+              >
+                Одобрена
+              </span>
+            </div>
           </div>
           <div className={styles.bb__req_application_content_title}>
             <h2>Заявка на займ</h2>

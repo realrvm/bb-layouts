@@ -9,8 +9,10 @@ type ReqPersonalPtsProps = Record<string, never>;
 export const ReqPersonalPts: FC<ReqPersonalPtsProps> = () => {
   return (
     <div className={styles.bb__req_personal_pts_wrapper}>
-      <BackButton />
-      <h2>ПТС</h2>
+      <div className={styles.bb__req_personal_pts_title}>
+        <BackButton />
+        <h2>ПТС</h2>
+      </div>
       <div className={styles.bb__req_personal_pts_inner}>
         <div className={styles.bb__req_personal_pts_inner_item}>
           <dl>

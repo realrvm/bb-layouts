@@ -1,12 +1,29 @@
 .bb__req_loans_info {
   &_wrapper {
     flex: 1;
+  }
+
+  &_title {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: row;
+      align-items: baseline;
+    }
 
     & > h2 {
       font:
         700 28px/32px "Inter",
         sans-serif;
       margin-bottom: 16px;
+
+      @media only screen and (max-width: 768px) {
+        font: var(--heading3);
+        margin-bottom: 0;
+      }
     }
   }
 
@@ -15,10 +32,19 @@
     border: 1px solid var(--border-grey);
     padding: 24px 0;
 
+    @media only screen and (max-width: 768px) {
+      padding: 16px 0;
+    }
+
     & > h3 {
       font: var(--heading3);
       margin-bottom: 24px;
       padding-left: 24px;
+
+      @media only screen and (max-width: 768px) {
+        font: var(--heading4);
+        margin-bottom: 16px;
+      }
     }
 
     &_btns {
@@ -27,9 +53,19 @@
       padding: 0 24px;
       gap: 8px;
 
+      @media only screen and (max-width: 1200px) {
+        justify-content: flex-start;
+      }
+
+      @media only screen and (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
       & > button {
         padding: 12px 20px;
         font: var(--heading5);
+        flex-shrink: 0;
       }
     }
   }
@@ -39,9 +75,21 @@
     width: 100%;
     border-collapse: collapse;
 
+    &_wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      cursor: grab;
+      display: grid;
+      grid-template-columns: 1fr;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
     & > thead {
       color: var(--text-grey);
-      background-color: var(--bg-bliush);
+      background-color: var(--bg-grl);
     }
 
     & th,
@@ -49,11 +97,14 @@
       text-align: left;
       padding: 12px;
       font: var(--font-sm);
+
+      @media only screen and (max-width: 768px) {
+        min-width: 153px;
+      }
     }
 
     & > tbody > tr {
       border-bottom: 1px solid var(--border-grey);
-
     }
 
     & > tbody > tr:last-child > td {

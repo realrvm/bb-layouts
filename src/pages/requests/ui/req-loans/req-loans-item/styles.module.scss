@@ -7,9 +7,25 @@
   align-items: center;
   justify-content: space-between;
 
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  &_date {
+    @media only screen and (max-width: 1100px) {
+      display: none;
+    }
+  }
+
   &_info {
     display: flex;
     gap: 36px;
+
+    @media only screen and (max-width: 768px) {
+      display: block;
+      margin-bottom: 12px;
+    }
 
     &_dl {
       display: flex;
@@ -24,6 +40,10 @@
       color: var(--text-brand);
       font: var(--font-md);
 
+      @media only screen and (max-width: 768px) {
+        font: var(--font-sm);
+      }
+
       &:hover {
         text-decoration: underline;
       }
@@ -33,6 +53,13 @@
   &_refund {
     display: flex;
     gap: 48px;
+
+    @media only screen and (max-width: 768px) {
+      border-top: 1px solid var(--border-grey);
+      padding-top: 12px;
+      gap: 0;
+      justify-content: space-between;
+    }
 
     &_dl {
       display: flex;
@@ -45,6 +72,10 @@
 
     &_dd {
       font: var(--font-md);
+
+      @media only screen and (max-width: 768px) {
+        font: var(--font-sm);
+      }
     }
 
     & > a {

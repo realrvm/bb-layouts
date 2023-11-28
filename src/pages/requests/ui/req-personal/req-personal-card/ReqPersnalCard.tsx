@@ -8,8 +8,10 @@ type ReqPersonalCardProps = Record<string, never>;
 export const ReqPersonalCard: FC<ReqPersonalCardProps> = () => {
   return (
     <div className={styles.bb__req_personal_card_wrapper}>
-      <BackButton />
-      <h2>Банковская карта</h2>
+      <div className={styles.bb__req_personal_card_title}>
+        <BackButton />
+        <h2>Банковская карта</h2>
+      </div>
       <div className={styles.bb__req_personal_card_inner}>
         <p className={styles.bb__req_personal_card_name}>
           IGOREV IGOR IGOREVICH
