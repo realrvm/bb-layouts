@@ -3,9 +3,9 @@
   display: flex;
   gap: 64px;
 
-  @media only screen and (max-width: 900px) {
-    padding: 22px 0;
-    flex-direction: column;
-    gap: 22px;
+  &_mobile {
+    & ul {
+      margin-bottom: 22px;
+    }
   }
 }

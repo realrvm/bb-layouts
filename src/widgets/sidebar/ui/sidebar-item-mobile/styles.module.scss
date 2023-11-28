@@ -1,5 +1,6 @@
 .bb__navlink_mobile_wrap {
   & > a {
+    display: inline-block;
     padding: 6px 12px;
     font: var(--heading6);
     white-space: nowrap;

@@ -17,7 +17,7 @@
     border: 1px solid var(--border-grey);
     background-color: var(--bg-grl);
     border-radius: 6px;
-    align-self: flex-start;
+    max-width: 606px;
 
     &::-webkit-scrollbar {
       display: none;

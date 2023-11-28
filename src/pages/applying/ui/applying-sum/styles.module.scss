@@ -1,0 +1,160 @@
+.bb__applying {
+  &_wrapper {
+    max-width: 544px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+    margin: 0 auto;
+
+    @media only screen and (max-width: 768px) {
+      border: none;
+    }
+  }
+
+  &_inner {
+    padding: 36px;
+
+    @media only screen and (max-width: 768px) {
+      padding: 24px 0;
+    }
+
+    & > h4 {
+      font: var(--heading4);
+      margin-bottom: 36px;
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 24px;
+      }
+    }
+  }
+  &_sum_form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 36px;
+  }
+
+  &_sum_range {
+    & > p {
+      font: var(--font-md);
+      margin-bottom: 8px;
+    }
+
+    &:first-child {
+      margin-bottom: 12px;
+    }
+  }
+
+  &_sum_result {
+    padding: 16px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & > span {
+      font: var(--heading5);
+    }
+
+    &_wrap {
+      width: 90%;
+      margin: 0 auto;
+      transform: translateY(-2px);
+    }
+  }
+
+  &_sum_binds {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+
+  &_sum_bind {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    & > div {
+      font: var(--font-sm);
+      color: var(--text-grey);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    & > span {
+      font: var(--heading3);
+    }
+
+    &_icon {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      position: relative;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z" fill="%23969696"/><path fill-rule="evenodd" clip-rule="evenodd" d="M11 8C11 7.44772 11.4477 7 12 7H12.01C12.5623 7 13.01 7.44772 13.01 8C13.01 8.55228 12.5623 9 12.01 9H12C11.4477 9 11 8.55228 11 8Z" fill="%23969696"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10 12C10 11.4477 10.4477 11 11 11H12C12.5523 11 13 11.4477 13 12V15C13.5523 15 14 15.4477 14 16C14 16.5523 13.5523 17 13 17H12C11.4477 17 11 16.5523 11 16V13C10.4477 13 10 12.5523 10 12Z" fill="%23969696"/></svg>');
+    }
+
+    [data-title]:hover:after {
+      opacity: 1;
+      transition: all 0.1s ease 0.5s;
+      visibility: visible;
+      color: var(--text-black);
+    }
+
+    [data-title]:after {
+      content: attr(data-title);
+      background: var(--bg-white);
+      font: var(--font-md);
+      color: var(--text-black);
+      position: absolute;
+      bottom: 35px;
+      left: -160px;
+      visibility: hidden;
+      opacity: 0;
+      width: 400px;
+      border-radius: 8px;
+      z-index: 99999;
+      padding: 12px;
+      box-shadow: 0px 0px 4px 0px rgba(7, 12, 19, 0.2);
+
+      @media only screen and (max-width: 768px) {
+        width: 300px;
+        left: -230px;
+      }
+    }
+  }
+
+  &_sum_line {
+    height: 1px;
+    background-color: var(--border-grey);
+
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &_sum_btn {
+    padding: 36px;
+    display: flex;
+    justify-content: flex-end;
+
+    @media only screen and (max-width: 768px) {
+      justify-content: center;
+      padding: 36px 0;
+    }
+
+    & > a {
+      padding: 12px 20px;
+      font: var(--heading5);
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}
