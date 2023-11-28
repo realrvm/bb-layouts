@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useRef, useState } from "react";
 
 import { Container, ContainerRight } from "@/widgets/container";
 import { Button, ButtonThemes } from "@/shared/ui/button";
@@ -9,13 +9,37 @@ import styles from "./styles.module.scss";
 
 type ConditionsProps = Record<string, never>;
 
-const conditions_card = [
+type CardsValue = "borrower" | "auto" | "docs" | "loan";
+
+const borrower = [
   { content: "Собственник автомобиля", id: 1 },
   { content: "Возраст от 18 до 55 лет", id: 2 },
   { content: "С любой кредитной историей", id: 3 },
 ];
 
+const auto = [
+  { content: "Машина в исправном состоянии", id: 1 },
+  { content: "Не имеет ограничений", id: 2 },
+  { content: "Старше 2000г.", id: 3 },
+];
+
+const docs = [
+  { content: "Паспорт", id: 1 },
+  { content: "ПТС", id: 2 },
+  { content: "Банковская карта", id: 3 },
+];
+
+const loan = [
+  { content: "Месячный процент 7.9%", id: 1 },
+  { content: "Просрочка 1 день + 0.3%", id: 2 },
+  { content: "С официальным внесением в реестр нотариальной палаты", id: 3 },
+];
+
+const cards = { borrower, auto, docs, loan };
+
 export const Conditions: FC<ConditionsProps> = () => {
+  const [cardsValue, setCardsValue] = useState<CardsValue>("borrower");
+
   const refConditions = useRef<HTMLDivElement | null>(null);
   useSwipe(refConditions);
 
@@ -25,14 +49,44 @@ export const Conditions: FC<ConditionsProps> = () => {
       <ContainerRight>
         <div className={styles.bb__conditions_btns_wrap}>
           <div className={styles.bb__conditions_btns} ref={refConditions}>
-            <Button onClick={() => console.log("1")}>Для заемщика</Button>
-            <Button onClick={() => console.log("2")} theme={ButtonThemes.CLEAN}>
+            <Button
+              onClick={() => setCardsValue("borrower")}
+              theme={
+                cardsValue === "borrower"
+                  ? ButtonThemes.PRIMARY
+                  : ButtonThemes.CLEAN
+              }
+            >
+              Для заемщика
+            </Button>
+            <Button
+              onClick={() => setCardsValue("auto")}
+              theme={
+                cardsValue === "auto"
+                  ? ButtonThemes.PRIMARY
+                  : ButtonThemes.CLEAN
+              }
+            >
               Для автомобиля
             </Button>
-            <Button onClick={() => console.log("3")} theme={ButtonThemes.CLEAN}>
+            <Button
+              onClick={() => setCardsValue("docs")}
+              theme={
+                cardsValue === "docs"
+                  ? ButtonThemes.PRIMARY
+                  : ButtonThemes.CLEAN
+              }
+            >
               Какие документы потребуются
             </Button>
-            <Button onClick={() => console.log("4")} theme={ButtonThemes.CLEAN}>
+            <Button
+              onClick={() => setCardsValue("loan")}
+              theme={
+                cardsValue === "loan"
+                  ? ButtonThemes.PRIMARY
+                  : ButtonThemes.CLEAN
+              }
+            >
               Условия по займу
             </Button>
           </div>
@@ -40,7 +94,7 @@ export const Conditions: FC<ConditionsProps> = () => {
       </ContainerRight>
       <Container>
         <div className={styles.bb__conditions_cards}>
-          {conditions_card.map((card) => {
+          {cards[cardsValue].map((card) => {
             const { id, content } = card;
             return <ConditionsCard key={id} content={content} />;
           })}

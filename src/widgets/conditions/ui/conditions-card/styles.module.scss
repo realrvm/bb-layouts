@@ -3,12 +3,14 @@
   display: grid;
   place-items: center;
   font: var(--heading5);
-  padding: 38px 24px;
   border: 1px solid var(--border-grey);
   border-radius: 8px;
-  white-space: nowrap;
+  text-align: center;
+  height: 100px;
+  min-width: 300px;
 
   @media only screen and (max-width: 768px) {
     padding: 24px;
+    height: auto;
   }
 }
