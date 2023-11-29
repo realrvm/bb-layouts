@@ -1,15 +1,15 @@
 import { FC } from "react";
 
-import { ApplyingTitle } from "../applying-title/ApplyingTitle";
-import styles from "./styles.module.scss";
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
-import { ApplyingBackBtn } from "../applying-back-btn/ApplyingBackBtn";
 import { Button, ButtonThemes } from "@/shared/ui/button";
 import { cn } from "@/shared/lib/cn";
 
-type ApplyingAutoProps = {
-  className?: string;
-};
+import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
+import { ApplyingBackBtn } from "../shared/applying-back-btn/ApplyingBackBtn";
+
+import styles from "./styles.module.scss";
+
+type ApplyingAutoProps = Record<string, never>;
 
 export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
   return (
@@ -37,7 +37,7 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
         <div className={styles.bb__applying_auto_line}></div>
         <div className={styles.bb__applying_auto_btn}>
           <ApplyingBackBtn />
-          <AppLink to="/applying/applying_auto" theme={AppLinkThemes.PRIMARY}>
+          <AppLink to="/applying/applying_docs" theme={AppLinkThemes.PRIMARY}>
             Продолжить
           </AppLink>
         </div>
@@ -91,7 +91,7 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
         <div className={styles.bb__applying_auto_line}></div>
         <div className={styles.bb__applying_auto_btn}>
           <ApplyingBackBtn />
-          <AppLink to="/applying/applying_auto" theme={AppLinkThemes.PRIMARY}>
+          <AppLink to="/applying/applying_docs" theme={AppLinkThemes.PRIMARY}>
             Продолжить
           </AppLink>
         </div>
@@ -150,7 +150,7 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
         <div className={styles.bb__applying_auto_line}></div>
         <div className={styles.bb__applying_auto_btn}>
           <ApplyingBackBtn />
-          <AppLink to="/applying/applying_auto" theme={AppLinkThemes.PRIMARY}>
+          <AppLink to="/applying/applying_docs" theme={AppLinkThemes.PRIMARY}>
             Продолжить
           </AppLink>
         </div>
@@ -215,7 +215,7 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
         <div className={styles.bb__applying_auto_line}></div>
         <div className={styles.bb__applying_auto_btn}>
           <ApplyingBackBtn />
-          <AppLink to="/applying/applying_auto" theme={AppLinkThemes.PRIMARY}>
+          <AppLink to="/applying/applying_docs" theme={AppLinkThemes.PRIMARY}>
             Продолжить
           </AppLink>
         </div>

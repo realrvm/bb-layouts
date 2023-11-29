@@ -1,0 +1,63 @@
+.bb__applying {
+  &_wrapper {
+    max-width: 544px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+    margin: 0 auto;
+
+    @media only screen and (max-width: 768px) {
+      border: none;
+      margin: 0 auto 24px;
+    }
+  }
+
+  &_inner {
+    padding: 36px;
+
+    @media only screen and (max-width: 768px) {
+      padding: 24px 0;
+    }
+
+    & > h4 {
+      font: var(--heading4);
+      margin-bottom: 24px;
+    }
+  }
+
+  &_docs_line {
+    height: 1px;
+    background-color: var(--border-grey);
+
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &_docs_btn {
+    padding: 36px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+
+    @media only screen and (max-width: 768px) {
+      padding: 0;
+    }
+
+    & > a {
+      padding: 12px 20px;
+      font: var(--heading5);
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.bb__applying_docs_rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 36px;
+}

@@ -1,9 +1,10 @@
 import { FC } from "react";
 
-import styles from "./styles.module.scss";
-import { ApplyingTitle } from "../applying-title/ApplyingTitle";
 import { RangeInput } from "@/features/range-input";
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
+import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
+
+import styles from "./styles.module.scss";
 
 type ApplyingSumProps = Record<string, never>;
 
