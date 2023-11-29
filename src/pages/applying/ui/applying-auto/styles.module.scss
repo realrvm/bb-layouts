@@ -1,0 +1,220 @@
+.bb__applying {
+  &_wrapper {
+    max-width: 544px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+    margin: 0 auto;
+
+    @media only screen and (max-width: 768px) {
+      border: none;
+      margin: 0 auto 24px;
+    }
+  }
+
+  &_inner {
+    padding: 36px;
+
+    @media only screen and (max-width: 768px) {
+      padding: 24px 0;
+    }
+
+    & > h4 {
+      font: var(--heading4);
+      margin-bottom: 8px;
+    }
+
+    & > p {
+      color: var(--text-grey);
+      font: var(--font-md);
+      margin-bottom: 24px;
+    }
+  }
+
+  &_auto_define {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 24px;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+
+    &_number {
+      width: 272px;
+      border-radius: 8px;
+      border: 1px solid var(--border-grey);
+      display: grid;
+      grid-template-columns: auto 80px;
+      text-transform: uppercase;
+      font: var(--font-md);
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+      }
+
+      &.not_defined {
+        color: var(--text-grey);
+      }
+
+      & > span {
+        padding: 12px;
+      }
+
+      &_code {
+        border-left: 1px solid var(--border-grey);
+        padding-left: 12px;
+
+        & > div {
+          transform: translateY(3px);
+        }
+
+        & > span {
+          display: inline-block;
+          transform: translateY(-3px);
+          font: var(--font-sm);
+          position: relative;
+
+          &:after {
+            content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12" fill="none"><g clip-path="url(%23clip0_11422_907)"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H16V12H0V0Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M0 4H16V11.9999H0V4Z" fill="%230039A6"/><path fill-rule="evenodd" clip-rule="evenodd" d="M0 8H16V12.0001H0V8Z" fill="%23D52B1E"/></g><rect x="0.5" y="0.5" width="15" height="11" rx="3.5" stroke="%23E2E2E2"/><defs><clipPath id="clip0_11422_907"><rect width="16" height="12" rx="4" fill="white"/></clipPath></defs></svg>');
+            display: inline-block;
+            position: absolute;
+            width: 16px;
+            height: 12px;
+            right: -20px;
+          }
+        }
+      }
+    }
+
+    & > button {
+      padding: 12px 20px;
+      font: var(--heading5);
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+      }
+    }
+  }
+
+  &_auto_line {
+    height: 1px;
+    background-color: var(--border-grey);
+
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &_auto_btn {
+    padding: 36px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+
+    @media only screen and (max-width: 768px) {
+      padding: 0;
+    }
+
+    & > a {
+      padding: 12px 20px;
+      font: var(--heading5);
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+/* дальше первого экрана */
+
+.bb__applying_auto_check {
+  padding-top: 24px;
+  border-top: 1px solid var(--border-grey);
+
+  & > h5 {
+    font: var(--heading5);
+    margin-bottom: 24px;
+  }
+
+  &_warn {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: var(--bg-warn);
+    font: var(--font-md);
+    margin-bottom: 24px;
+
+    & > span {
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2ZM0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10Z" fill="%230F0F0F"/><path fill-rule="evenodd" clip-rule="evenodd" d="M9 14C9 13.4477 9.44771 13 10 13H10.01C10.5623 13 11.01 13.4477 11.01 14C11.01 14.5523 10.5623 15 10.01 15H10C9.44771 15 9 14.5523 9 14Z" fill="%230F0F0F"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8 6C8 5.44772 8.44771 5 9 5H10C10.5523 5 11 5.44772 11 6V9C11 9.5 11 9.44772 11 10C11 10.5523 10.5523 11 10 11C9.44772 11 9 10.5523 9 10V7C8.44771 7 8 6.55228 8 6Z" fill="%230F0F0F"/></svg>');
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      transform: translateY(4px);
+    }
+  }
+
+  &_item,
+  &_item_i {
+    font: var(--font-md);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+
+    & dt {
+      margin-bottom: 4px;
+    }
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    & + & {
+      margin: 16px 0 24px;
+    }
+  }
+
+  &_item_i {
+    @media only screen and (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  & > button {
+    font: var(--heading5);
+    padding: 12px 20px;
+  }
+}
+
+.bb__applying_select_wrap {
+  position: relative;
+
+  &:after {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.79289 8.29289C6.18342 7.90237 6.81658 7.90237 7.20711 8.29289L12.5 13.5858L17.7929 8.29289C18.1834 7.90237 18.8166 7.90237 19.2071 8.29289C19.5976 8.68342 19.5976 9.31658 19.2071 9.70711L13.2071 15.7071C12.8166 16.0976 12.1834 16.0976 11.7929 15.7071L5.79289 9.70711C5.40237 9.31658 5.40237 8.68342 5.79289 8.29289Z" fill="%23969696"/></svg>');
+    display: block;
+    position: absolute;
+    width: 15px;
+    height: 9px;
+    right: 22px;
+    top: 8px;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  & > select {
+    width: 100%;
+    background-color: var(--bg-white);
+    outline: none;
+    border: 1px solid var(--border-grey);
+    padding: 12px;
+    border-radius: 8px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}

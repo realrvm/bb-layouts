@@ -1,0 +1,9 @@
+.bb__applying_back_btn {
+  padding: 12px 20px;
+  font: var(--heading5);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--bg-grey);
+  }
+}
