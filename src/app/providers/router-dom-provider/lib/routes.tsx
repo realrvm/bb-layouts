@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { App } from "@/app/App";
-import { ErrorPage } from "@/pages/error-page";
 import { Main } from "@/pages/main";
 
 import { GetMoney, GetMoneyCheckOut, GetMoneyForm } from "@/pages/get-money";
 import { Identity, IdentityCheckOut, IdentityForm } from "@/pages/identity";
+
+import { Page404 } from "@/pages/page-404";
 
 import {
   Applying,
@@ -36,7 +37,7 @@ import { Routes } from "../types";
 export const router = createBrowserRouter([
   {
     element: <App />,
-    errorElement: <ErrorPage />,
+    errorElement: <Page404 />,
     children: [
       { path: Routes.MAIN, element: <Main /> },
       {

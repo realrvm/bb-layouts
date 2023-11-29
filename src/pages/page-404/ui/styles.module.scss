@@ -1,0 +1,49 @@
+.bb__page404 {
+  max-width: 616px;
+  margin: 0 auto;
+  padding: 96px 0;
+  text-align: center;
+
+  @media only screen and (max-width: 768px) {
+    padding: 56px 0;
+  }
+
+  & > h1 {
+    font:
+      700 200px/1 "Inter",
+      sans-serif;
+    color: var(--text-brand);
+    letter-spacing: -12px;
+
+    @media only screen and (max-width: 768px) {
+      font:
+        700 140px/1 "Inter",
+        sans-serif;
+    }
+  }
+
+  & > h2 {
+    font:
+      700 28px/32px "Inter",
+      sans-serif;
+    margin-bottom: 12px;
+
+    @media only screen and (max-width: 768px) {
+      font: var(--heading3);
+    }
+  }
+
+  & > p {
+    font: var(--font-md);
+
+    @media only screen and (max-width: 768px) {
+      font: var(--font-sm);
+    }
+  }
+
+  & > a {
+    margin-top: 36px;
+    padding: 12px 20px;
+    font: var(--heading5);
+  }
+}
