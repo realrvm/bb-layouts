@@ -63,7 +63,7 @@ export const Navbar: FC<NavbarProps> = () => {
                 })}
               >
                 <Hamburger
-                  color={`#969696`}
+                  color={`#fff`}
                   size={24}
                   onToggle={() => setIsOpenDrawer(!isOpenDrawer)}
                   toggled={isOpenDrawer}

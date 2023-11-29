@@ -18,7 +18,7 @@ export const Footer: FC<FooterProps> = () => {
         <div className={styles.bb__footer_wrapper}>
           <div className={styles.bb__footer_head}>
             <AppLink to="/">
-              <AppImage src={logo} alt="logo" />
+              <AppImage src={logo} alt="logo" width={150} height={34} />
             </AppLink>
             <AppLink to="/get_money" theme={AppLinkThemes.PRIMARY}>
               Получить займ

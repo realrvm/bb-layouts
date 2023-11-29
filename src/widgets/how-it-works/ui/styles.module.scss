@@ -15,13 +15,13 @@
     @media only screen and (max-width: 768px) {
       font: var(--heading3);
       text-align: left;
+      margin-bottom: 20px;
     }
   }
 
   &_cards {
     overflow-x: auto;
     overflow-y: hidden;
-    cursor: grab;
     display: grid;
     grid-gap: 8px;
     grid-template-columns: repeat(4, minmax(260px, 304px));

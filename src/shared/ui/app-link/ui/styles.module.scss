@@ -4,9 +4,25 @@
 
 .app_link_primary {
   background-color: var(--brand-primary);
-  border: 1px solid var(--brand-primary);
+  border: none;
   color: var(--text-white);
   border-radius: 8px;
+  transition:
+    background-color 0.2s ease,
+    border 0.2s ease,
+    opacity 0.2s ease;
+
+  &:hover {
+    background-color: var(--brand-secondary);
+  }
+
+  &:focus {
+    border: 1px solid var(--border-black);
+  }
+
+  &:disabled {
+    opacity: 0.2;
+  }
 }
 
 .app_link_outline {
@@ -14,11 +30,26 @@
   border: 1px solid var(--border-grey);
   color: var(--text-black);
   border-radius: 8px;
+  transition:
+    background-color 0.2s ease,
+    border 0.2s ease,
+    opacity 0.2s ease;
+
+  &:hover {
+    background-color: var(--bg-grl);
+  }
+
+  &:focus {
+    border: 1px solid var(--border-black);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .app_link_clean {
   background-color: transparent;
-  border: 1px solid transparent;
   color: var(--text-black);
   border-radius: 8px;
 }

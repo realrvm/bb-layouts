@@ -23,12 +23,12 @@
     background-color: var(--bg-grl);
     border: 1px solid var(--border-grey);
     margin-bottom: 24px;
+    gap: 2px;
     overflow-x: auto;
     overflow-y: hidden;
     cursor: grab;
     display: grid;
     grid-template-columns: repeat(4, min-content);
-    gap: 2px;
 
     &::-webkit-scrollbar {
       display: none;
@@ -39,6 +39,7 @@
       font: var(--heading6);
       white-space: nowrap;
       outline: none;
+      border: 1px solid transparent;
     }
 
     &_wrap {

@@ -15,7 +15,7 @@ export const RequirementVehicles: FC<RequirementVehiclesProps> = ({
   return (
     <div className={styles.bb__requirement_card}>
       <span>{descr}</span>
-      <AppImage src={vehicle} />
+      <AppImage src={vehicle} width={170} height={112}/>
     </div>
   );
 };

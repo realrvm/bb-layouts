@@ -12,7 +12,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
   }
 
   &_title {
@@ -31,5 +30,6 @@
 
   &_answer {
     font: var(--font-lg);
+    padding-top: 12px;
   }
 }

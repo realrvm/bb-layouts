@@ -5,5 +5,5 @@ type AppRouterProps = {
 };
 
 export const AppRouter: FC<AppRouterProps> = ({ children }) => {
-  return <main>{children}</main>;
+  return <main className="bb__main">{children}</main>;
 };
