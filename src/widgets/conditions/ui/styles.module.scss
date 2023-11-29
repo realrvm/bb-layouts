@@ -24,14 +24,31 @@
     border: 1px solid var(--border-grey);
     margin-bottom: 24px;
     gap: 2px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    cursor: grab;
     display: grid;
     grid-template-columns: repeat(4, min-content);
 
-    &::-webkit-scrollbar {
-      display: none;
+    @media only screen and (max-width: 768px) {
+      transform: translateX(28px);
+    }
+
+    &_inner {
+      @media only screen and (max-width: 768px) {
+        width: 100vw;
+        overflow-x: auto;
+        overflow-y: hidden;
+        cursor: grab;
+        display: grid;
+        grid-template-columns: 1fr;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+
+    &_box {
+      display: grid;
+      grid-template-columns: auto 56px;
     }
 
     & > button {

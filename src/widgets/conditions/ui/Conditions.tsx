@@ -1,6 +1,6 @@
 import { FC, useRef, useState } from "react";
 
-import { Container, ContainerRight } from "@/widgets/container";
+import { Container } from "@/widgets/container";
 import { Button, ButtonThemes } from "@/shared/ui/button";
 import { ConditionsCard } from "./conditions-card/ConditionsCard";
 import { useSwipe } from "@/shared/lib/hooks/useSwipe";
@@ -46,52 +46,54 @@ export const Conditions: FC<ConditionsProps> = () => {
   return (
     <section className={styles.bb__conditions}>
       <h2>Условия</h2>
-      <ContainerRight>
-        <div className={styles.bb__conditions_btns_wrap}>
-          <div className={styles.bb__conditions_btns} ref={refConditions}>
-            <Button
-              onClick={() => setCardsValue("borrower")}
-              theme={
-                cardsValue === "borrower"
-                  ? ButtonThemes.PRIMARY
-                  : ButtonThemes.CLEAN
-              }
-            >
-              Для заемщика
-            </Button>
-            <Button
-              onClick={() => setCardsValue("auto")}
-              theme={
-                cardsValue === "auto"
-                  ? ButtonThemes.PRIMARY
-                  : ButtonThemes.CLEAN
-              }
-            >
-              Для автомобиля
-            </Button>
-            <Button
-              onClick={() => setCardsValue("docs")}
-              theme={
-                cardsValue === "docs"
-                  ? ButtonThemes.PRIMARY
-                  : ButtonThemes.CLEAN
-              }
-            >
-              Какие документы потребуются
-            </Button>
-            <Button
-              onClick={() => setCardsValue("loan")}
-              theme={
-                cardsValue === "loan"
-                  ? ButtonThemes.PRIMARY
-                  : ButtonThemes.CLEAN
-              }
-            >
-              Условия по займу
-            </Button>
+      <div className={styles.bb__conditions_btns_wrap}>
+        <div className={styles.bb__conditions_btns_inner} ref={refConditions}>
+          <div className={styles.bb__conditions_btns_box}>
+            <div className={styles.bb__conditions_btns}>
+              <Button
+                onClick={() => setCardsValue("borrower")}
+                theme={
+                  cardsValue === "borrower"
+                    ? ButtonThemes.PRIMARY
+                    : ButtonThemes.CLEAN
+                }
+              >
+                Для заемщика
+              </Button>
+              <Button
+                onClick={() => setCardsValue("auto")}
+                theme={
+                  cardsValue === "auto"
+                    ? ButtonThemes.PRIMARY
+                    : ButtonThemes.CLEAN
+                }
+              >
+                Для автомобиля
+              </Button>
+              <Button
+                onClick={() => setCardsValue("docs")}
+                theme={
+                  cardsValue === "docs"
+                    ? ButtonThemes.PRIMARY
+                    : ButtonThemes.CLEAN
+                }
+              >
+                Какие документы потребуются
+              </Button>
+              <Button
+                onClick={() => setCardsValue("loan")}
+                theme={
+                  cardsValue === "loan"
+                    ? ButtonThemes.PRIMARY
+                    : ButtonThemes.CLEAN
+                }
+              >
+                Условия по займу
+              </Button>
+            </div>
           </div>
         </div>
-      </ContainerRight>
+      </div>
       <Container>
         <div className={styles.bb__conditions_cards}>
           {cards[cardsValue].map((card) => {

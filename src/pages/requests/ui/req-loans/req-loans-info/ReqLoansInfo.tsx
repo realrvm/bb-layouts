@@ -33,6 +33,7 @@ type ReqLoansInfoProps = {
 export const ReqLoansInfo: FC<ReqLoansInfoProps> = () => {
   const refTable = useRef<HTMLTableElement | null>(null);
   useSwipe(refTable);
+
   return (
     <div className={styles.bb__req_loans_info_wrapper}>
       <div className={styles.bb__req_loans_info_title}>

@@ -1,7 +1,11 @@
 .bb__hit {
-  padding: 44px 0;
+  padding: 44px 100px;
+  margin: 0 auto;
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 100%;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 1270px) {
     padding: 28px 0;
   }
 
@@ -15,19 +19,45 @@
     @media only screen and (max-width: 768px) {
       font: var(--heading3);
       text-align: left;
-      margin-bottom: 20px;
+      margin: 0 0 20px 28px;
     }
   }
 
   &_cards {
-    overflow-x: auto;
-    overflow-y: hidden;
-    display: grid;
     grid-gap: 8px;
-    grid-template-columns: repeat(4, minmax(260px, 304px));
+    display: grid;
+    grid-template-columns: repeat(4, minmax(280px, 304px));
 
-    &::-webkit-scrollbar {
-      display: none;
+    @media only screen and (max-width: 1200px) {
+      transform: translateX(30px);
+    }
+
+    &_wrap {
+      display: flex;
+      justify-content: center;
+
+      @media only screen and (max-width: 1200px) {
+        width: 100vw;
+        overflow-x: auto;
+        overflow-y: hidden;
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-content: unset;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+
+    &_inner {
+      display: flex;
+      justify-content: center;
+
+      @media only screen and (max-width: 1200px) {
+        display: grid;
+        grid-template-columns: auto 70px;
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 import { FC, useRef } from "react";
 
 import styles from "./styles.module.scss";
-import { ContainerRight } from "@/widgets/container";
+import { Container, ContainerRight } from "@/widgets/container";
 import { HowItWorksCard } from "./how-it-works-card/HowItWorksCard";
 import { useSwipe } from "@/shared/lib/hooks/useSwipe";
 
@@ -35,16 +35,18 @@ export const HowItWorks: FC<HowItWorksProps> = () => {
   useSwipe(refHit);
 
   return (
-    <ContainerRight>
-      <section className={styles.bb__hit}>
-        <h2>Как это работает</h2>
-        <div className={styles.bb__hit_cards} ref={refHit}>
-          {hit_cards.map((card) => {
-            const { id } = card;
-            return <HowItWorksCard key={id} card={card} />;
-          })}
+    <section className={styles.bb__hit}>
+      <h2>Как это работает</h2>
+      <div className={styles.bb__hit_cards_wrap} ref={refHit}>
+        <div className={styles.bb__hit_cards_inner}>
+          <div className={styles.bb__hit_cards}>
+            {hit_cards.map((card) => {
+              const { id } = card;
+              return <HowItWorksCard key={id} card={card} />;
+            })}
+          </div>
         </div>
-      </section>
-    </ContainerRight>
+      </div>
+    </section>
   );
 };
