@@ -1,7 +1,6 @@
 import { FC, useRef } from "react";
 
 import styles from "./styles.module.scss";
-import { Container, ContainerRight } from "@/widgets/container";
 import { HowItWorksCard } from "./how-it-works-card/HowItWorksCard";
 import { useSwipe } from "@/shared/lib/hooks/useSwipe";
 
