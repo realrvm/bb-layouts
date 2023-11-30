@@ -4,11 +4,13 @@ import { BackButton, Button, ButtonThemes } from "@/shared/ui/button";
 
 import styles from "./styles.module.scss";
 import { Modal } from "@/features/modal";
+import { Otp } from "@/features/otp";
 
 type ReqProfileMailProps = Record<string, never>;
 
 export const ReqProfileMail: FC<ReqProfileMailProps> = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [otp, setOtp] = useState("");
 
   const navigateToNextStep = useCallback(() => {
     setIsOpenModal((prev) => !prev);
@@ -42,6 +44,7 @@ export const ReqProfileMail: FC<ReqProfileMailProps> = () => {
             <h3>Введите код из письма</h3>
             <p>Письмо с кодом отправлено на адрес</p>
             <span>email@gmail.com</span>
+            <Otp value={otp} onChange={(value) => setOtp(value)} />
             <Button theme={ButtonThemes.OUTLINE}>Отправить код ещё раз</Button>
           </div>
         </div>
