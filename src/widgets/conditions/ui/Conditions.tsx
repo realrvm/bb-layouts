@@ -54,7 +54,7 @@ export const Conditions: FC<ConditionsProps> = () => {
                 onClick={() => setCardsValue("borrower")}
                 theme={
                   cardsValue === "borrower"
-                    ? ButtonThemes.PRIMARY
+                    ? ButtonThemes.WO_HOVER
                     : ButtonThemes.CLEAN
                 }
               >
@@ -64,7 +64,7 @@ export const Conditions: FC<ConditionsProps> = () => {
                 onClick={() => setCardsValue("auto")}
                 theme={
                   cardsValue === "auto"
-                    ? ButtonThemes.PRIMARY
+                    ? ButtonThemes.WO_HOVER
                     : ButtonThemes.CLEAN
                 }
               >
@@ -74,7 +74,7 @@ export const Conditions: FC<ConditionsProps> = () => {
                 onClick={() => setCardsValue("docs")}
                 theme={
                   cardsValue === "docs"
-                    ? ButtonThemes.PRIMARY
+                    ? ButtonThemes.WO_HOVER
                     : ButtonThemes.CLEAN
                 }
               >
@@ -84,7 +84,7 @@ export const Conditions: FC<ConditionsProps> = () => {
                 onClick={() => setCardsValue("loan")}
                 theme={
                   cardsValue === "loan"
-                    ? ButtonThemes.PRIMARY
+                    ? ButtonThemes.WO_HOVER
                     : ButtonThemes.CLEAN
                 }
               >

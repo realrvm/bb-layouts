@@ -70,6 +70,8 @@
       border-radius: 8px;
       outline: none;
       margin-bottom: 8px;
+      color: var(--text-grey);
+      font: var(--font-md);
 
       &:hover {
         border: 1px solid var(--brand-hover);

@@ -33,7 +33,7 @@ export const Navbar: FC<NavbarProps> = () => {
               <div className={styles.bb__main_nav_logo_btns}>
                 <AppLink
                   to="/applying/applying_sum"
-                  theme={AppLinkThemes.PRIMARY}
+                  theme={AppLinkThemes.WO_HOVER}
                 >
                   Клиентам
                 </AppLink>

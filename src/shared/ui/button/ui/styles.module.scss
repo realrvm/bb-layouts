@@ -3,10 +3,14 @@
   cursor: pointer;
 }
 
+.btn_wo_hover,
 .btn_primary {
   background-color: var(--brand-primary);
   color: var(--text-white);
   border: none;
+}
+
+.btn_primary {
   transition:
     background-color 0.2s ease,
     border 0.2s ease,
@@ -52,6 +56,11 @@
   background-color: transparent;
   color: var(--text-black);
   border: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--border-grey);
+  }
 }
 
 .btn_back {

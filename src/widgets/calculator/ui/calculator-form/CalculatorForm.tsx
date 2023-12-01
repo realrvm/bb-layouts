@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { ChangeEvent, FC, memo, useState } from "react";
 
 import styles from "./styles.module.scss";
 import { RangeInput } from "@/features/range-input";
@@ -7,6 +7,20 @@ import { Button } from "@/shared/ui/button";
 type CalculatorFormProps = Record<string, never>;
 
 export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
+  const [marketPrice, setMarketPrice] = useState("");
+
+  const handleMarketPrice = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target;
+    const onlyDigits = target.value.replace(/\D/g, "");
+
+    setMarketPrice(onlyDigits);
+  };
+
+  if (marketPrice !== "") {
+    const num = Number(marketPrice);
+    console.log(num);
+  }
+
   return (
     <form className={styles.bb__calc_form_wrap}>
       <div className={styles.bb__calc_form_range}>
@@ -32,7 +46,14 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
       <div className={styles.bb__calc_form_input}>
         <p>Рыночная стоимость авто</p>
         <div>
-          <input type="text" />
+          <input
+            type="text"
+            value={marketPrice}
+            inputMode="numeric"
+            onChange={handleMarketPrice}
+            maxLength={12}
+            placeholder="Рыночная стоимость"
+          />
         </div>
         <p>Введите рыночную стоимость авто по вашему мнению</p>
       </div>

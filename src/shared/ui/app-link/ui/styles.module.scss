@@ -2,11 +2,15 @@
   display: inline-block;
 }
 
+.app_link_wo_hover,
 .app_link_primary {
   background-color: var(--brand-primary);
   border: none;
   color: var(--text-white);
   border-radius: 8px;
+}
+
+.app_link_primary {
   transition:
     background-color 0.2s ease,
     border 0.2s ease,

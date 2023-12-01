@@ -3,4 +3,5 @@ export const enum AppLinkThemes {
   OUTLINE = "app_link_outline",
   CLEAN = "app_link_clean",
   BASIC = "app_link_basic",
+  WO_HOVER = "app_link_wo_hover",
 }

@@ -1,9 +1,9 @@
 .bb__applying {
   &_wrapper {
-    max-width: 544px;
+    max-width: 616px;
     border-radius: 8px;
     border: 1px solid var(--border-grey);
-    margin: 0 auto;
+    margin: 48px auto 0;
 
     @media only screen and (max-width: 768px) {
       border: none;
@@ -19,11 +19,7 @@
 
     & > h4 {
       font: var(--heading4);
-      margin-bottom: 36px;
-
-      @media only screen and (max-width: 768px) {
-        margin-bottom: 24px;
-      }
+      margin-bottom: 24px;
     }
   }
   &_sum_form {
@@ -39,7 +35,7 @@
     }
 
     &:first-child {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
   }
 
@@ -76,10 +72,10 @@
   &_sum_bind {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
 
     & > div {
-      font: var(--font-sm);
+      font: var(--heading6);
       color: var(--text-grey);
       display: flex;
       align-items: center;
