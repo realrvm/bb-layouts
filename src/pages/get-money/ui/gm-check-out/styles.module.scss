@@ -37,10 +37,14 @@
     }
 
     & p:last-child {
-      & span {
+      & button {
         color: var(--brand-primary);
         display: inline-block;
         margin-left: 8px;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }

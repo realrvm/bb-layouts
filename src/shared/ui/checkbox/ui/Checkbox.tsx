@@ -6,14 +6,21 @@ import styles from "./styles.module.scss";
 
 type CheckboxProps = {
   className?: string;
+  isChecked?: boolean;
+  handleCheck: (value: boolean) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const Checkbox: FC<CheckboxProps> = memo((props) => {
-  const { className = "", ...other } = props;
+  const { className = "", isChecked = false, handleCheck, ...other } = props;
+
   return (
     <input
       type="checkbox"
-      className={cn(styles.bb__checkbox, {}, [className && styles[className]])}
+      className={cn(styles.bb__checkbox, { [styles["checked"]]: isChecked }, [
+        className && styles[className],
+      ])}
+      checked={isChecked}
+      onChange={(e) => handleCheck(e.target.checked)}
       {...other}
     />
   );

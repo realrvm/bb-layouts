@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import { FC, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -6,14 +6,26 @@ import { AppLink } from "@/shared/ui/app-link";
 import { Button } from "@/shared/ui/button";
 
 import styles from "./styles.module.scss";
+import { useActionCreators } from "@/app/providers/rtk-provider";
+import { phoneActions } from "@/entities/phone";
 
 type GetMoneyFormProps = Record<string, never>;
 
 export const GetMoneyForm: FC<GetMoneyFormProps> = () => {
+  const [checked, isChecked] = useState(false);
+  const [phoneValue, setPhoneValue] = useState("");
+
   const navigate = useNavigate();
+
+  const phoneAction = useActionCreators(phoneActions);
 
   const navigateToNextStep = useCallback(() => {
     navigate("/get_money/gm_check_out/");
+    //phoneAction.setPhone(phoneValue);
+  }, [phoneValue, phoneAction]);
+
+  const handleCheck = useCallback((state: boolean) => {
+    isChecked(state);
   }, []);
 
   return (
@@ -24,27 +36,29 @@ export const GetMoneyForm: FC<GetMoneyFormProps> = () => {
         Введите номер телефона. На него вы получите СМС с кодом или звонок —
         сбросьте его и введите последние 4 цифры номера
       </p>
-      <form className={styles.bb__gm_form}>
+      <div className={styles.bb__gm_form}>
         <label htmlFor="phone">Номер телефона</label>
         <input
           id="phone"
           type="tel"
           pattern="(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?"
           title="Введите номер телефона в формате +7 XXX XXX XX XX"
+          value={phoneValue}
+          onChange={(e) => setPhoneValue(e.target.value)}
         />
 
         <div className={styles.bb__gm_checkbox}>
-          <Checkbox />
+          <Checkbox handleCheck={handleCheck} checked={checked} />
           <p>
             Я даю <AppLink to="*">согласие</AppLink> на обработку своих
             персональных данных в соответствии с Федеральным законом «О
             персональных данных» от 27.07.2006 N 152-ФЗ
           </p>
         </div>
-        <Button type="submit" onClick={navigateToNextStep}>
+        <Button onClick={navigateToNextStep} disabled={!checked}>
           Получить код из СМС
         </Button>
-      </form>
+      </div>
     </section>
   );
 };

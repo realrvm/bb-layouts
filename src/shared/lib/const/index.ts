@@ -9,3 +9,9 @@ export const TABLET_WIDTH = 768;
 
 // is digits
 export const DIGIT_REG = new RegExp(/^\d+$/);
+
+// url
+export const API_URL = "https://api.bibimoney.ru/api/v1";
+
+// localstorage
+export const LOCAL_STORAGE_TOKEN = "token";
