@@ -33,7 +33,7 @@ export const ReqProfile: FC<ReqProfileProps> = () => {
         })}
       </ul>
       <div className={styles.bb__req_profile_footer}>
-        <Checkbox id="cb" />
+        <Checkbox id="cb" handleCheck={() => {}} />
         <label htmlFor="cb">Получать уведомления на почту</label>
       </div>
     </div>
