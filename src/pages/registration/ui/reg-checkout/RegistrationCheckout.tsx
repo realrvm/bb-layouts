@@ -3,22 +3,18 @@ import { FC, useState } from "react";
 import { Otp } from "@/features/otp";
 
 import { getPhoneNumber } from "@/entities/phone/model/selectors/getPhoneNumber";
+import { login, regActions } from "@/features/serve";
 import {
   useActionCreators,
   useAppDispatch,
   useStateSelector,
 } from "@/app/providers/rtk-provider";
-import { login, regActions } from "@/features/reg";
-
-import { Button, ButtonThemes } from "@/shared/ui/button";
 
 import styles from "./styles.module.scss";
-// import axios from "axios";
-// import { API_URL } from "@/shared/lib/const";
 
-type GetMoneyCheckOutProps = Record<string, never>;
+type RegistrationCheckoutProps = Record<string, never>;
 
-export const GetMoneyCheckOut: FC<GetMoneyCheckOutProps> = () => {
+export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
   const [otp, setOtp] = useState("");
 
   const phone = useStateSelector(getPhoneNumber);
@@ -28,15 +24,12 @@ export const GetMoneyCheckOut: FC<GetMoneyCheckOutProps> = () => {
 
   const sendToServer = () => {
     regAction.setPhoneNumber(phone);
-    regAction.setOtpPassword(otp);
     loginDispatch(login({ phone_number: phone, password: otp }));
-    // TODO
-    // const res = await axios.post(`${API_URL}/token/obtain/`, {
-    //   phone_number: phone,
-    //   password: otp,
-    // });
-    // console.log(res.data);
   };
+
+  if (otp.length === 4) {
+    sendToServer();
+  }
 
   return (
     <section className={styles.bb__gm_container}>
@@ -44,16 +37,11 @@ export const GetMoneyCheckOut: FC<GetMoneyCheckOutProps> = () => {
       <p className={styles.bb__gm_text}>
         Мы отправили код подтверждения на номер {phone}
       </p>
-      <Otp value={otp} onChange={(value) => setOtp(value)} />
-      <div className={styles.bb__gm_footer}>
-        <p>Запросить код повторно можно через 32 сек</p>
-        <p>
-          Ошиблись при вводе номера?
-          <Button theme={ButtonThemes.CLEAN} onClick={sendToServer}>
-            Изменить
-          </Button>
-        </p>
-      </div>
+      <Otp
+        value={otp}
+        onChange={(value) => setOtp(value)}
+        requestToServer={sendToServer}
+      />
     </section>
   );
 };

@@ -1,0 +1,24 @@
+.bb__otp {
+  &_container {
+    margin: 0 auto 56px;
+    max-width: 304px;
+    display: flex;
+    gap: 24px;
+  }
+
+  &_input {
+    font:
+      400 24px/32px "Inter",
+      sans-serif;
+    border: none;
+    border-bottom: 2px solid var(--border-grey);
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    outline: none;
+
+    &.error {
+      border-bottom: 2px solid var(--special-red);
+    }
+  }
+}

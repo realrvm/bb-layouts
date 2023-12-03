@@ -3,7 +3,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
 import { ThunkConfig } from "@/app/providers/rtk-provider";
 import { RegSchema, RegValidateErrors } from "../types";
-import { validate } from "./validate";
+
+import { validateLogin } from "./validateLogin";
+import { userAccessActions } from "@/entities/user";
 
 const serverErrorMessages: Record<string, RegValidateErrors[]> = {
   "Network Error": [RegValidateErrors.SERVER_ERROR],
@@ -15,9 +17,9 @@ export const login = createAsyncThunk<
   Pick<RegSchema, "phone_number" | "password">,
   ThunkConfig<RegValidateErrors[]>
 >("reg/reg", async (authData, thunkAPI): Promise<any> => {
-  const { rejectWithValue, extra } = thunkAPI;
+  const { rejectWithValue, dispatch, extra } = thunkAPI;
 
-  const errors = validate(authData);
+  const errors = validateLogin(authData);
 
   if (errors.length) {
     return rejectWithValue([RegValidateErrors.INCORRECT_USER_DATA]);
@@ -25,16 +27,16 @@ export const login = createAsyncThunk<
 
   try {
     const response = await extra.api.post<any>("/token/obtain/", authData);
-    console.log(response);
 
     if (!response.data) {
       return rejectWithValue([RegValidateErrors.NO_DATA]);
     }
 
-    window.localStorage.setItem(
-      LOCAL_STORAGE_TOKEN,
-      JSON.stringify(response.data),
-    );
+    const token = JSON.stringify(response.data);
+
+    window.localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
+
+    dispatch(userAccessActions.setUserAccess(token));
 
     return response.data;
   } catch (error) {

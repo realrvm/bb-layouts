@@ -3,7 +3,6 @@ import { createBrowserRouter } from "react-router-dom";
 import { App } from "@/app/App";
 import { Main } from "@/pages/main";
 
-import { GetMoney, GetMoneyCheckOut, GetMoneyForm } from "@/pages/get-money";
 import { Identity, IdentityCheckOut, IdentityForm } from "@/pages/identity";
 
 import { Page404 } from "@/pages/page-404";
@@ -15,6 +14,12 @@ import {
   ApplyingResult,
   ApplyingSum,
 } from "@/pages/applying";
+
+import {
+  Registration,
+  RegistrationCheckout,
+  RegistrationForm,
+} from "@/pages/registration";
 
 import {
   Application,
@@ -49,11 +54,11 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: Routes.GET_MONEY,
-        element: <GetMoney />,
+        path: Routes.REG,
+        element: <Registration />,
         children: [
-          { path: Routes.GM_CHECK_OUT, element: <GetMoneyCheckOut /> },
-          { path: Routes.GM_FORM, element: <GetMoneyForm /> },
+          { path: Routes.REG_CHECK_OUT, element: <RegistrationCheckout /> },
+          { path: Routes.REG_FORM, element: <RegistrationForm /> },
         ],
       },
       {

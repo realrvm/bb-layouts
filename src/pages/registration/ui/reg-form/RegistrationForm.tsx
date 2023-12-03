@@ -8,19 +8,23 @@ import { Button } from "@/shared/ui/button";
 import styles from "./styles.module.scss";
 import { useActionCreators } from "@/app/providers/rtk-provider";
 import { phoneActions } from "@/entities/phone";
+// import { register } from "@/features/reg";
 
-type GetMoneyFormProps = Record<string, never>;
+type RegistrationFormProps = Record<string, never>;
 
-export const GetMoneyForm: FC<GetMoneyFormProps> = () => {
+export const RegistrationForm: FC<RegistrationFormProps> = () => {
   const [checked, isChecked] = useState(false);
-  const [phoneValue, setPhoneValue] = useState("");
+  const [phoneValue, setPhoneValue] = useState("+79007776655");
+
+  // const regDispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   const phoneAction = useActionCreators(phoneActions);
 
   const navigateToNextStep = useCallback(() => {
-    navigate("/get_money/gm_check_out/");
+    // regDispatch(register({ phone_number: phoneValue }));
+    navigate("/reg/reg_check_out/");
     //phoneAction.setPhone(phoneValue);
   }, [phoneValue, phoneAction]);
 

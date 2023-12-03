@@ -1,15 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RegSchema } from "../types";
-import { login } from "../api/login";
+import { register } from "../api/register";
 
 const initialState: RegSchema = {
   phone_number: "+79007776655",
-  password: "",
   isLoading: false,
   error: "",
 };
-
-login(initialState)
 
 const regSlice = createSlice({
   name: "reg",
@@ -18,19 +15,16 @@ const regSlice = createSlice({
     setPhoneNumber: (state, action: PayloadAction<string>) => {
       state.phone_number = action.payload;
     },
-    setOtpPassword: (state, action: PayloadAction<string>) => {
-      state.password = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
+      .addCase(register.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(login.fulfilled, (state) => {
+      .addCase(register.fulfilled, (state) => {
         state.isLoading = false;
       })
-      .addCase(login.rejected, (state) => {
+      .addCase(register.rejected, (state) => {
         state.isLoading = false;
       });
   },

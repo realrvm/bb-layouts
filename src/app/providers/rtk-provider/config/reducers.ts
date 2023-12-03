@@ -5,10 +5,13 @@ import { StateSchema } from "./StateSchema";
 // reducers
 import { hrReducer } from "@/widgets/navbar";
 import { phoneReducer } from "@/entities/phone";
-import { regReducer } from "@/features/reg";
+import { userAccessReducer } from "@/entities/user";
+import { loginReducer, regReducer } from "@/features/serve";
 
 export const reducers: ReducersMapObject<StateSchema> = {
   hr: hrReducer,
   phone: phoneReducer,
   reg: regReducer,
+  access: userAccessReducer,
+  login: loginReducer,
 };

@@ -5,15 +5,16 @@ import { API_URL, LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
 export const $api = axios.create({
   baseURL: API_URL,
   headers: {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "X-Custom-Header",
     "Content-Type": "application/json",
   },
-  withCredentials: true,
 });
 
 $api.interceptors.request.use((config) => {
-  config.headers.Authorization =
-    "Bearer " + window.localStorage.getItem(LOCAL_STORAGE_TOKEN);
+  const token = JSON.parse(
+    window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
+  );
+  config.headers.Authorization = `Bearer ${token.access}`;
   return config;
 });
 
@@ -24,14 +25,19 @@ $api.interceptors.response.use(
   async (error) => {
     if (error.response.status === 401) {
       try {
-        const response = await axios.get(`${API_URL}/token/refresh/`, {
-          withCredentials: true,
+        const response = await axios.post(`${API_URL}/token/refresh/`, {
+          headers: {
+            "Access-Control-Allow-Origin": "X-Custom-Header",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(
+                window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
+              ).refresh
+            }`,
+          },
         });
 
-        window.localStorage.setItem(
-          LOCAL_STORAGE_TOKEN,
-          response.data.refreshToken,
-        );
+        window.localStorage.setItem(LOCAL_STORAGE_TOKEN, response.data);
 
         return $api.request(error.config);
       } catch (e) {

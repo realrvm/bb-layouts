@@ -1,152 +1,59 @@
-import {
-  ChangeEvent,
-  FocusEvent,
-  KeyboardEvent,
-  FC,
-  useCallback,
-  useMemo,
-} from "react";
+import { FC, useEffect, useState } from "react";
 
-import { DIGIT_REG } from "@/shared/lib/const";
+import { OtpForm } from "./otp-form/OtpForm";
+import { Button, ButtonThemes } from "@/shared/ui/button";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./styles.module.scss";
 
 type OtpProps = {
   value: string;
   onChange: (value: string) => void;
+  requestToServer: () => void;
   valueLength?: number;
 };
 
-export const Otp: FC<OtpProps> = ({ value, valueLength = 4, onChange }) => {
-  const items = useMemo(() => {
-    const valueArray = [...value];
-    const itemsArray: string[] = [];
+export const Otp: FC<OtpProps> = ({
+  onChange,
+  value,
+  requestToServer,
+  valueLength = 4,
+}) => {
+  const [seconds, setSeconds] = useState(60);
+  const navigate = useNavigate();
 
-    Array.from({ length: valueLength }, (_, i) => {
-      const char = valueArray[i];
-
-      DIGIT_REG.test(char) ? itemsArray.push(char) : itemsArray.push("");
-    });
-
-    return itemsArray;
-  }, [value, valueLength]);
-
-  const focusToNextInput = useCallback((target: HTMLElement) => {
-    const nextElementSibling =
-      target.nextElementSibling as HTMLInputElement | null;
-
-    if (nextElementSibling) {
-      nextElementSibling.focus();
-    }
-  }, []);
-
-  const focusToPrevInput = useCallback((target: HTMLElement) => {
-    const prevElementSibling =
-      target.previousElementSibling as HTMLInputElement | null;
-
-    if (prevElementSibling) {
-      prevElementSibling.focus();
-    }
-  }, []);
-
-  const handleOnChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>, index: number) => {
-      const target = e.target;
-
-      let targetValue = target.value.trim();
-
-      const isTargetValueDigit = DIGIT_REG.test(targetValue);
-
-      if (!isTargetValueDigit && targetValue !== "") return;
-
-      const nextInput = target.nextElementSibling as HTMLInputElement | null;
-
-      if (!isTargetValueDigit && nextInput && nextInput.value !== "") {
-        return;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(prev  => prev - 1);
       }
 
-      targetValue = isTargetValueDigit ? targetValue : " ";
-
-      const targetValueLen = targetValue.length;
-
-      if (targetValueLen === 1) {
-        const newValue =
-          value.substring(0, index) + targetValue + value.substring(index + 1);
-
-        onChange(newValue);
-
-        if (!isTargetValueDigit) {
-          return;
-        }
-
-        focusToNextInput(target);
-      } else if (targetValueLen === valueLength) {
-        onChange(targetValue);
-
-        target.blur();
+      if (seconds === 0) {
+        clearInterval(interval);
       }
-    },
-    [DIGIT_REG, onChange, focusToNextInput, value],
-  );
+    }, 1000);
 
-  const handleOnFocus = useCallback((e: FocusEvent<HTMLInputElement>) => {
-    const { target } = e;
-
-    const prevInput = target.previousElementSibling as HTMLInputElement | null;
-
-    if (prevInput && prevInput.value === "") {
-      return prevInput.focus();
-    }
-
-    target.setSelectionRange(0, target.value.length);
-  }, []);
-
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLInputElement>) => {
-      const { key } = e;
-
-      const target = e.target as HTMLInputElement;
-
-      if (key === "ArrowRight" || key === "ArrowDown") {
-        e.preventDefault();
-        return focusToNextInput(target);
-      }
-
-      if (key === "ArrowLeft" || key === "ArrowUp") {
-        e.preventDefault();
-        return focusToPrevInput(target);
-      }
-
-      const targetValue = target.value;
-
-      target.setSelectionRange(0, targetValue.length);
-
-      if (e.key !== "Backspace" || targetValue !== "") {
-        return;
-      }
-
-      focusToPrevInput(target);
-    },
-    [focusToNextInput, focusToPrevInput],
-  );
+    return () => {
+      clearInterval(interval);
+    };
+  }, [seconds]);
 
   return (
-    <div className={styles.bb__otp_container}>
-      {items.map((digit, index: number) => (
-        <input
-          key={index}
-          type="text"
-          value={digit}
-          inputMode="numeric"
-          autoComplete="one-time-code"
-          pattern="\d{1}"
-          maxLength={valueLength}
-          className={styles.bb__otp_input}
-          onChange={(e) => handleOnChange(e, index)}
-          onFocus={handleOnFocus}
-          onKeyDown={handleKeyDown}
-        />
-      ))}
+    <div className={styles.bb__otp_wrapper}>
+      <OtpForm value={value} onChange={onChange} valueLength={valueLength} />
+      {seconds > 0 ? (
+        <p>Запросить код повторно можно через {seconds} сек</p>
+      ) : (
+        <Button onClick={requestToServer} theme={ButtonThemes.CLEAN}>
+          Выслать код повторно
+        </Button>
+      )}
+      <p>
+        Ошиблись при вводе номера?
+        <Button theme={ButtonThemes.CLEAN} onClick={() => navigate(-1)}>
+          Изменить
+        </Button>
+      </p>
     </div>
   );
 };

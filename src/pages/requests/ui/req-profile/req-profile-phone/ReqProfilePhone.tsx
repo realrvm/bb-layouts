@@ -3,7 +3,7 @@ import { FC, useCallback, useState } from "react";
 import { BackButton, Button, ButtonThemes } from "@/shared/ui/button";
 
 import { Modal } from "@/features/modal";
-import { Otp } from "@/features/otp";
+import { OtpForm } from "@/features/otp";
 
 import styles from "./styles.module.scss";
 
@@ -48,7 +48,7 @@ export const ReqProfilePhone: FC<ReqProfilePhoneProps> = () => {
             <h3>Введите код из SMS для подтверждения</h3>
             <p>SMS-сообщение отправлено на номер</p>
             <span>+7 ··· ··· ·· 27</span>
-            <Otp value={otp} onChange={(value) => setOtp(value)} />
+            <OtpForm value={otp} onChange={(value) => setOtp(value)} />
             <Button theme={ButtonThemes.OUTLINE}>Отправить код ещё раз</Button>
           </div>
         </div>

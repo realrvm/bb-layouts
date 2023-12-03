@@ -51,7 +51,7 @@ export const Navbar: FC<NavbarProps> = () => {
               >
                 Личный кабинет
               </AppLink>
-              <AppLink to="/get_money/gm_form" theme={AppLinkThemes.PRIMARY}>
+              <AppLink to="/reg/reg_form" theme={AppLinkThemes.PRIMARY}>
                 Получить займ
               </AppLink>
             </div>
@@ -94,7 +94,7 @@ export const Navbar: FC<NavbarProps> = () => {
                   ])}
                 >
                   <AppLink
-                    to="/get_money/gm_form"
+                    to="/reg_money/reg_form"
                     theme={AppLinkThemes.PRIMARY}
                   >
                     Получить займ

@@ -3,12 +3,15 @@ import { AxiosInstance } from "axios";
 
 import { HRSchema } from "@/widgets/navbar";
 import { PhoneSchema } from "@/entities/phone";
-import { RegSchema } from "@/features/reg";
+import { UserAccessSchema } from "@/entities/user";
+import { RegSchema } from "@/features/serve";
 
 export type StateSchema = {
   hr: HRSchema;
   phone: PhoneSchema;
   reg: RegSchema;
+  login: RegSchema;
+  access: UserAccessSchema;
 };
 
 export type ThunkExtraArgument = {

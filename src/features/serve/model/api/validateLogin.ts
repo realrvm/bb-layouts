@@ -2,7 +2,7 @@ import { RegSchema, RegValidateErrors } from "../types";
 
 type AuthData = Pick<RegSchema, "phone_number" | "password">;
 
-export const validate = (authData: AuthData) => {
+export const validateLogin = (authData: AuthData) => {
   const { password, phone_number } = authData;
 
   const errors: RegValidateErrors[] = [];
@@ -11,7 +11,7 @@ export const validate = (authData: AuthData) => {
     errors.push(RegValidateErrors.NO_DATA);
   }
 
-  if (!phone_number || !password) {
+  if (!phone_number && !password) {
     errors.push(RegValidateErrors.INCORRECT_USER_DATA);
   }
 

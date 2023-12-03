@@ -1,8 +1,10 @@
-import { ChangeEvent, FC, memo, useState } from "react";
+import { ChangeEvent, FC, FormEvent, memo, useState } from "react";
 
 import styles from "./styles.module.scss";
 import { RangeInput } from "@/features/range-input";
 import { Button } from "@/shared/ui/button";
+import { getUserAccess } from "@/entities/user";
+import { useStateSelector } from "@/app/providers/rtk-provider";
 
 type CalculatorFormProps = Record<string, never>;
 
@@ -21,8 +23,16 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
     console.log(num);
   }
 
+  // TODO
+  const access = useStateSelector(getUserAccess);
+  const getAccessKey = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(access);
+  };
+  //
+
   return (
-    <form className={styles.bb__calc_form_wrap}>
+    <form className={styles.bb__calc_form_wrap} onSubmit={getAccessKey}>
       <div className={styles.bb__calc_form_range}>
         <p>Сумма кредита</p>
         <div className={styles.bb__calc_form_result}>

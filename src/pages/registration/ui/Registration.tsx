@@ -4,9 +4,9 @@ import { Outlet } from "react-router-dom";
 import { NavbarSimple } from "@/widgets/navbar";
 import { Container } from "@/widgets/container";
 
-type GetMoneyProps = Record<string, never>;
+type RegistrationProps = Record<string, never>;
 
-export const GetMoney: FC<GetMoneyProps> = () => {
+export const Registration: FC<RegistrationProps> = () => {
   return (
     <Container>
       <NavbarSimple className="bb__simple" />

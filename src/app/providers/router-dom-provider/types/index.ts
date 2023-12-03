@@ -1,8 +1,8 @@
 export const enum Routes {
   MAIN = "/",
-  GET_MONEY = "/get_money",
-  GM_FORM = "gm_form",
-  GM_CHECK_OUT = "gm_check_out",
+  REG = "/reg",
+  REG_FORM = "reg_form",
+  REG_CHECK_OUT = "reg_check_out",
   IDENTITY = "/identity",
   IDENTITY_FORM = "identity_form",
   IDENTITY_CHECK_OUT = "identity_check_out",

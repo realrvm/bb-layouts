@@ -1,7 +1,7 @@
 export type RegSchema = {
   phone_number: string;
-  password: string;
   isLoading: boolean;
+  password?: string;
   error?: string;
 };
 

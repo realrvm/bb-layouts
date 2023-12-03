@@ -14,13 +14,11 @@ export const IdentityCheckOut: FC<IdentityCheckOutProps> = () => {
       <p className={styles.bb__ident_text}>
         Мы отправили код подтверждения на номер 8 (918) 233-23-22
       </p>
-      <Otp value={otp} onChange={(value) => setOtp(value)} />
-      <div className={styles.bb__ident_footer}>
-        <p>Запросить код повторно можно через 32 сек</p>
-        <p>
-          Ошиблись при вводе номера?<span>Изменить</span>
-        </p>
-      </div>
+      <Otp
+        value={otp}
+        onChange={(value) => setOtp(value)}
+        requestToServer={() => {}}
+      />
     </section>
   );
 };

@@ -1,24 +1,24 @@
 .bb__otp {
-  &_container {
-    margin: 0 auto;
-    max-width: 304px;
+  &_wrapper {
     display: flex;
-    gap: 24px;
-  }
+    flex-direction: column;
+    font: var(--font-md);
+    align-items: center;
 
-  &_input {
-    font:
-      400 24px/32px "Inter",
-      sans-serif;
-    border: none;
-    border-bottom: 2px solid var(--border-grey);
-    width: 100%;
-    padding: 0;
-    text-align: center;
-    outline: none;
+    & > p:last-child {
+      padding-top: 8px;
+      display: flex;
+      gap: 8px;
+    }
 
-    &.error {
-      border-bottom: 2px solid var(--special-red);
+    & button {
+      color: var(--brand-primary);
+      font: var(--font-md);
+
+      &:hover {
+        text-decoration: underline;
+        background: none;
+      }
     }
   }
 }
