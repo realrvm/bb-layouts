@@ -58,7 +58,7 @@ export const Footer: FC<FooterProps> = () => {
           </div>
           <div className={styles.bb__footer_banks}>
             <div className={styles.bb__footer_banks_item}>
-              <AppImage src={bor} />
+              <AppImage src={bor} width={112} />
               <AppLink to="*">Официальный сайт Банка России</AppLink>
               <AppLink to="*">Интернет-приемная</AppLink>
               <AppLink to="*">
@@ -66,7 +66,7 @@ export const Footer: FC<FooterProps> = () => {
               </AppLink>
             </div>
             <div className={styles.bb__footer_banks_item}>
-              <AppImage src={mir} />
+              <AppImage src={mir} width={118} />
               <AppLink to="*">Официальный сайт СРО «МИР»</AppLink>
               <AppLink to="*">Интернет-приёмная</AppLink>
               <p>
