@@ -40,20 +40,18 @@ export const ApplyingSum: FC<ApplyingSumProps> = () => {
           <div className={styles.bb__applying_sum_bind}>
             <div>
               Обязательный платёж
-              <div
-                className={styles.bb__applying_sum_bind_icon}
-                data-title="Сумма которая включает в себя оплату только процентов по займу."
-              ></div>
+              <div className={styles.bb__applying_sum_bind_left}>
+                <span className={styles.bb__applying_sum_bind_icon}></span>
+              </div>
             </div>
             <span>11 062 ₽</span>
           </div>
           <div className={styles.bb__applying_sum_bind}>
             <div>
               Рекомендуемый платёж
-              <div
-                className={styles.bb__applying_sum_bind_icon}
-                data-title="В рекомендуемом платежи указана сумма процентов и сумма  с основного долго для погашения займа в указный срок."
-              ></div>
+              <div className={styles.bb__applying_sum_bind_right}>
+                <span className={styles.bb__applying_sum_bind_icon}></span>
+              </div>
             </div>
             <span>22 124 ₽</span>
           </div>
