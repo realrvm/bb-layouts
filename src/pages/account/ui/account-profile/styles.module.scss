@@ -29,10 +29,6 @@
     font: var(--font-md);
     color: var(--text-grey);
 
-    & > input[type="checkbox"]:not(:checked) {
-      border: 2px solid var(--border-grey);
-    }
-
     & > input[type="checkbox"]:checked + label {
       color: var(--text-brand);
     }

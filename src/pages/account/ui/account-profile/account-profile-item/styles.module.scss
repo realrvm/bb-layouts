@@ -1,14 +1,22 @@
 .bb__req_profile_item {
-  padding: 16px 24px;
   flex: 1;
   border: 1px solid var(--border-grey);
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  transition: background-color 0.3s ease;
 
-  @media only screen and (max-width: 768px) {
-    align-items: flex-start;
+  &:hover {
+    background-color: var(--bg-grl);
+  }
+
+  & > a {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media only screen and (max-width: 768px) {
+      align-items: flex-start;
+    }
   }
 
   &_wrap {
@@ -33,11 +41,15 @@
     font: var(--font-md);
   }
 
-  & > a {
-    color: var(--text-brand);
+  &_more {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+    font: var(--heading6);
+    background-color: var(--bg-white);
 
     &:hover {
-      text-decoration: underline;
+      background-color: var(--bg-grl);
     }
   }
 }

@@ -5,7 +5,7 @@ import { AppLink } from "@/shared/ui/app-link";
 import { cn } from "@/shared/lib/cn";
 import { colorRequests } from "@/shared/lib/helpers/colorRequests";
 import { useWindowWidth } from "@/shared/lib/hooks/useWindowWidth";
-import { TABLET_WIDTH } from "@/shared/lib/const";
+import { DESKTOP_WIDTH } from "@/shared/lib/const";
 
 type AccountAllItemProps = {
   date: string;
@@ -20,17 +20,16 @@ export const AccountAllItem: FC<AccountAllItemProps> = ({ date, req, res }) => {
   return (
     <div className={styles.bb__req_all_item}>
       <AppLink to="1">
-        {width > TABLET_WIDTH ? (
+        {width > DESKTOP_WIDTH ? (
           <>
-            <div>
-              <span className={styles.bb__req_all_item_date}>{date}</span>
-              <span className={styles.bb__req_all_item_req}>{req}</span>
-            </div>
             <span
               className={cn(styles.bb__req_all_item_res, {}, [styles[color]])}
             >
               {res}
             </span>
+            <span className={styles.bb__req_all_item_req}>{req}</span>
+            <span className={styles.bb__req_all_item_date}>{date}</span>
+            <div className={styles.bb__req_all_item_more}>Подробнее</div>
           </>
         ) : (
           <>

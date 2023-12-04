@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useCallback, useState } from "react";
 
 import { Checkbox } from "@/shared/ui/checkbox";
 import { AccountProfileItem } from "./account-profile-item/AccountProfileItem";
@@ -18,6 +18,11 @@ const profile_items = [
 type AccountProfileProps = Record<string, never>;
 
 export const AccountProfile: FC<AccountProfileProps> = () => {
+  const [checked, isChecked] = useState(false);
+
+  const handleCheck = useCallback((state: boolean) => {
+    isChecked(state);
+  }, []);
   return (
     <div className={styles.bb__req_profile_wrapper}>
       <h2>Профиль</h2>
@@ -33,7 +38,7 @@ export const AccountProfile: FC<AccountProfileProps> = () => {
         })}
       </ul>
       <div className={styles.bb__req_profile_footer}>
-        <Checkbox id="cb" handleCheck={() => {}} />
+        <Checkbox id="cb" handleCheck={handleCheck} checked={checked} />
         <label htmlFor="cb">Получать уведомления на почту</label>
       </div>
     </div>

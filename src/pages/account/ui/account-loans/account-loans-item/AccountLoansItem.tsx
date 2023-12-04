@@ -12,34 +12,33 @@ type AccountLoansItemProps = {
 };
 
 export const AccountLoansItem: FC<AccountLoansItemProps> = memo(
-  ({ date, req, refund, date_refund }) => {
+  ({ req, refund, date_refund }) => {
     return (
       <div className={styles.bb__req_loans_item}>
-        <div className={styles.bb__req_loans_item_info}>
-          <span className={styles.bb__req_loans_item_date}>{date}</span>
-          <dl className={styles.bb__req_loans_item_info_dl}>
-            <dt className={styles.bb__req_loans_item_info_dt}>
-              {" "}
+        <AppLink to="/account/account_loans/1">
+          <div className={styles.bb__req_loans_item_info}>
+            <span className={styles.bb__req_loans_item_info_loan}>
               Займ на сумму {req} ₽
-            </dt>
-            <dd className={styles.bb__req_loans_item_info_dd}>
-              <AppLink to="*" theme={AppLinkThemes.CLEAN}>
-                Смотреть график платежей
-              </AppLink>
-            </dd>
-          </dl>
-        </div>
-        <div className={styles.bb__req_loans_item_refund}>
-          <dl className={styles.bb__req_loans_item_refund_dl}>
-            <dt className={styles.bb__req_loans_item_refund_dt}>{refund} ₽</dt>
-            <dd className={styles.bb__req_loans_item_refund_dd}>
+            </span>
+            <span className={styles.bb__req_loans_item_info_refund}>
+              {refund} ₽
+            </span>
+            <span className={styles.bb__req_loans_item_info_term}>
               До {date_refund}
-            </dd>
-          </dl>
-          <AppLink to="/requests/req_loans/1" theme={AppLinkThemes.PRIMARY}>
-            Погасить
-          </AppLink>
-        </div>
+            </span>
+          </div>
+          <div className={styles.bb__req_loans_item_refund}>
+            <div className={styles.bb__req_loans_item_refund_more}>
+              Подробнее
+            </div>
+            <AppLink
+              to="/account/account_loans/1"
+              theme={AppLinkThemes.PRIMARY}
+            >
+              Погасить
+            </AppLink>
+          </div>
+        </AppLink>
       </div>
     );
   },

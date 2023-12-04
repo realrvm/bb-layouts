@@ -9,14 +9,29 @@
   }
 
   & > a {
-    display: flex;
+    display: grid;
+    grid-template-columns: 140px 220px auto 120px;
     align-items: center;
-    justify-content: space-between;
+    gap: 24px;
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 1200px) {
+      display: flex;
       align-items: flex-start;
+      justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
+    }
+  }
+
+  &_more {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+    font: var(--heading5);
+    background-color: var(--bg-white);
+
+    &:hover {
+      background-color: var(--bg-grl);
     }
   }
 

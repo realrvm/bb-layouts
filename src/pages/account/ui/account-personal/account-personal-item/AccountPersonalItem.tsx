@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
+import { AppLink } from "@/shared/ui/app-link";
 
 import styles from "./styles.module.scss";
 
@@ -15,9 +15,9 @@ export const AccountPersonalItem: FC<AccountPersonalItemProps> = ({
 }) => {
   return (
     <div className={styles.bb__req_personal_item}>
-      <span className={styles.bb__req_personal_item_val}>{val}</span>
-      <AppLink to={path} theme={AppLinkThemes.CLEAN}>
-        Смотреть
+      <AppLink to={path}>
+        <span className={styles.bb__req_personal_item_val}>{val}</span>
+        <div className={styles.bb__req_personal_item_more}>Подробнее</div>
       </AppLink>
     </div>
   );

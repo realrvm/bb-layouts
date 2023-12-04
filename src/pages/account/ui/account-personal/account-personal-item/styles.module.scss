@@ -1,21 +1,33 @@
 .bb__req_personal_item {
-  padding: 16px 24px;
   flex: 1;
   border: 1px solid var(--border-grey);
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  transition: background-color ease 0.3s;
+
+  &:hover {
+    background-color: var(--bg-grl);
+  }
+
+  & > a {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   &_val {
     font: var(--heading5);
   }
 
-  & > a {
-    color: var(--text-brand);
+  &_more {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+    transition: background-color ease 0.3s;
+    background-color: var(--bg-white);
 
     &:hover {
-      text-decoration: underline;
+      background-color: var(--bg-grl);
     }
   }
 }
