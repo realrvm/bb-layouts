@@ -2,10 +2,10 @@ import { FC } from "react";
 
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import { Button, ButtonThemes } from "@/shared/ui/button";
-import { cn } from "@/shared/lib/cn";
 
 import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
 import { ApplyingBackBtn } from "../shared/applying-back-btn/ApplyingBackBtn";
+import { cn } from "@/shared/lib/cn";
 
 import styles from "./styles.module.scss";
 
@@ -20,15 +20,15 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
           <h4>Введите данные залогового автомобиля</h4>
           <p>Мы автоматически заполним данные</p>
           <div className={styles.bb__applying_auto_define}>
-            <div
-              className={cn(styles.bb__applying_auto_define_number, {
-                [styles["not_defined"]]: true,
-              })}
-            >
-              <span>A 000 АА</span>
-              <div className={styles.bb__applying_auto_define_number_code}>
-                <div>00</div>
-                <span>RUS</span>
+            <div className={styles.bb__applying_auto_define_inputs}>
+              <input type="text" placeholder="A 000 АА" />
+              <div className={styles.bb__applying_auto_define_inputs_wrap}>
+                <input type="text" placeholder="00" />
+                <div
+                  className={styles.bb__applying_auto_define_inputs_wrap_code}
+                >
+                  RUS
+                </div>
               </div>
             </div>
             <Button theme={ButtonThemes.PRIMARY}>Определить авто</Button>
@@ -48,15 +48,15 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
           <h4>Введите данные залогового автомобиля</h4>
           <p>Мы автоматически заполним данные</p>
           <div className={styles.bb__applying_auto_define}>
-            <div
-              className={cn(styles.bb__applying_auto_define_number, {
-                [styles["not_defined"]]: false,
-              })}
-            >
-              <span>A 847 АХ</span>
-              <div className={styles.bb__applying_auto_define_number_code}>
-                <div>190</div>
-                <span>RUS</span>
+            <div className={styles.bb__applying_auto_define_inputs}>
+              <input type="text" placeholder="A 000 АА" />
+              <div className={styles.bb__applying_auto_define_inputs_wrap}>
+                <input type="text" placeholder="00" />
+                <div
+                  className={styles.bb__applying_auto_define_inputs_wrap_code}
+                >
+                  RUS
+                </div>
               </div>
             </div>
             <Button theme={ButtonThemes.PRIMARY}>Определить авто</Button>
@@ -102,15 +102,15 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
           <h4>Введите данные залогового автомобиля</h4>
           <p>Мы автоматически заполним данные</p>
           <div className={styles.bb__applying_auto_define}>
-            <div
-              className={cn(styles.bb__applying_auto_define_number, {
-                [styles["not_defined"]]: false,
-              })}
-            >
-              <span>A 847 АХ</span>
-              <div className={styles.bb__applying_auto_define_number_code}>
-                <div>190</div>
-                <span>RUS</span>
+            <div className={styles.bb__applying_auto_define_inputs}>
+              <input type="text" placeholder="A 000 АА" />
+              <div className={styles.bb__applying_auto_define_inputs_wrap}>
+                <input type="text" placeholder="00" />
+                <div
+                  className={styles.bb__applying_auto_define_inputs_wrap_code}
+                >
+                  RUS
+                </div>
               </div>
             </div>
             <Button theme={ButtonThemes.PRIMARY}>Определить авто</Button>
@@ -161,20 +161,24 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
           <h4>Введите данные залогового автомобиля</h4>
           <p>Мы автоматически заполним данные</p>
           <div className={styles.bb__applying_auto_define}>
-            <div
-              className={cn(styles.bb__applying_auto_define_number, {
-                [styles["not_defined"]]: false,
-              })}
-            >
-              <span>A 847 АХ</span>
-              <div className={styles.bb__applying_auto_define_number_code}>
-                <div>190</div>
-                <span>RUS</span>
+            <div className={styles.bb__applying_auto_define_inputs}>
+              <input type="text" placeholder="A 000 АА" />
+              <div className={styles.bb__applying_auto_define_inputs_wrap}>
+                <input type="text" placeholder="00" />
+                <div
+                  className={styles.bb__applying_auto_define_inputs_wrap_code}
+                >
+                  RUS
+                </div>
               </div>
             </div>
             <Button theme={ButtonThemes.PRIMARY}>Определить авто</Button>
           </div>
-          <div className={styles.bb__applying_auto_check}>
+          <div
+            className={cn(styles.bb__applying_auto_check, {
+              [styles["bb__failed"]]: true,
+            })}
+          >
             <div className={styles.bb__applying_auto_check_warn}>
               <span></span>
               <div>

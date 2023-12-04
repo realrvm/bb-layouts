@@ -22,20 +22,18 @@ import {
 } from "@/pages/registration";
 
 import {
+  Account,
+  AccountAll,
+  AccountDocs,
+  AccountLoans,
+  AccountPersonal,
+  AccountPersonalCard,
+  AccountPersonalPassport,
+  AccountProfile,
+  AccountProfileMail,
+  AccountProfilePhone,
   Application,
-  ReqAll,
-  ReqDocs,
-  ReqLoans,
-  ReqLoansInfo,
-  ReqPersonal,
-  ReqPersonalCard,
-  ReqPersonalPassport,
-  ReqPersonalPts,
-  ReqProfile,
-  ReqProfileMail,
-  ReqProfilePhone,
-  Requests,
-} from "@/pages/requests";
+} from "@/pages/account";
 
 import { Routes } from "../types";
 
@@ -72,24 +70,33 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: Routes.REQUESTS,
-        element: <Requests />,
+        path: Routes.ACCOUNT,
+        element: <Account />,
         children: [
-          { path: Routes.REQ_ALL, element: <ReqAll /> },
-          { path: Routes.REQ_DOCS, element: <ReqDocs /> },
-          { path: Routes.REQ_LOANS, element: <ReqLoans /> },
-          { path: Routes.REQ_PERSONAL, element: <ReqPersonal /> },
-          { path: Routes.REQ_PROFILE, element: <ReqProfile /> },
-          { path: Routes.REQ_LOANS_ID, element: <ReqLoansInfo /> },
+          { path: Routes.ACCOUNT_ALL, element: <AccountAll /> },
+          { path: Routes.ACCOUNT_DOCS, element: <AccountDocs /> },
+          { path: Routes.ACCOUNT_LOANS, element: <AccountLoans /> },
+          { path: Routes.ACCOUNT_PERSONAL, element: <AccountPersonal /> },
+          { path: Routes.ACCOUNT_PROFILE, element: <AccountProfile /> },
+          { path: Routes.ACCOUNT_LOANS_ID, element: <AccountLoans /> },
           {
-            path: Routes.REQ_PERSONAL_PASSPORT,
-            element: <ReqPersonalPassport />,
+            path: Routes.ACCOUNT_PERSONAL_PASSPORT,
+            element: <AccountPersonalPassport />,
           },
-          { path: Routes.REQ_PERSONAL_PTS, element: <ReqPersonalPts /> },
-          { path: Routes.REQ_PERSONAL_CARD, element: <ReqPersonalCard /> },
-          { path: Routes.REQ_PROFILE_MAIL, element: <ReqProfileMail /> },
-          { path: Routes.REQ_PROFILE_PHONE, element: <ReqProfilePhone /> },
-          { path: Routes.REQUESTS_ID, element: <Application /> },
+          { path: Routes.ACCOUNT_PERSONAL_PTS, element: <AccountPersonal /> },
+          {
+            path: Routes.ACCOUNT_PERSONAL_CARD,
+            element: <AccountPersonalCard />,
+          },
+          {
+            path: Routes.ACCOUNT_PROFILE_MAIL,
+            element: <AccountProfileMail />,
+          },
+          {
+            path: Routes.ACCOUNT_PROFILE_PHONE,
+            element: <AccountProfilePhone />,
+          },
+          { path: Routes.ACCOUNT_ID, element: <Application /> },
         ],
       },
     ],

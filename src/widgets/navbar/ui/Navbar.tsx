@@ -37,7 +37,7 @@ export const Navbar: FC<NavbarProps> = () => {
                 >
                   Клиентам
                 </AppLink>
-                <AppLink to="/requests/req_all" theme={AppLinkThemes.CLEAN}>
+                <AppLink to="/account/account_all" theme={AppLinkThemes.CLEAN}>
                   Агентам
                 </AppLink>
               </div>
@@ -84,7 +84,7 @@ export const Navbar: FC<NavbarProps> = () => {
                   >
                     Клиентам
                   </AppLink>
-                  <AppLink to="/requests/req_all" theme={AppLinkThemes.CLEAN}>
+                  <AppLink to="/account/account_all" theme={AppLinkThemes.CLEAN}>
                     Агентам
                   </AppLink>
                 </div>
