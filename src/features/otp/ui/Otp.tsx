@@ -25,7 +25,7 @@ export const Otp: FC<OtpProps> = ({
   useEffect(() => {
     const interval = setInterval(() => {
       if (seconds > 0) {
-        setSeconds(prev  => prev - 1);
+        setSeconds((prev) => prev - 1);
       }
 
       if (seconds === 0) {
@@ -40,7 +40,9 @@ export const Otp: FC<OtpProps> = ({
 
   return (
     <div className={styles.bb__otp_wrapper}>
-      <OtpForm value={value} onChange={onChange} valueLength={valueLength} />
+      <div className={styles.bb__otp_inner}>
+        <OtpForm value={value} onChange={onChange} valueLength={valueLength} />
+      </div>
       {seconds > 0 ? (
         <p>Запросить код повторно можно через {seconds} сек</p>
       ) : (

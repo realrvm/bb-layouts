@@ -1,9 +1,13 @@
 .bb__otp {
   &_container {
-    margin: 0 auto 56px;
+    margin: 0 auto;
     max-width: 304px;
     display: flex;
     gap: 24px;
+  }
+
+  &.bb__otp_bottom {
+    margin-bottom: 56px;
   }
 
   &_input {

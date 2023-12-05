@@ -3,9 +3,9 @@ import { FC } from "react";
 import { BackButton, Button, ButtonThemes } from "@/shared/ui/button";
 
 import { cn } from "@/shared/lib/cn";
-import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 
 import styles from "./styles.module.scss";
+import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 
 type ApplicationProps = Record<string, never>;
 
@@ -28,61 +28,115 @@ export const Application: FC<ApplicationProps> = () => {
               </span>
             </div>
           </div>
-          <div className={styles.bb__req_application_content_title}>
-            <h2>Заявка на займ</h2>
-            <span
-              className={cn(styles.bb__req_application_content_answer, {}, [
-                styles["bb__orange"],
-              ])}
-            >
-              Рассматривается
-            </span>
-          </div>
-          <div className={styles.bb__req_application_content_title}>
-            <h2>Заявка на займ</h2>
-            <span
-              className={cn(styles.bb__req_application_content_answer, {}, [
-                styles["bb__red"],
-              ])}
-            >
-              Не одобрена
-            </span>
-          </div>
 
-          <div className={styles.bb__req_application_btns}>
-            <AppLink to="/applying/applying_sum" theme={AppLinkThemes.PRIMARY}>
-              Клиентам
-            </AppLink>
-            <AppLink to="/requests/req_all" theme={AppLinkThemes.CLEAN}>
-              Агентам
-            </AppLink>
+          <div className={styles.bb__req_application_card}>
+            <h4>Прикрепите следующие документы</h4>
+            <div className={styles.bb__req_application_card_docs}>
+              <div className={styles.bb__req_application_card_docs_descr}>
+                <h5>Разворот с фото</h5>
+                <p>
+                  На фото должно быть разборчиво видно ваше ФИО и фотографию
+                </p>
+              </div>
+              <label className={styles.bb__req_application_card_label}>
+                <span>Прикрепить</span>
+                <input type="file" name="file" />
+              </label>
+            </div>
+            <div className={styles.bb__req_application_card_docs}>
+              <div className={styles.bb__req_application_card_docs_descr}>
+                <h5>Страница с пропиской</h5>
+              </div>
+              <label className={styles.bb__req_application_card_label}>
+                <span>Прикрепить</span>
+                <input type="file" name="file" />
+              </label>
+            </div>
+            <div className={styles.bb__req_application_card_docs}>
+              <div className={styles.bb__req_application_card_docs_descr}>
+                <h5>Все страницы ПТС</h5>
+              </div>
+              <label className={styles.bb__req_application_card_label}>
+                <span>Прикрепить</span>
+                <input type="file" name="file" />
+              </label>
+            </div>
           </div>
-          <form className={styles.bb__req_application_form}>
-            <label htmlFor="card">Номер карты</label>
-            <input type="text" id="card" />
-            <label htmlFor="fio">ФИО получателя полностью</label>
-            <input type="text" id="fio" />
-            <div className={styles.bb__req_application_form_warn}>
+          <Button theme={ButtonThemes.PRIMARY}>Далее</Button>
+
+          <div className={styles.bb__req_application_card}>
+            <h4>Прикрепите следующие документы</h4>
+            <div className={styles.bb__req_application_card_docs}>
+              <div className={styles.bb__req_application_card_docs_descr}>
+                <h5>1. Фото разворота паспорта</h5>
+              </div>
+              <div className={styles.bb__req_application_card_docs_img}></div>
+            </div>
+            <div className={styles.bb__req_application_card_docs}>
+              <div className={styles.bb__req_application_card_docs_descr}>
+                <h5>2. Разворот с пропиской</h5>
+              </div>
+              <div className={styles.bb__req_application_card_docs_img}></div>
+            </div>
+            <div className={styles.bb__req_application_card_docs}>
+              <div className={styles.bb__req_application_card_docs_descr}>
+                <h5>3. ПТС</h5>
+              </div>
+              <div className={styles.bb__req_application_card_docs_img}></div>
+            </div>
+          </div>
+          <Button theme={ButtonThemes.PRIMARY}>Далее</Button>
+
+          <div className={styles.bb__req_application_card}>
+            <div className={styles.bb__req_application_card_btns}>
+              <AppLink
+                to="/applying/applying_sum"
+                theme={AppLinkThemes.WO_HOVER}
+              >
+                На карту
+              </AppLink>
+              <AppLink to="/account/account_all" theme={AppLinkThemes.CLEAN}>
+                Hаличные
+              </AppLink>
+            </div>
+            <h4>Введите ваши данные</h4>
+            <div className={styles.bb__req_application_card_inputs}>
+              <label htmlFor="card">Номер карты</label>
+              <input type="text" id="card" />
+              <label htmlFor="fio">ФИО получателя полностью</label>
+              <input type="text" id="fio" />
+            </div>
+            <div className={styles.bb__req_application_card_warn}>
               <span
-                className={styles.bb__req_application_form_warn_icon}
+                className={styles.bb__req_application_card_warn_icon}
               ></span>
               <span>
                 Данные держателя карты должны совпадать с данными заёмщика
               </span>
             </div>
-            <Button
-              type="submit"
-              onClick={() => console.log("получить деньги")}
-              theme={ButtonThemes.PRIMARY}
-            >
-              Получить деньги
-            </Button>
-          </form>
-          <div className={styles.bb__req_application_call}>
-            <p>
+          </div>
+          <Button theme={ButtonThemes.PRIMARY}>Получить деньги</Button>
+
+          <div className={styles.bb__req_application_card}>
+            <h5>В течении 20 мин. с вами свяжется наш менеджер</h5>
+          </div>
+
+          <div className={styles.bb__req_application_card}>
+            <div className={styles.bb__req_application_card_btns}>
+              <AppLink
+                to="/applying/applying_sum"
+                theme={AppLinkThemes.WO_HOVER}
+              >
+                На карту
+              </AppLink>
+              <AppLink to="/account/account_all" theme={AppLinkThemes.CLEAN}>
+                Hаличные
+              </AppLink>
+            </div>
+            <h4>
               Для получения наличных денег с вами свяжется агент и назначит
               встречу
-            </p>
+            </h4>
             <Button
               onClick={() => console.log("запросить звонок")}
               theme={ButtonThemes.PRIMARY}
@@ -100,6 +154,10 @@ export const Application: FC<ApplicationProps> = () => {
           </div>
         </div>
         <div className={styles.bb__req_application_gen}>
+          <dl>
+            <dt>Процентная ставка</dt>
+            <dd>24%</dd>
+          </dl>
           <dl>
             <dt>Сумма займа</dt>
             <dd>50 000 ₽</dd>
