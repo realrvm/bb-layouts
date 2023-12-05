@@ -21,6 +21,8 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
   const [checked, isChecked] = useState(false);
   const [phoneValue, setPhoneValue] = useState("");
 
+  const isValid = checked && phoneValue.length === 10;
+
   const regDispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -60,7 +62,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
             персональных данных» от 27.07.2006 N 152-ФЗ
           </p>
         </div>
-        <Button onClick={navigateToNextStep} disabled={!checked}>
+        <Button onClick={navigateToNextStep} disabled={!isValid}>
           Получить код из СМС
         </Button>
       </div>
