@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/shared/ui/button";
 
 import styles from "./styles.module.scss";
+import { InputMask } from "@/shared/ui/input-mask";
 
 type IdentityFormProps = Record<string, never>;
 
@@ -24,12 +25,7 @@ export const IdentityForm: FC<IdentityFormProps> = () => {
       </p>
       <form className={styles.bb__ident_form}>
         <label htmlFor="ident_phone">Номер телефона</label>
-        <input
-          id="ident_phone"
-          type="tel"
-          pattern="(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?"
-          title="Введите номер телефона в формате +7 XXX XXX XX XX"
-        />
+        <InputMask setCard={() => ""} />
         <Button type="submit" onClick={navigateToNextStep}>
           Получить код из СМС
         </Button>

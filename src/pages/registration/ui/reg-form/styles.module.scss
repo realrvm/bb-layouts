@@ -49,18 +49,6 @@
       font: var(--font-md);
     }
 
-    & input[type="tel"] {
-      padding: 8px 12px;
-      margin-bottom: 24px;
-      border-radius: 8px;
-      outline: none;
-      border: 1px solid var(--border-grey);
-
-      @media only screen and (max-width: 768px) {
-        margin-bottom: 200px;
-      }
-    }
-
     & button {
       padding: 12px 20px;
       font: var(--heading5);

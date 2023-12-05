@@ -40,14 +40,6 @@
       font: var(--font-md);
     }
 
-    & input[type="tel"] {
-      padding: 8px 12px;
-      margin-bottom: 48px;
-      border-radius: 8px;
-      outline: none;
-      border: 1px solid var(--border-grey);
-    }
-
     & button[type="submit"] {
       padding: 12px 20px;
       font: var(--heading5);

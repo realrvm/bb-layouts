@@ -5,13 +5,15 @@ import { Checkbox } from "@/shared/ui/checkbox";
 import { AppLink } from "@/shared/ui/app-link";
 import { Button } from "@/shared/ui/button";
 
-import styles from "./styles.module.scss";
 import {
   useActionCreators,
   useAppDispatch,
 } from "@/app/providers/rtk-provider";
 import { phoneActions } from "@/entities/phone";
 import { register } from "@/features/serve";
+import { InputMask } from "@/shared/ui/input-mask";
+
+import styles from "./styles.module.scss";
 
 type RegistrationFormProps = Record<string, never>;
 
@@ -26,9 +28,13 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
   const phoneAction = useActionCreators(phoneActions);
 
   const navigateToNextStep = useCallback(() => {
-    regDispatch(register({ phone_number: phoneValue }));
+    const correctPhone = `+7${phoneValue}`;
+
+    regDispatch(register({ phone_number: correctPhone }));
+
+    phoneAction.setPhone(correctPhone);
+
     navigate("/reg/reg_check_out/");
-    phoneAction.setPhone(phoneValue);
   }, [phoneValue, phoneAction, regDispatch, register]);
 
   const handleCheck = useCallback((state: boolean) => {
@@ -45,15 +51,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
       </p>
       <div className={styles.bb__gm_form}>
         <label htmlFor="phone">Номер телефона</label>
-        <input
-          id="phone"
-          type="tel"
-          title="Введите номер телефона в формате +7 XXX XXX XX XX"
-          value={phoneValue}
-          onChange={(e) => setPhoneValue(e.target.value)}
-          placeholder="+7 XXX XXX XX XX"
-        />
-
+        <InputMask setCard={setPhoneValue} />
         <div className={styles.bb__gm_checkbox}>
           <Checkbox handleCheck={handleCheck} checked={checked} />
           <p>
