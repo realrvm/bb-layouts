@@ -6,6 +6,7 @@ import { Modal } from "@/features/modal";
 import { OtpForm } from "@/features/otp";
 
 import styles from "./styles.module.scss";
+import { InputMask } from "@/shared/ui/input-mask";
 
 type AccountProfilePhoneProps = Record<string, never>;
 
@@ -26,12 +27,7 @@ export const AccountProfilePhone: FC<AccountProfilePhoneProps> = () => {
         Введите новый номер телефона, который будет привязан к вашему аккаунту
       </p>
       <div className={styles.bb__req_profile_phone_form}>
-        <input
-          id="ident_phone"
-          type="tel"
-          pattern="(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?"
-          title="Введите номер телефона в формате +7 XXX XXX XX XX"
-        />
+        <InputMask setCard={() => {}} />
         <Button type="submit" onClick={navigateToNextStep}>
           Подтвердить
         </Button>

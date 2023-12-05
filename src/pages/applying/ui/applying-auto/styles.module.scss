@@ -196,6 +196,10 @@
 
     & + & {
       margin: 16px 0 24px;
+
+      @media only screen and (max-width: 768px) {
+        margin: 16px 0;
+      }
     }
   }
 
@@ -207,6 +211,11 @@
   & > button {
     font: var(--heading5);
     padding: 12px 20px;
+
+    @media only screen and (max-width: 768px) {
+      font: var(--heading6);
+      padding: 7px 12px;
+    }
   }
 }
 

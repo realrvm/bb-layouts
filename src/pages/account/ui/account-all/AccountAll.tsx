@@ -3,6 +3,7 @@ import { FC } from "react";
 import { AccountAllItem } from "./account-all-item/AccountAllItem";
 
 import styles from "./styles.module.scss";
+import { SidebarMobile } from "@/widgets/sidebar";
 
 type AccountAllProps = Record<string, never>;
 
@@ -30,19 +31,22 @@ const items = [
 
 export const AccountAll: FC<AccountAllProps> = () => {
   return (
-    <div className={styles.bb__req_all_wrapper}>
-      <h2>Заявки</h2>
-      <ul className={styles.bb__req_all_list}>
-        {items.map((item) => {
-          const { id, ...other } = item;
+    <>
+      <SidebarMobile />
+      <div className={styles.bb__req_all_wrapper}>
+        <h2>Заявки</h2>
+        <ul className={styles.bb__req_all_list}>
+          {items.map((item) => {
+            const { id, ...other } = item;
 
-          return (
-            <li key={id}>
-              <AccountAllItem {...other} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+            return (
+              <li key={id}>
+                <AccountAllItem {...other} />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </>
   );
 };

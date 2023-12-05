@@ -1,11 +1,19 @@
 .bb__header {
   height: 76px;
   box-shadow: 0px 0px 4px 0px rgba(7, 12, 19, 0.2);
+  position: relative;
 
-  &.bb__simple,
-  &.bb__req {
-    box-shadow: none;
+  @media only screen and (max-width: 768px) {
+    height: 80px;
+    position: fixed;
+    background-color: var(--bg-white);
+    inset: 0;
+    z-index: 1000;
   }
+}
+
+.bb__header_simple {
+  height: 76px;
 
   @media only screen and (max-width: 768px) {
     height: 80px;
@@ -40,6 +48,7 @@
     padding: 1px;
     background-color: var(--bg-grl);
     border: 1px solid var(--border-grey);
+    text-align: center;
 
     &.mobile {
       margin-bottom: 36px;
@@ -99,6 +108,15 @@
       }
     }
 
+    & > a {
+      padding: 7px 12px;
+      font: var(--heading6);
+    }
+
+    & > a:last-child {
+      padding: 8px 12px;
+    }
+
     &.mobile {
       flex-direction: column;
       gap: 12px;
@@ -107,16 +125,17 @@
         align-self: stretch;
         text-align: center;
         padding: 12px 20px;
+
+        @media only screen and (max-width: 768px) {
+          font: var(--heading5);
+        }
       }
     }
 
-    & > a {
-      padding: 7px 12px;
-      font: var(--heading6);
-    }
-
     & > a:last-child {
-      padding: 8px 12px;
+      @media only screen and (max-width: 768px) {
+        padding: 11px 20px;
+      }
     }
   }
 }
@@ -144,6 +163,10 @@
   width: 162px;
   height: 36px;
   flex-shrink: 0;
+
+  & img {
+    height: 32px;
+  }
 
   & > button:hover {
     background-color: transparent;

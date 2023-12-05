@@ -15,7 +15,7 @@ type NavbarReqProps = {
 export const NavbarReq: FC<NavbarReqProps> = ({ className }) => {
   return (
     <header
-      className={cn(styles.bb__header, {}, [className && styles[className]])}
+      className={cn(styles.bb__header_simple, {}, [className && styles[className]])}
     >
       <Container>
         <nav

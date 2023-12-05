@@ -3,6 +3,7 @@ import { FC } from "react";
 import { AccountLoansItem } from "./account-loans-item/AccountLoansItem";
 
 import styles from "./styles.module.scss";
+import { SidebarMobile } from "@/widgets/sidebar";
 
 type AccountLoansProps = Record<string, never>;
 
@@ -25,19 +26,22 @@ const items = [
 
 export const AccountLoans: FC<AccountLoansProps> = () => {
   return (
-    <div className={styles.bb__req_loans_wrapper}>
-      <h2>Активные займы</h2>
-      <ul className={styles.bb__req_loans_list}>
-        {items.map((item) => {
-          const { id, ...other } = item;
+    <>
+      <SidebarMobile />
+      <div className={styles.bb__req_loans_wrapper}>
+        <h2>Активные займы</h2>
+        <ul className={styles.bb__req_loans_list}>
+          {items.map((item) => {
+            const { id, ...other } = item;
 
-          return (
-            <li key={id}>
-              <AccountLoansItem {...other} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+            return (
+              <li key={id}>
+                <AccountLoansItem {...other} />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </>
   );
 };

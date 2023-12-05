@@ -94,7 +94,7 @@ export const Navbar: FC<NavbarProps> = () => {
                   ])}
                 >
                   <AppLink
-                    to="/reg_money/reg_form"
+                    to="/reg/reg_form"
                     theme={AppLinkThemes.PRIMARY}
                   >
                     Получить займ

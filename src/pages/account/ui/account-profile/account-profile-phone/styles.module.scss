@@ -37,16 +37,22 @@
     align-items: flex-start;
     gap: 24px;
 
-    & > input[type="tel"] {
-      padding: 8px 12px;
-      border-radius: 8px;
-      outline: none;
-      border: 1px solid var(--border-grey);
+    & > div {
+      margin-bottom: 0;
+
+      & input {
+        width: 100%;
+        margin-bottom: 0;
+      }
     }
 
     & button[type="submit"] {
       padding: 12px 20px;
       font: var(--heading5);
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 }

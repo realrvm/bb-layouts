@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import styles from "./styles.module.scss";
 import { AccountPersonalItem } from "./account-personal-item/AccountPersonalItem";
+import { SidebarMobile } from "@/widgets/sidebar";
 
 const personal_items = [
   { id: 1, val: "Паспортные данные", path: "passport" },
@@ -13,19 +14,22 @@ type AccountPersonalProps = Record<string, never>;
 
 export const AccountPersonal: FC<AccountPersonalProps> = () => {
   return (
-    <div className={styles.bb__req_personal_wrapper}>
-      <h2>Персональные данные</h2>
-      <ul className={styles.bb__req_personal_list}>
-        {personal_items.map((doc) => {
-          const { id, ...other } = doc;
+    <>
+      <SidebarMobile />
+      <div className={styles.bb__req_personal_wrapper}>
+        <h2>Персональные данные</h2>
+        <ul className={styles.bb__req_personal_list}>
+          {personal_items.map((doc) => {
+            const { id, ...other } = doc;
 
-          return (
-            <li key={id}>
-              <AccountPersonalItem {...other} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+            return (
+              <li key={id}>
+                <AccountPersonalItem {...other} />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </>
   );
 };

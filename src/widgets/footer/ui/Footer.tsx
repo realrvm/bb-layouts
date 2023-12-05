@@ -20,7 +20,7 @@ export const Footer: FC<FooterProps> = () => {
             <AppLink to="/">
               <AppImage src={logo} alt="logo" width={150} height={34} />
             </AppLink>
-            <AppLink to="/get_money" theme={AppLinkThemes.PRIMARY}>
+            <AppLink to="/reg/reg_form" theme={AppLinkThemes.PRIMARY}>
               Получить займ
             </AppLink>
           </div>

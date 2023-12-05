@@ -26,7 +26,7 @@ export const NavbarSimple: FC<NavbarSimpleProps> = ({ className }) => {
   return (
     <>
       <header
-        className={cn(styles.bb__header, {}, [className && styles[className]])}
+        className={cn(styles.bb__header_simple, {}, [className && styles[className]])}
       >
         <nav
           className={cn(styles.bb__main_nav, {}, [

@@ -31,5 +31,9 @@
   &_answer {
     font: var(--font-lg);
     padding-top: 12px;
+
+    @media only screen and (max-width: 768px) {
+      font: var(--font-md);
+    }
   }
 }

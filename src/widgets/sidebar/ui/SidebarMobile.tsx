@@ -5,30 +5,34 @@ import { useSwipe } from "@/shared/lib/hooks/useSwipe";
 import { SidebarItemMobile } from "./sidebar-item-mobile/SidebarItemMobile";
 
 const items = [
-  { caption: "Заявки", path: "/requests/req_all" },
-  { caption: "Активные займы", path: "/requests/req_loans" },
-  { caption: "Персональные данные", path: "/requests/req_personal" },
-  { caption: "Документы", path: "/requests/req_docs" },
-  { caption: "Профиль", path: "/requests/req_profile" },
+  { caption: "Заявки", path: "/account/account_all" },
+  { caption: "Активные займы", path: "/account/account_loans" },
+  { caption: "Персональные данные", path: "/account/account_personal" },
+  { caption: "Документы", path: "/account/account_docs" },
+  { caption: "Профиль", path: "/account/account_profile" },
 ];
 
 type SidebarMobileProps = Record<string, never>;
 
 export const SidebarMobile: FC<SidebarMobileProps> = () => {
-  const refSidebarMobile = useRef<HTMLUListElement | null>(null);
+  const refSidebarMobile = useRef<HTMLDivElement | null>(null);
   useSwipe(refSidebarMobile);
 
   return (
-    <ul className={styles.bb__sb_mobile} ref={refSidebarMobile}>
-      {items.map((item) => {
-        const { caption, path } = item;
+    <div className={styles.bb__sb_mobile_wrapper} ref={refSidebarMobile}>
+      <div className={styles.bb__sb_mobile_inner}>
+        <ul className={styles.bb__sb_mobile}>
+          {items.map((item) => {
+            const { caption, path } = item;
 
-        return (
-          <li key={path}>
-            <SidebarItemMobile path={path} caption={caption} />
-          </li>
-        );
-      })}
-    </ul>
+            return (
+              <li key={path}>
+                <SidebarItemMobile path={path} caption={caption} />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
   );
 };

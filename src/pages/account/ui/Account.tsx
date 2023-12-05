@@ -3,8 +3,8 @@ import { FC } from "react";
 import styles from "./styles.module.scss";
 import { Outlet } from "react-router-dom";
 import { NavbarReq } from "@/widgets/navbar";
-import { Sidebar, SidebarMobile } from "@/widgets/sidebar";
-import { Container, ContainerRight } from "@/widgets/container";
+import { Sidebar  } from "@/widgets/sidebar";
+import { Container  } from "@/widgets/container";
 import { useWindowWidth } from "@/shared/lib/hooks/useWindowWidth";
 import { NOTEBOOK_WIDTH } from "@/shared/lib/const";
 
@@ -25,9 +25,6 @@ export const Account: FC<AccountProps> = () => {
         </Container>
       ) : (
         <div className={styles.bb__req_mobile}>
-          <ContainerRight>
-            <SidebarMobile />
-          </ContainerRight>
           <Container>
             <Outlet />
           </Container>
