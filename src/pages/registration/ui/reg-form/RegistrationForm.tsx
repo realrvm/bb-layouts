@@ -6,27 +6,30 @@ import { AppLink } from "@/shared/ui/app-link";
 import { Button } from "@/shared/ui/button";
 
 import styles from "./styles.module.scss";
-import { useActionCreators } from "@/app/providers/rtk-provider";
+import {
+  useActionCreators,
+  useAppDispatch,
+} from "@/app/providers/rtk-provider";
 import { phoneActions } from "@/entities/phone";
-// import { register } from "@/features/reg";
+import { register } from "@/features/serve";
 
 type RegistrationFormProps = Record<string, never>;
 
 export const RegistrationForm: FC<RegistrationFormProps> = () => {
   const [checked, isChecked] = useState(false);
-  const [phoneValue, setPhoneValue] = useState("+79007776655");
+  const [phoneValue, setPhoneValue] = useState("");
 
-  // const regDispatch = useAppDispatch();
+  const regDispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   const phoneAction = useActionCreators(phoneActions);
 
   const navigateToNextStep = useCallback(() => {
-    // regDispatch(register({ phone_number: phoneValue }));
+    regDispatch(register({ phone_number: phoneValue }));
     navigate("/reg/reg_check_out/");
-    //phoneAction.setPhone(phoneValue);
-  }, [phoneValue, phoneAction]);
+    phoneAction.setPhone(phoneValue);
+  }, [phoneValue, phoneAction, regDispatch, register]);
 
   const handleCheck = useCallback((state: boolean) => {
     isChecked(state);
@@ -45,10 +48,10 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
         <input
           id="phone"
           type="tel"
-          pattern="(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?"
           title="Введите номер телефона в формате +7 XXX XXX XX XX"
           value={phoneValue}
           onChange={(e) => setPhoneValue(e.target.value)}
+          placeholder="+7 XXX XXX XX XX"
         />
 
         <div className={styles.bb__gm_checkbox}>
