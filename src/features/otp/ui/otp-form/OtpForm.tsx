@@ -19,7 +19,7 @@ type OtpFormProps = {
 };
 
 export const OtpForm: FC<OtpFormProps> = memo(
-  ({ value, valueLength = 4, onChange }) => {
+  ({ value, valueLength = 6, onChange }) => {
     const items = useMemo(() => {
       const valueArray = [...value];
       const itemsArray: string[] = [];

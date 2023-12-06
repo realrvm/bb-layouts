@@ -1,10 +1,10 @@
 .bb__app_link {
   display: inline-block;
-  white-space: nowrap;
 }
 
 .app_link_wo_hover,
 .app_link_primary {
+  white-space: nowrap;
   background-color: var(--brand-primary);
   border: none;
   color: var(--text-white);
@@ -31,6 +31,7 @@
 }
 
 .app_link_outline {
+  white-space: nowrap;
   background-color: transparent;
   border: 1px solid var(--border-grey);
   color: var(--text-black);
@@ -54,6 +55,7 @@
 }
 
 .app_link_clean {
+  white-space: nowrap;
   background-color: transparent;
   color: var(--text-black);
   border-radius: 8px;

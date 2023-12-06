@@ -17,7 +17,7 @@ export const Otp: FC<OtpProps> = ({
   onChange,
   value,
   requestToServer,
-  valueLength = 4,
+  valueLength = 6,
 }) => {
   const [seconds, setSeconds] = useState(60);
   const navigate = useNavigate();

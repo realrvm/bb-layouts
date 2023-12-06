@@ -27,7 +27,7 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
     loginDispatch(login({ phone_number: phone, password: otp }));
   };
 
-  if (otp.length === 4) {
+  if (otp.length === 6) {
     sendToServer();
   }
 
