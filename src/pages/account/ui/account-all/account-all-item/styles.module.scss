@@ -30,6 +30,10 @@
     font: var(--heading5);
     background-color: var(--bg-white);
 
+    @media only screen and (max-width: 768px) {
+      font: var(--heading6);
+    }
+
     &:hover {
       background-color: var(--bg-grl);
     }
@@ -37,13 +41,31 @@
 
   &_mobile {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    @media only screen and (max-width: 1200px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 24px;
+    }
+
+    &_row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
   }
 
   &_date {
     font: var(--font-md);
     margin-right: 36px;
+
+    @media only screen and (max-width: 1200px) {
+      margin-right: 0;
+    }
 
     @media only screen and (max-width: 768px) {
       font: var(--font-sm);
@@ -57,7 +79,7 @@
 
   &_res {
     @media only screen and (max-width: 768px) {
-      font: var(--font-sm);
+      font: var(--heading6);
     }
   }
 

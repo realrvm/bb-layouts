@@ -30,9 +30,10 @@
       align-items: flex-start;
     }
 
-    @media only screen and (max-width: 768px) {
-      display: block;
-      margin-bottom: 12px;
+    & > div {
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 16px;
+      }
     }
 
     &_loan {
@@ -56,8 +57,8 @@
     align-items: center;
 
     @media only screen and (max-width: 768px) {
-      border-top: 1px solid var(--border-grey);
       padding-top: 12px;
+      text-align: center;
     }
 
     &_more {
@@ -67,6 +68,10 @@
       transition: background-color 0.3s ease;
       background-color: var(--bg-white);
 
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+      }
+
       &:hover {
         background-color: var(--bg-grl);
       }
@@ -74,6 +79,10 @@
 
     & > a {
       padding: 6px 12px;
+
+      @media only screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 }

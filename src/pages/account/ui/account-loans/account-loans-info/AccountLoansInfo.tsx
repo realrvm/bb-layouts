@@ -39,7 +39,9 @@ export const AccountLoansInfo: FC<AccountLoansInfoProps> = () => {
     <div className={styles.bb__req_loans_info_wrapper}>
       <div className={styles.bb__req_loans_info_title}>
         <BackButton />
-        <h2>Займ на сумму 20 000 ₽</h2>
+        <h2>
+          Займ на сумму <span style={{ whiteSpace: "nowrap" }}>20 000 ₽</span>
+        </h2>
       </div>
       <div className={styles.bb__req_loans_info_inner}>
         <h3>Договор займа №00435 от 06.08.2023</h3>
@@ -95,6 +97,20 @@ export const AccountLoansInfo: FC<AccountLoansInfoProps> = () => {
             Погасить
           </Button>
         </div>
+      </div>
+      <div className={styles.bb__req_loans_info_inner_btns_mobile}>
+        <Button
+          onClick={() => console.log("погасить  досрочно")}
+          theme={ButtonThemes.OUTLINE}
+        >
+          Погасить досрочно
+        </Button>
+        <Button
+          onClick={() => console.log("досрочно")}
+          theme={ButtonThemes.PRIMARY}
+        >
+          Погасить
+        </Button>
       </div>
     </div>
   );

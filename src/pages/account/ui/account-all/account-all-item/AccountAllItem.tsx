@@ -34,14 +34,21 @@ export const AccountAllItem: FC<AccountAllItemProps> = ({ date, req, res }) => {
         ) : (
           <>
             <div className={styles.bb__req_all_item_mobile}>
-              <span className={styles.bb__req_all_item_req}>{req}</span>
-              <span
-                className={cn(styles.bb__req_all_item_res, {}, [styles[color]])}
-              >
-                {res}
-              </span>
+              <div className={styles.bb__req_all_item_mobile_row}>
+                <span className={styles.bb__req_all_item_req}>{req}</span>
+                <span className={styles.bb__req_all_item_date}>{date}</span>
+              </div>
+              <div className={styles.bb__req_all_item_mobile_row}>
+                <span
+                  className={cn(styles.bb__req_all_item_res, {}, [
+                    styles[color],
+                  ])}
+                >
+                  {res}
+                </span>
+                <div className={styles.bb__req_all_item_more}>Подробнее</div>
+              </div>
             </div>
-            <span className={styles.bb__req_all_item_date}>{date}</span>
           </>
         )}
       </AppLink>

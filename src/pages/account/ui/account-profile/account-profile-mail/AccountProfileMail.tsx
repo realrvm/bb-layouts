@@ -24,10 +24,7 @@ export const AccountProfileMail: FC<AccountProfileMailProps> = () => {
       </div>
       <p>Введите адрес электронной почты, чтобы получать уведомления</p>
       <div className={styles.bb__req_profile_mail_form}>
-        <input
-          id="ident_mail"
-          title="Введите номер телефона в формате +7 XXX XXX XX XX"
-        />
+        <input id="ident_mail" style={{ width: "100%" }} />
         <Button type="submit" onClick={navigateToNextStep}>
           Подтвердить
         </Button>

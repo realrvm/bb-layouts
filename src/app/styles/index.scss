@@ -2,6 +2,11 @@
 @import "./reset";
 @import "./variables/global";
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   color: var(--text-black);
 }

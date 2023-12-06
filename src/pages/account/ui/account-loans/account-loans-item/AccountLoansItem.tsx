@@ -20,12 +20,14 @@ export const AccountLoansItem: FC<AccountLoansItemProps> = memo(
             <span className={styles.bb__req_loans_item_info_loan}>
               Займ на сумму {req} ₽
             </span>
-            <span className={styles.bb__req_loans_item_info_refund}>
-              {refund} ₽
-            </span>
-            <span className={styles.bb__req_loans_item_info_term}>
-              До {date_refund}
-            </span>
+            <div>
+              <span className={styles.bb__req_loans_item_info_refund}>
+                {refund} ₽
+              </span>
+              <span className={styles.bb__req_loans_item_info_term}>
+                До {date_refund}
+              </span>
+            </div>
           </div>
           <div className={styles.bb__req_loans_item_refund}>
             <div className={styles.bb__req_loans_item_refund_more}>
