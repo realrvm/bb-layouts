@@ -98,6 +98,10 @@
     padding: 24px;
     margin-bottom: 24px;
 
+    @media only screen and (max-width: 768px) {
+      padding: 16px;
+    }
+
     & > h4 {
       font: var(--heading4);
       margin-bottom: 24px;
@@ -118,20 +122,38 @@
       align-items: center;
       gap: 70px;
 
+      @media only screen and (max-width: 768px) {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
       & + & {
         border-top: 1px solid var(--border-grey);
       }
 
       &:last-child {
         padding-top: 20px;
+
+        @media only screen and (max-width: 768px) {
+          padding-top: 16px;
+        }
       }
 
       &:nth-child(2) {
         padding-bottom: 20px;
+
+        @media only screen and (max-width: 768px) {
+          padding-bottom: 16px;
+        }
       }
 
       &:nth-child(3) {
         padding: 20px 0;
+
+        @media only screen and (max-width: 768px) {
+          padding: 16px 0;
+        }
       }
 
       &_descr {
@@ -151,6 +173,27 @@
         height: 60px;
         border-radius: 8px;
         background: var(--bg-grey);
+      }
+
+      &_img_wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        & > button {
+          width: 24px;
+          height: 24px;
+          flex-shrink: 0;
+          background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="%23969696"/></svg>');
+
+          &:hover {
+            background-color: transparent;
+          }
+
+          @media only screen and (min-width: 768px) {
+            display: none;
+          }
+        }
       }
     }
 

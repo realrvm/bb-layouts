@@ -33,7 +33,7 @@ export const Application: FC<ApplicationProps> = () => {
             <h4>Прикрепите следующие документы</h4>
             <div className={styles.bb__req_application_card_docs}>
               <div className={styles.bb__req_application_card_docs_descr}>
-                <h5>Разворот с фото</h5>
+                <h5>1. Фото паспорта (Разворот с фото)</h5>
                 <p>
                   На фото должно быть разборчиво видно ваше ФИО и фотографию
                 </p>
@@ -45,7 +45,7 @@ export const Application: FC<ApplicationProps> = () => {
             </div>
             <div className={styles.bb__req_application_card_docs}>
               <div className={styles.bb__req_application_card_docs_descr}>
-                <h5>Страница с пропиской</h5>
+                <h5>2. Фото паспорта (Разворот с пропиской)</h5>
               </div>
               <label className={styles.bb__req_application_card_label}>
                 <span>Прикрепить</span>
@@ -54,7 +54,7 @@ export const Application: FC<ApplicationProps> = () => {
             </div>
             <div className={styles.bb__req_application_card_docs}>
               <div className={styles.bb__req_application_card_docs_descr}>
-                <h5>Все страницы ПТС</h5>
+                <h5>3. ПТС (Все страницы)</h5>
               </div>
               <label className={styles.bb__req_application_card_label}>
                 <span>Прикрепить</span>
@@ -70,19 +70,34 @@ export const Application: FC<ApplicationProps> = () => {
               <div className={styles.bb__req_application_card_docs_descr}>
                 <h5>1. Фото разворота паспорта</h5>
               </div>
-              <div className={styles.bb__req_application_card_docs_img}></div>
+              <div className={styles.bb__req_application_card_docs_img_wrap}>
+                <div className={styles.bb__req_application_card_docs_img}></div>
+                <Button theme={ButtonThemes.CLEAN} onClick={() => {}}>
+                  <span></span>
+                </Button>
+              </div>
             </div>
             <div className={styles.bb__req_application_card_docs}>
               <div className={styles.bb__req_application_card_docs_descr}>
                 <h5>2. Разворот с пропиской</h5>
               </div>
-              <div className={styles.bb__req_application_card_docs_img}></div>
+              <div className={styles.bb__req_application_card_docs_img_wrap}>
+                <div className={styles.bb__req_application_card_docs_img}></div>
+                <Button theme={ButtonThemes.CLEAN} onClick={() => {}}>
+                  <span></span>
+                </Button>
+              </div>
             </div>
             <div className={styles.bb__req_application_card_docs}>
               <div className={styles.bb__req_application_card_docs_descr}>
                 <h5>3. ПТС</h5>
               </div>
-              <div className={styles.bb__req_application_card_docs_img}></div>
+              <div className={styles.bb__req_application_card_docs_img_wrap}>
+                <div className={styles.bb__req_application_card_docs_img}></div>
+                <Button theme={ButtonThemes.CLEAN} onClick={() => {}}>
+                  <span></span>
+                </Button>
+              </div>
             </div>
           </div>
           <Button theme={ButtonThemes.PRIMARY}>Далее</Button>

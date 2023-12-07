@@ -67,6 +67,7 @@
       border: 1px solid var(--border-grey);
       transition: background-color 0.3s ease;
       background-color: var(--bg-white);
+      font: var(--heading6);
 
       @media only screen and (max-width: 768px) {
         width: 100%;
@@ -79,6 +80,7 @@
 
     & > a {
       padding: 6px 12px;
+      font: var(--heading6);
 
       @media only screen and (max-width: 768px) {
         width: 100%;

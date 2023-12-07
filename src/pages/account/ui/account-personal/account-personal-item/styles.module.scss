@@ -25,6 +25,7 @@
     border: 1px solid var(--border-grey);
     transition: background-color ease 0.3s;
     background-color: var(--bg-white);
+    font: var(--heading6);
 
     &:hover {
       background-color: var(--bg-grl);

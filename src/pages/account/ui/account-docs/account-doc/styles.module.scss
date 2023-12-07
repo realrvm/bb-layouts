@@ -38,11 +38,7 @@
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
-    font: var(--heading5);
-
-    @media only screen and (max-width: 768px) {
-      font: var(--heading6);
-    }
+    font: var(--heading6);
 
     & > span {
       width: 18px;
