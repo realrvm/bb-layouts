@@ -11,10 +11,10 @@ export const $api = axios.create({
 });
 
 $api.interceptors.request.use((config) => {
-  const token = JSON.parse(
-    window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
-  );
-  config.headers.Authorization = `Bearer ${token.access}`;
+  // const token = JSON.parse(
+  //   window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
+  // );
+  //config.headers.Authorization = `Bearer ${token.access}`;
   return config;
 });
 
@@ -25,21 +25,23 @@ $api.interceptors.response.use(
   async (error) => {
     if (error.response.status === 401) {
       try {
+        const token = JSON.parse(
+          window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
+        );
+
         const response = await axios.post(`${API_URL}/token/refresh/`, {
           headers: {
             "Access-Control-Allow-Origin": "X-Custom-Header",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${
-              JSON.parse(
-                window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
-              ).refresh
+            Authorization: `Bearer ${token}.refresh
             }`,
           },
         });
 
         window.localStorage.setItem(LOCAL_STORAGE_TOKEN, response.data);
 
-        return $api.request(error.config);
+        //return $api.request(error.config);
+        return error.config;
       } catch (e) {
         if (e instanceof Error) console.log(e.message);
       }
