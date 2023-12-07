@@ -5,7 +5,7 @@ import { API_URL, LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
 export const $api = axios.create({
   baseURL: API_URL,
   headers: {
-    "Access-Control-Allow-Origin": "*",
+    //"Access-Control-Allow-Origin": "X-Custom-Header",
     "Content-Type": "application/json",
   },
 });
