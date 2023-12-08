@@ -1,15 +1,19 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import { RangeInput } from "@/features/range-input";
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
 
-import styles from "./styles.module.scss";
 import { ListLoanTerms } from "@/features/loans-list";
+import { calcLoanCredit } from "@/shared/lib/helpers/calcLoanCredit";
+
+import styles from "./styles.module.scss";
 
 type ApplyingSumProps = Record<string, never>;
 
 export const ApplyingSum: FC<ApplyingSumProps> = () => {
+  const [rangeValue, setRangeValue] = useState(1);
+
   return (
     <div className={styles.bb__applying_wrapper}>
       <ApplyingTitle index={"one"} />
@@ -22,11 +26,11 @@ export const ApplyingSum: FC<ApplyingSumProps> = () => {
           <div className={styles.bb__applying_sum_range}>
             <p>Сумма кредита</p>
             <div className={styles.bb__applying_sum_result}>
-              <span>50 000</span>
+              <span>{calcLoanCredit(rangeValue)}</span>
               <span>₽</span>
             </div>
             <div className={styles.bb__applying_sum_result_wrap}>
-              <RangeInput />
+              <RangeInput setRangeValue={setRangeValue} />
             </div>
           </div>
           <div className={styles.bb__applying_sum_range}>

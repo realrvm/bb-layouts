@@ -15,3 +15,6 @@ export const API_URL = "https://api.bibimoney.ru/api/v1";
 
 // localstorage
 export const LOCAL_STORAGE_TOKEN = "token";
+
+// loan credit step
+export const STEP_LOAN_VALUE = 50_000;

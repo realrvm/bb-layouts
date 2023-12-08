@@ -1,16 +1,19 @@
 import { ChangeEvent, FC, FormEvent, memo, useState } from "react";
 
-import styles from "./styles.module.scss";
 import { RangeInput } from "@/features/range-input";
 import { Button } from "@/shared/ui/button";
 import { getUserAccess } from "@/entities/user";
 import { useStateSelector } from "@/app/providers/rtk-provider";
 import { ListLoanTerms } from "@/features/loans-list";
+import { calcLoanCredit } from "@/shared/lib/helpers/calcLoanCredit";
+
+import styles from "./styles.module.scss";
 
 type CalculatorFormProps = Record<string, never>;
 
 export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
   const [marketPrice, setMarketPrice] = useState("");
+  const [rangeValue, setRangeValue] = useState(1);
 
   const handleMarketPrice = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -26,6 +29,7 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
 
   // TODO
   const access = useStateSelector(getUserAccess);
+
   const getAccessKey = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(access);
@@ -37,11 +41,11 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
       <div className={styles.bb__calc_form_range}>
         <p>Сумма кредита</p>
         <div className={styles.bb__calc_form_result}>
-          <span>50 000</span>
+          <span>{calcLoanCredit(rangeValue)}</span>
           <span>₽</span>
         </div>
         <div className={styles.bb__calc_form_result_wrap}>
-          <RangeInput />
+          <RangeInput setRangeValue={setRangeValue} />
         </div>
       </div>
       <div className={styles.bb__calc_form_range}>

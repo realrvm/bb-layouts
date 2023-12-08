@@ -1,35 +1,60 @@
-import { FC, useRef, useState } from "react";
+import { FC, memo, useRef, useState } from "react";
 
 import { Container } from "@/widgets/container";
 import { Button, ButtonThemes } from "@/shared/ui/button";
 import { ConditionsCard } from "./conditions-card/ConditionsCard";
 import { useSwipe } from "@/shared/lib/hooks/useSwipe";
 
+import { cards, conditional_btns } from "../const";
+
+import type { CardsValue } from "../types";
+
 import styles from "./styles.module.scss";
 
 type ConditionsProps = Record<string, never>;
 
-type CardsValue = "borrower" | "auto" | "docs";
+type ConditionalButtonsProps = {
+  cardsValue: CardsValue;
+  setCardsValue: (key: CardsValue) => void;
+};
 
-const borrower = [
-  { content: "Собственник автомобиля", id: 1 },
-  { content: "Возраст от 18 до 55 лет", id: 2 },
-  { content: "С любой кредитной историей", id: 3 },
-];
+type ChangeCardContentProps = {
+  cardsValue: CardsValue;
+};
 
-const auto = [
-  { content: "Машина в исправном состоянии", id: 1 },
-  { content: "Не имеет ограничений", id: 2 },
-  { content: "Старше 2000г.", id: 3 },
-];
+const ConditionalButtons: FC<ConditionalButtonsProps> = memo(
+  ({ cardsValue, setCardsValue }) => {
+    return (
+      <>
+        {conditional_btns.map((btn) => {
+          const [key, value] = Object.entries(btn)[0] as [CardsValue, string];
+          return (
+            <Button
+              onClick={() => setCardsValue(key)}
+              key={key}
+              theme={
+                key === cardsValue ? ButtonThemes.WO_HOVER : ButtonThemes.CLEAN
+              }
+            >
+              {value}
+            </Button>
+          );
+        })}
+      </>
+    );
+  },
+);
 
-const docs = [
-  { content: "Паспорт", id: 1 },
-  { content: "ПТС", id: 2 },
-  { content: "Банковская карта", id: 3 },
-];
-
-const cards = { borrower, auto, docs };
+const ChangeCardContent: FC<ChangeCardContentProps> = memo(({ cardsValue }) => {
+  return (
+    <>
+      {cards[cardsValue].map((card) => {
+        const { id, content } = card;
+        return <ConditionsCard key={id} content={content} />;
+      })}
+    </>
+  );
+});
 
 export const Conditions: FC<ConditionsProps> = () => {
   const [cardsValue, setCardsValue] = useState<CardsValue>("borrower");
@@ -44,46 +69,17 @@ export const Conditions: FC<ConditionsProps> = () => {
         <div className={styles.bb__conditions_btns_inner} ref={refConditions}>
           <div className={styles.bb__conditions_btns_box}>
             <div className={styles.bb__conditions_btns}>
-              <Button
-                onClick={() => setCardsValue("borrower")}
-                theme={
-                  cardsValue === "borrower"
-                    ? ButtonThemes.WO_HOVER
-                    : ButtonThemes.CLEAN
-                }
-              >
-                Для заемщика
-              </Button>
-              <Button
-                onClick={() => setCardsValue("auto")}
-                theme={
-                  cardsValue === "auto"
-                    ? ButtonThemes.WO_HOVER
-                    : ButtonThemes.CLEAN
-                }
-              >
-                Для автомобиля
-              </Button>
-              <Button
-                onClick={() => setCardsValue("docs")}
-                theme={
-                  cardsValue === "docs"
-                    ? ButtonThemes.WO_HOVER
-                    : ButtonThemes.CLEAN
-                }
-              >
-                Для документов
-              </Button>
+              <ConditionalButtons
+                cardsValue={cardsValue}
+                setCardsValue={setCardsValue}
+              />
             </div>
           </div>
         </div>
       </div>
       <Container>
         <div className={styles.bb__conditions_cards}>
-          {cards[cardsValue].map((card) => {
-            const { id, content } = card;
-            return <ConditionsCard key={id} content={content} />;
-          })}
+          <ChangeCardContent cardsValue={cardsValue} />
         </div>
       </Container>
     </section>
