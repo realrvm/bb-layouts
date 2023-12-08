@@ -49,7 +49,12 @@
 
     &_box {
       display: grid;
-      grid-template-columns: auto 56px;
+      grid-template-columns: auto;
+      place-content: center;
+
+      @media only screen and (max-width: 768px) {
+        grid-template-columns: auto 56px;
+      }
     }
 
     & > button {
