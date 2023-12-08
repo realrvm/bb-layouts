@@ -5,6 +5,7 @@ import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
 
 import styles from "./styles.module.scss";
+import { ListLoanTerms } from "@/features/loans-list";
 
 type ApplyingSumProps = Record<string, never>;
 
@@ -14,7 +15,10 @@ export const ApplyingSum: FC<ApplyingSumProps> = () => {
       <ApplyingTitle index={"one"} />
       <div className={styles.bb__applying_inner}>
         <h4>Введите сумму займа</h4>
-        <form className={styles.bb__applying_sum_form}>
+        <form
+          className={styles.bb__applying_sum_form}
+          onSubmit={(e) => e.preventDefault()}
+        >
           <div className={styles.bb__applying_sum_range}>
             <p>Сумма кредита</p>
             <div className={styles.bb__applying_sum_result}>
@@ -26,13 +30,9 @@ export const ApplyingSum: FC<ApplyingSumProps> = () => {
             </div>
           </div>
           <div className={styles.bb__applying_sum_range}>
-            <p>Срок</p>
-            <div className={styles.bb__applying_sum_result}>
-              <span>6</span>
-              <span>мес</span>
-            </div>
-            <div className={styles.bb__applying_sum_result_wrap}>
-              <RangeInput />
+            <p>Срок займа, месяцев</p>
+            <div className={styles.bb__applying_sum_result_btns}>
+              <ListLoanTerms />
             </div>
           </div>
         </form>

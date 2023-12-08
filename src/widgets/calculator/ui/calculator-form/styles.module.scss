@@ -23,15 +23,18 @@
     align-items: center;
     justify-content: space-between;
 
-    & > span {
-      font: var(--heading5);
-    }
-
     &_wrap {
       width: 90%;
       margin: 0 auto;
       transform: translateY(-2px);
     }
+  }
+
+  &_result_btns {
+    padding: 16px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-grey);
+    padding: 2px;
   }
 
   &_input {

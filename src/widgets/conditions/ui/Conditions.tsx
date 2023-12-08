@@ -9,7 +9,7 @@ import styles from "./styles.module.scss";
 
 type ConditionsProps = Record<string, never>;
 
-type CardsValue = "borrower" | "auto" | "docs" | "loan";
+type CardsValue = "borrower" | "auto" | "docs";
 
 const borrower = [
   { content: "Собственник автомобиля", id: 1 },
@@ -29,13 +29,7 @@ const docs = [
   { content: "Банковская карта", id: 3 },
 ];
 
-const loan = [
-  { content: "Месячный процент 7.9%", id: 1 },
-  { content: "Просрочка 1 день + 0.3%", id: 2 },
-  { content: "С официальным внесением в реестр нотариальной палаты", id: 3 },
-];
-
-const cards = { borrower, auto, docs, loan };
+const cards = { borrower, auto, docs };
 
 export const Conditions: FC<ConditionsProps> = () => {
   const [cardsValue, setCardsValue] = useState<CardsValue>("borrower");
@@ -78,17 +72,7 @@ export const Conditions: FC<ConditionsProps> = () => {
                     : ButtonThemes.CLEAN
                 }
               >
-                Какие документы потребуются
-              </Button>
-              <Button
-                onClick={() => setCardsValue("loan")}
-                theme={
-                  cardsValue === "loan"
-                    ? ButtonThemes.WO_HOVER
-                    : ButtonThemes.CLEAN
-                }
-              >
-                Условия по займу
+                Для документов
               </Button>
             </div>
           </div>

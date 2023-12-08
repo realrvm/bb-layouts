@@ -5,6 +5,7 @@ import { RangeInput } from "@/features/range-input";
 import { Button } from "@/shared/ui/button";
 import { getUserAccess } from "@/entities/user";
 import { useStateSelector } from "@/app/providers/rtk-provider";
+import { ListLoanTerms } from "@/features/loans-list";
 
 type CalculatorFormProps = Record<string, never>;
 
@@ -44,13 +45,9 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
         </div>
       </div>
       <div className={styles.bb__calc_form_range}>
-        <p>Срок</p>
-        <div className={styles.bb__calc_form_result}>
-          <span>6</span>
-          <span>мес</span>
-        </div>
-        <div className={styles.bb__calc_form_result_wrap}>
-          <RangeInput />
+        <p>Срок займа, месяцев</p>
+        <div className={styles.bb__calc_form_result_btns}>
+          <ListLoanTerms />
         </div>
       </div>
       <div className={styles.bb__calc_form_input}>
