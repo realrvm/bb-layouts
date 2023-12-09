@@ -7,7 +7,7 @@ import { validateReg } from "./validateReg";
 
 const serverErrorMessages: Record<string, RegValidateErrors[]> = {
   "Network Error": [RegValidateErrors.SERVER_ERROR],
-  "Request failed with status code 403": [RegValidateErrors.NO_USER_FOUND],
+  "Request failed with status code 401": [RegValidateErrors.NO_USER_FOUND],
 };
 
 export const register = createAsyncThunk<
@@ -24,7 +24,7 @@ export const register = createAsyncThunk<
   }
 
   try {
-    const response = await extra.api.post<any>("/register/", authData);
+    const response = await extra.api_reg.post<any>("/register/", authData);
 
     if (!response.data) {
       return rejectWithValue([RegValidateErrors.NO_DATA]);

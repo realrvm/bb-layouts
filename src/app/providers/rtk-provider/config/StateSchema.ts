@@ -16,6 +16,7 @@ export type StateSchema = {
 
 export type ThunkExtraArgument = {
   api: AxiosInstance;
+  api_reg: AxiosInstance;
 };
 
 export type ThunkConfig<T> = {

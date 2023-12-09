@@ -18,3 +18,6 @@ export const LOCAL_STORAGE_TOKEN = "token";
 
 // loan credit step
 export const STEP_LOAN_VALUE = 50_000;
+
+// max accordion index
+export const MAX_ACCORDION_INDEX = 333;

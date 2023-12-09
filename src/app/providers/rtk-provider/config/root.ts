@@ -4,10 +4,11 @@ import { reducers } from "./reducers";
 import { IS_DEV } from "@/shared/lib/const";
 
 import type { StateSchema, ThunkExtraArgument } from "./StateSchema";
-import { $api } from "@/shared/api";
+import { $api, $api_reg } from "@/shared/api";
 
 const extraArg: ThunkExtraArgument = {
   api: $api,
+  api_reg: $api_reg,
 };
 
 export function createReduxStore(initialState?: StateSchema) {

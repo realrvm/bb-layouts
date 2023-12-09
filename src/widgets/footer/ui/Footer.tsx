@@ -4,10 +4,19 @@ import logo from "@/shared/assets/images/logo.png";
 import bor from "@/shared/assets/images/bor.png";
 import mir from "@/shared/assets/images/mir.png";
 
-import styles from "./styles.module.scss";
 import { AppImage } from "@/shared/ui/app-image";
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import { Container } from "@/widgets/container";
+
+import {
+  BIBIMONEY_ADRESS,
+  BIBIMONEY_COMPANY,
+  BIBIMONEY_INN,
+  BIBIMONEY_KPP,
+  BIBIMONEY_OGRN,
+} from "../const";
+
+import styles from "./styles.module.scss";
 
 type FooterProps = Record<string, never>;
 
@@ -26,33 +35,25 @@ export const Footer: FC<FooterProps> = () => {
           </div>
           <div className={styles.bb__footer_details}>
             <div className={styles.bb__footer_details_item}>
-              <p>
-                Общество с ограниченной ответственностью
-                Микрофинансовая компания «Бибимани» состоит в государственном
-                реестре микрофинансовых организаций за номером
-                18/034/75/009039 от 24.12.2018 г.
-              </p>
+              <p>{BIBIMONEY_COMPANY}</p>
               <AppLink to="*">Центр раскрытия корпоративной информации</AppLink>
             </div>
             <div className={styles.bb__footer_details_item}>
               <dl>
                 <dt>КПП</dt>
-                <dd>540701001</dd>
+                <dd>{BIBIMONEY_KPP}</dd>
               </dl>
               <dl>
                 <dt>ИНН</dt>
-                <dd>7459006240</dd>
+                <dd>{BIBIMONEY_INN}</dd>
               </dl>
               <dl>
                 <dt>ОГРН</dt>
-                <dd>1187456022049</dd>
+                <dd>{BIBIMONEY_OGRN}</dd>
               </dl>
               <dl>
                 <dt>Адрес</dt>
-                <dd>
-                  630007, Хабаровский край, г. Хабаровск, ул. Коммунистическая,
-                  д.6, эт.9, пом.19
-                </dd>
+                <dd>{BIBIMONEY_ADRESS}</dd>
               </dl>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { STEP_LOAN_VALUE } from "@/widgets/calculator/ui/const";
+import { STEP_LOAN_VALUE } from "@/shared/lib/const";
 
 export function calcLoanCredit(percent: number): string {
   const step = STEP_LOAN_VALUE * percent;

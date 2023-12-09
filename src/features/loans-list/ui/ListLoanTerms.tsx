@@ -1,18 +1,44 @@
 import { FC, memo, useCallback, useState } from "react";
 
-import styles from "./styles.module.scss";
 import { Button, ButtonThemes } from "@/shared/ui/button";
+import { terms } from "../const";
 
-type Terms = "24" | "36" | "48" | "60";
+import type { Terms } from "../types";
+
+import styles from "./styles.module.scss";
 
 type ListLoanTermsProps = {
   className?: string;
 };
 
-const terms: Terms[] = ["24", "36", "48", "60"];
+type ListLoanButtonsProps = {
+  activeTerm: Terms;
+  changeTerms: (term: Terms) => void;
+};
+
+const ListLoanButtons: FC<ListLoanButtonsProps> = memo(
+  ({ activeTerm, changeTerms }) => {
+    return (
+      <>
+        {terms.map((term) => (
+          <li key={term}>
+            <Button
+              theme={
+                activeTerm === term ? ButtonThemes.WO_HOVER : ButtonThemes.CLEAN
+              }
+              onClick={() => changeTerms(term)}
+            >
+              {term}
+            </Button>
+          </li>
+        ))}
+      </>
+    );
+  },
+);
 
 export const ListLoanTerms: FC<ListLoanTermsProps> = memo(() => {
-  const [activeTerm, setActiveTerm] = useState<Terms>("24");
+  const [activeTerm, setActiveTerm] = useState<Terms>(terms[0]);
 
   const changeTerms = useCallback((term: Terms) => {
     setActiveTerm(term);
@@ -20,18 +46,7 @@ export const ListLoanTerms: FC<ListLoanTermsProps> = memo(() => {
 
   return (
     <ul className={styles.bb__list_loan}>
-      {terms.map((term) => (
-        <li key={term}>
-          <Button
-            theme={
-              activeTerm === term ? ButtonThemes.WO_HOVER : ButtonThemes.CLEAN
-            }
-            onClick={() => changeTerms(term)}
-          >
-            {term}
-          </Button>
-        </li>
-      ))}
+      <ListLoanButtons activeTerm={activeTerm} changeTerms={changeTerms} />
     </ul>
   );
 });
