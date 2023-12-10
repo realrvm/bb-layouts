@@ -10,7 +10,7 @@ export type StateSchema = {
   hr: HRSchema;
   phone: PhoneSchema;
   reg: RegSchema;
-  login: RegSchema;
+  obtain: RegSchema;
   access: UserAccessSchema;
 };
 

@@ -1,3 +1,8 @@
+export type TokenType = {
+  access?: string;
+  refresh?: string;
+};
+
 export type UserAccessSchema = {
-  access: string;
+  token: TokenType;
 };

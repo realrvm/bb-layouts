@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { Otp } from "@/features/otp";
 
 import { getPhoneNumber } from "@/entities/phone/model/selectors/getPhoneNumber";
-import { login, regActions } from "@/features/serve";
+import { obtain, regActions } from "@/features/serve";
 import {
   useActionCreators,
   useAppDispatch,
@@ -24,7 +24,7 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
 
   const sendToServer = () => {
     regAction.setPhoneNumber(phone);
-    loginDispatch(login({ phone_number: phone, password: otp }));
+    loginDispatch(obtain({ phone_number: phone, password: otp }));
   };
 
   if (otp.length === 6) {

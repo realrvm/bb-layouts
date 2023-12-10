@@ -1,7 +1,8 @@
 export type { RegSchema } from "./model/types";
 
 export { regReducer, regActions } from "./model/slice/regSlice";
-export { loginReducer, loginActions } from "./model/slice/loginSlice";
+export { obtainReducer, obtainActions } from "./model/slice/obtainSlice";
 
-export { login } from "./model/api/login";
+export { obtain } from "./model/api/obtain";
 export { register } from "./model/api/register";
+export { get } from "./model/api/get";

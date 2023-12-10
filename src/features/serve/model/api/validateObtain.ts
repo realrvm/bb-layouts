@@ -2,7 +2,7 @@ import { RegSchema, RegValidateErrors } from "../types";
 
 type AuthData = Pick<RegSchema, "phone_number" | "password">;
 
-export const validateLogin = (authData: AuthData) => {
+export const validateObtain = (authData: AuthData) => {
   const { password, phone_number } = authData;
 
   const errors: RegValidateErrors[] = [];

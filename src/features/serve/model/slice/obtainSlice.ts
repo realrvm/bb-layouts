@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RegSchema } from "../types";
-import { login } from "../api/login";
+import { obtain } from "../api/obtain";
 
 const initialState: RegSchema = {
   phone_number: "+79007776655",
@@ -9,22 +9,22 @@ const initialState: RegSchema = {
   error: "",
 };
 
-const regSlice = createSlice({
-  name: "log",
+const obtainSlice = createSlice({
+  name: "obtain",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
+      .addCase(obtain.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(login.fulfilled, (state) => {
+      .addCase(obtain.fulfilled, (state) => {
         state.isLoading = false;
       })
-      .addCase(login.rejected, (state) => {
+      .addCase(obtain.rejected, (state) => {
         state.isLoading = false;
       });
   },
 });
 
-export const { reducer: loginReducer, actions: loginActions } = regSlice;
+export const { reducer: obtainReducer, actions: obtainActions } = obtainSlice;

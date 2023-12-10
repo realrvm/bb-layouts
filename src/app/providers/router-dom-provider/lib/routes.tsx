@@ -7,6 +7,8 @@ import { Identity, IdentityCheckOut, IdentityForm } from "@/pages/identity";
 
 import { Page404 } from "@/pages/page-404";
 
+import { ProtectedRoute } from "../ui/ProtectedRoute";
+
 import {
   Applying,
   ApplyingAuto,
@@ -73,32 +75,41 @@ export const router = createBrowserRouter([
       },
       {
         path: Routes.ACCOUNT,
-        element: <Account />,
+        element: <ProtectedRoute />,
         children: [
-          { path: Routes.ACCOUNT_ALL, element: <AccountAll /> },
-          { path: Routes.ACCOUNT_DOCS, element: <AccountDocs /> },
-          { path: Routes.ACCOUNT_LOANS, element: <AccountLoans /> },
-          { path: Routes.ACCOUNT_PERSONAL, element: <AccountPersonal /> },
-          { path: Routes.ACCOUNT_PROFILE, element: <AccountProfile /> },
-          { path: Routes.ACCOUNT_LOANS_ID, element: <AccountLoansInfo /> },
           {
-            path: Routes.ACCOUNT_PERSONAL_PASSPORT,
-            element: <AccountPersonalPassport />,
+            path: Routes.ACCOUNT,
+            element: <Account />,
+            children: [
+              { path: Routes.ACCOUNT_ALL, element: <AccountAll /> },
+              { path: Routes.ACCOUNT_DOCS, element: <AccountDocs /> },
+              { path: Routes.ACCOUNT_LOANS, element: <AccountLoans /> },
+              { path: Routes.ACCOUNT_PERSONAL, element: <AccountPersonal /> },
+              { path: Routes.ACCOUNT_PROFILE, element: <AccountProfile /> },
+              { path: Routes.ACCOUNT_LOANS_ID, element: <AccountLoansInfo /> },
+              {
+                path: Routes.ACCOUNT_PERSONAL_PASSPORT,
+                element: <AccountPersonalPassport />,
+              },
+              {
+                path: Routes.ACCOUNT_PERSONAL_PTS,
+                element: <AccountPersonalPts />,
+              },
+              {
+                path: Routes.ACCOUNT_PERSONAL_CARD,
+                element: <AccountPersonalCard />,
+              },
+              {
+                path: Routes.ACCOUNT_PROFILE_MAIL,
+                element: <AccountProfileMail />,
+              },
+              {
+                path: Routes.ACCOUNT_PROFILE_PHONE,
+                element: <AccountProfilePhone />,
+              },
+              { path: Routes.ACCOUNT_ID, element: <Application /> },
+            ],
           },
-          { path: Routes.ACCOUNT_PERSONAL_PTS, element: <AccountPersonalPts /> },
-          {
-            path: Routes.ACCOUNT_PERSONAL_CARD,
-            element: <AccountPersonalCard />,
-          },
-          {
-            path: Routes.ACCOUNT_PROFILE_MAIL,
-            element: <AccountProfileMail />,
-          },
-          {
-            path: Routes.ACCOUNT_PROFILE_PHONE,
-            element: <AccountProfilePhone />,
-          },
-          { path: Routes.ACCOUNT_ID, element: <Application /> },
         ],
       },
     ],

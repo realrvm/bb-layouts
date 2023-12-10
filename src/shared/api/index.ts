@@ -26,7 +26,7 @@ $api.interceptors.request.use((config) => {
   const token = JSON.parse(
     window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
   );
-  config.headers.Authorization = `Bearer ${token.access}`;
+  if (token?.access) config.headers.Authorization = `Bearer ${token.access}`;
   return config;
 });
 
@@ -41,15 +41,19 @@ $api.interceptors.response.use(
           window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
         );
 
+        error.config.headers.Authorization = `Bearer ${token.access}`;
+
         const response = await axios.post(`${API_URL}/token/refresh/`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}.refresh
-            }`,
-          },
+          refresh: token.refresh,
         });
 
-        window.localStorage.setItem(LOCAL_STORAGE_TOKEN, response.data);
+        if (response.data.access) {
+          const newToken = JSON.stringify({
+            refresh: token.refresh,
+            access: response.data.access,
+          });
+          window.localStorage.setItem(LOCAL_STORAGE_TOKEN, newToken);
+        }
 
         return $api.request(error.config);
       } catch (e) {

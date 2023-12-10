@@ -4,7 +4,7 @@ import { LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
 import { ThunkConfig } from "@/app/providers/rtk-provider";
 import { RegSchema, RegValidateErrors } from "../types";
 
-import { validateLogin } from "./validateLogin";
+import { validateObtain } from "./validateObtain";
 import { userAccessActions } from "@/entities/user";
 
 const serverErrorMessages: Record<string, RegValidateErrors[]> = {
@@ -12,14 +12,14 @@ const serverErrorMessages: Record<string, RegValidateErrors[]> = {
   "Request failed with status code 403": [RegValidateErrors.NO_USER_FOUND],
 };
 
-export const login = createAsyncThunk<
+export const obtain = createAsyncThunk<
   any,
   Pick<RegSchema, "phone_number" | "password">,
   ThunkConfig<RegValidateErrors[]>
 >("reg/reg", async (authData, thunkAPI): Promise<any> => {
   const { rejectWithValue, dispatch, extra } = thunkAPI;
 
-  const errors = validateLogin(authData);
+  const errors = validateObtain(authData);
 
   if (errors.length) {
     return rejectWithValue([RegValidateErrors.INCORRECT_USER_DATA]);
@@ -32,11 +32,12 @@ export const login = createAsyncThunk<
       return rejectWithValue([RegValidateErrors.NO_DATA]);
     }
 
+    dispatch(userAccessActions.setUserAccess(response.data));
+
     const token = JSON.stringify(response.data);
 
     window.localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
 
-    dispatch(userAccessActions.setUserAccess(token));
 
     return response.data;
   } catch (error) {

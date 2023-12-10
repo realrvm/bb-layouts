@@ -1,16 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UserAccessSchema } from "../types";
+import { TokenType, UserAccessSchema } from "../types";
 
 const initialState: UserAccessSchema = {
-  access: "",
+  token: {},
 };
 
 const userAccessSlice = createSlice({
   name: "access",
   initialState,
   reducers: {
-    setUserAccess: (state, action: PayloadAction<string>) => {
-      state.access = action.payload;
+    setUserAccess: (state, action: PayloadAction<TokenType>) => {
+      state.token = action.payload;
     },
   },
 });
