@@ -1,6 +1,14 @@
 import axios, { AxiosInstance } from "axios";
 
 import { API_URL, LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
+import { RootStateType } from "@/app/providers/rtk-provider";
+import { userAccessActions } from "@/entities/user";
+
+let store: RootStateType;
+
+export const injectStore = (_store: RootStateType) => {
+  store = _store;
+};
 
 function createAxiosInstance(): AxiosInstance {
   return axios.create({
@@ -23,10 +31,10 @@ $api_reg.interceptors.response.use((config) => {
 });
 
 $api.interceptors.request.use((config) => {
-  const token = JSON.parse(
-    window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
-  );
-  if (token?.access) config.headers.Authorization = `Bearer ${token.access}`;
+  const token = store.getState().access.accessToken;
+
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+
   return config;
 });
 
@@ -38,21 +46,15 @@ $api.interceptors.response.use(
     if (error.response.status === 401) {
       try {
         const token = JSON.parse(
-          window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "{}",
+          window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "",
         );
 
-        error.config.headers.Authorization = `Bearer ${token.access}`;
-
         const response = await axios.post(`${API_URL}/token/refresh/`, {
-          refresh: token.refresh,
+          refresh: token,
         });
 
-        if (response.data.access) {
-          const newToken = JSON.stringify({
-            refresh: token.refresh,
-            access: response.data.access,
-          });
-          window.localStorage.setItem(LOCAL_STORAGE_TOKEN, newToken);
+        if (response.data) {
+          store.dispatch(userAccessActions.setUserAccess(response.data.access));
         }
 
         return $api.request(error.config);

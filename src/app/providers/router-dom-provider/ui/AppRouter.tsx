@@ -1,7 +1,5 @@
 import { FC, ReactNode, useEffect, useState } from "react";
-import {
-  useAppDispatch,
-} from "@/app/providers/rtk-provider";
+import { useAppDispatch } from "@/app/providers/rtk-provider";
 import { get } from "@/features/serve";
 
 type AppRouterProps = {
@@ -9,7 +7,7 @@ type AppRouterProps = {
 };
 
 export const AppRouter: FC<AppRouterProps> = ({ children }) => {
-  // TODO демонстрация обновления токена. Удалить!!!
+  // TODO демонстрация обновления токена
   const [token] = useState(window.localStorage.getItem("token"));
 
   const dispatch = useAppDispatch();

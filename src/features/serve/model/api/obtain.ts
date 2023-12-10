@@ -32,12 +32,11 @@ export const obtain = createAsyncThunk<
       return rejectWithValue([RegValidateErrors.NO_DATA]);
     }
 
-    dispatch(userAccessActions.setUserAccess(response.data));
+    dispatch(userAccessActions.setUserAccess(response.data.access));
 
-    const token = JSON.stringify(response.data);
+    const refreshToken = JSON.stringify(response.data.refresh);
 
-    window.localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
-
+    window.localStorage.setItem(LOCAL_STORAGE_TOKEN, refreshToken);
 
     return response.data;
   } catch (error) {
