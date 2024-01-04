@@ -5,6 +5,7 @@ import { HRSchema } from "@/widgets/navbar";
 import { PhoneSchema } from "@/entities/phone";
 import { UserAccessSchema } from "@/entities/user";
 import { RegSchema } from "@/features/serve";
+import { $api_query } from "@/shared/api";
 
 export type StateSchema = {
   hr: HRSchema;
@@ -12,6 +13,7 @@ export type StateSchema = {
   reg: RegSchema;
   obtain: RegSchema;
   access: UserAccessSchema;
+  [$api_query.reducerPath]: ReturnType<typeof $api_query.reducer>;
 };
 
 export type ThunkExtraArgument = {

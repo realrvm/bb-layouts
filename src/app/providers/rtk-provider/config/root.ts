@@ -4,7 +4,7 @@ import { reducers } from "./reducers";
 import { IS_DEV } from "@/shared/lib/const";
 
 import type { StateSchema, ThunkExtraArgument } from "./StateSchema";
-import { $api, $api_reg } from "@/shared/api";
+import { $api, $api_query, $api_reg } from "@/shared/api";
 
 const extraArg: ThunkExtraArgument = {
   api: $api,
@@ -21,7 +21,7 @@ export function createReduxStore(initialState?: StateSchema) {
         thunk: {
           extraArgument: extraArg,
         },
-      }),
+      }).concat($api_query.middleware),
   });
 
   return store;

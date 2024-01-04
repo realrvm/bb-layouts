@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import { Button, ButtonThemes } from "@/shared/ui/button";
@@ -9,27 +9,32 @@ import { cn } from "@/shared/lib/cn";
 
 import styles from "./styles.module.scss";
 
-type ApplyingAutoProps = Record<string, never>;
-type ApplyingAutoCheckProps = Record<string, never>;
+import { useGetAutoDescr, useGetPlateId } from "@/features/serve";
 
-const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = () => {
+type ApplyingAutoProps = Record<string, never>;
+//type ApplyingAutoCheckProps = Record<string, never>;
+
+const ApplyingAutoCheck: FC<any> = ({autoDescr}) => {
+  console.log(autoDescr)
+  const { make, model, manufacture_year } = autoDescr || {};
+
   return (
     <div className={styles.bb__applying_auto_check}>
       <h5>Это ваш авто? Проверьте корректность данных</h5>
       <div className={styles.bb__applying_auto_check_item}>
         <dl>
           <dt>Марка авто</dt>
-          <dd>Kia</dd>
+          <dd>{make?.name}</dd>
         </dl>
         <dl>
           <dt>Модель авто</dt>
-          <dd>K5</dd>
+          <dd>{model?.name}</dd>
         </dl>
       </div>
       <div className={styles.bb__applying_auto_check_item}>
         <dl>
           <dt>Год выпуска</dt>
-          <dd>2019</dd>
+          <dd>{manufacture_year}</dd>
         </dl>
         <dl>
           <dt>Номер кузова/VIN</dt>
@@ -44,6 +49,32 @@ const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = () => {
 };
 
 export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
+  const [skip, setSkip] = useState(true);
+  const [polling, setPolling] = useState(true);
+
+  const { data, isLoading: isLoadingPlateId } = useGetPlateId(
+    { plate: "Н492ТЕ198" },
+    { skip },
+  );
+
+  const { data: dataAuto, isLoading: isLoadingAutoDescr } = useGetAutoDescr(
+    { id: data?.uid },
+    {
+      pollingInterval: polling ? 1000 : undefined,
+      skip: data?.uid ? false : true,
+    },
+  );
+
+  useEffect(() => {
+    setPolling(false);
+  }, [dataAuto]);
+
+  const IsLoading = () => {
+    return isLoadingPlateId || isLoadingAutoDescr ? (
+      <div>Loading...</div>
+    ) : null;
+  };
+
   return (
     <>
       <div className={styles.bb__applying_wrapper}>
@@ -63,8 +94,15 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
                 </div>
               </div>
             </div>
-            <Button theme={ButtonThemes.PRIMARY}>Определить авто</Button>
+            <Button
+              theme={ButtonThemes.PRIMARY}
+              onClick={() => setSkip((prev) => !prev)}
+            >
+              Определить авто
+            </Button>
           </div>
+          <IsLoading />
+          {dataAuto ? <ApplyingAutoCheck autoDescr={dataAuto} /> : null}
         </div>
         <div className={styles.bb__applying_auto_line}></div>
         <div className={styles.bb__applying_auto_btn}>

@@ -15,7 +15,8 @@ export const get = createAsyncThunk<any, any, ThunkConfig<RegValidateErrors[]>>(
     const { rejectWithValue, extra } = thunkAPI;
 
     try {
-      const response = await extra.api.get<any>("/profile/");
+      const response = await extra.api.get<any>("/reports/make/Н492ТЕ198/");
+      console.log(response.data)
 
       if (!response.data) {
         return rejectWithValue([RegValidateErrors.NO_DATA]);
