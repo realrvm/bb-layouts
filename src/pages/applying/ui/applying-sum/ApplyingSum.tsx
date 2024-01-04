@@ -11,7 +11,7 @@ import styles from "./styles.module.scss";
 
 type ApplyingSumProps = Record<string, never>;
 
-export const ApplyingSum: FC<ApplyingSumProps> = () => {
+const ApplyingSum: FC<ApplyingSumProps> = () => {
   const [rangeValue, setRangeValue] = useState(1);
 
   return (
@@ -70,3 +70,5 @@ export const ApplyingSum: FC<ApplyingSumProps> = () => {
     </div>
   );
 };
+
+export default ApplyingSum;

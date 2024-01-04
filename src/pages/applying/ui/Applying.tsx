@@ -6,7 +6,7 @@ import { Container } from "@/widgets/container";
 
 type ApplyingProps = Record<string, never>;
 
-export const Applying: FC<ApplyingProps> = () => {
+const Applying: FC<ApplyingProps> = () => {
   return (
     <Container>
       <NavbarSimple className="bb__simple" />
@@ -14,3 +14,5 @@ export const Applying: FC<ApplyingProps> = () => {
     </Container>
   );
 };
+
+export default Applying;

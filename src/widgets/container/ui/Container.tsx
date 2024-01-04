@@ -4,8 +4,17 @@ import styles from "./styles.module.scss";
 
 type ContainerProps = {
   children: ReactNode;
+  hasRightIndent?: boolean;
 };
 
-export const Container: FC<ContainerProps> = ({ children }) => {
-  return <div className={styles.bb__container}>{children}</div>;
+export const Container: FC<ContainerProps> = ({ children, hasRightIndent }) => {
+  return (
+    <div
+      className={
+        hasRightIndent ? styles["bb__container--indent"] : styles.bb__container
+      }
+    >
+      {children}
+    </div>
+  );
 };

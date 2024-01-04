@@ -10,6 +10,38 @@ import { cn } from "@/shared/lib/cn";
 import styles from "./styles.module.scss";
 
 type ApplyingAutoProps = Record<string, never>;
+type ApplyingAutoCheckProps = Record<string, never>;
+
+const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = () => {
+  return (
+    <div className={styles.bb__applying_auto_check}>
+      <h5>Это ваш авто? Проверьте корректность данных</h5>
+      <div className={styles.bb__applying_auto_check_item}>
+        <dl>
+          <dt>Марка авто</dt>
+          <dd>Kia</dd>
+        </dl>
+        <dl>
+          <dt>Модель авто</dt>
+          <dd>K5</dd>
+        </dl>
+      </div>
+      <div className={styles.bb__applying_auto_check_item}>
+        <dl>
+          <dt>Год выпуска</dt>
+          <dd>2019</dd>
+        </dl>
+        <dl>
+          <dt>Номер кузова/VIN</dt>
+          <dd>XYZ12-3456789</dd>
+        </dl>
+      </div>
+      <Button theme={ButtonThemes.OUTLINE} onClick={() => {}}>
+        Это не моё авто
+      </Button>
+    </div>
+  );
+};
 
 export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
   return (
@@ -61,32 +93,7 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
             </div>
             <Button theme={ButtonThemes.PRIMARY}>Определить авто</Button>
           </div>
-          <div className={styles.bb__applying_auto_check}>
-            <h5>Это ваш авто? Проверьте корректность данных</h5>
-            <div className={styles.bb__applying_auto_check_item}>
-              <dl>
-                <dt>Марка авто</dt>
-                <dd>Kia</dd>
-              </dl>
-              <dl>
-                <dt>Модель авто</dt>
-                <dd>K5</dd>
-              </dl>
-            </div>
-            <div className={styles.bb__applying_auto_check_item}>
-              <dl>
-                <dt>Год выпуска</dt>
-                <dd>2019</dd>
-              </dl>
-              <dl>
-                <dt>Номер кузова/VIN</dt>
-                <dd>XYZ12-3456789</dd>
-              </dl>
-            </div>
-            <Button theme={ButtonThemes.OUTLINE} onClick={() => {}}>
-              Это не моё авто
-            </Button>
-          </div>
+          <ApplyingAutoCheck />
         </div>
         <div className={styles.bb__applying_auto_line}></div>
         <div className={styles.bb__applying_auto_btn}>

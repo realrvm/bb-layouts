@@ -1,13 +1,25 @@
 import { useState, useEffect } from "react";
 
-function getWindowWidth() {
+type Width = {
+  width: number;
+};
+
+/**
+ * The function returns the current width of the browser window
+ * @returns {object}
+ */
+function getWindowWidth(): Width {
   const { innerWidth: width } = window;
   return {
     width,
   };
 }
 
-export function useWindowWidth() {
+/**
+ * The hook returns the current width of the browser window
+ * @returns {object}
+ */
+export function useWindowWidth(): Width {
   const [windowWidth, setWindowWidth] = useState(getWindowWidth);
 
   useEffect(() => {

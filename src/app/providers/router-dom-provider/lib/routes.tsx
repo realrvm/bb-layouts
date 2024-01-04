@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 import { App } from "@/app/App";
@@ -44,7 +45,11 @@ import { Routes } from "../types";
 export const router = createBrowserRouter([
   {
     element: <App />,
-    errorElement: <Page404 />,
+    errorElement: (
+      <Suspense fallback={null}>
+        <Page404 />
+      </Suspense>
+    ),
     children: [
       { path: Routes.MAIN, element: <Main /> },
       {
@@ -65,10 +70,21 @@ export const router = createBrowserRouter([
       },
       {
         path: Routes.APPLYING,
-        element: <Applying />,
+        element: (
+          <Suspense fallback={null}>
+            <Applying />
+          </Suspense>
+        ),
         children: [
           { path: Routes.APPLYING_AUTO, element: <ApplyingAuto /> },
-          { path: Routes.APPLYING_SUM, element: <ApplyingSum /> },
+          {
+            path: Routes.APPLYING_SUM,
+            element: (
+              <Suspense fallback={null}>
+                <ApplyingSum />
+              </Suspense>
+            ),
+          },
           { path: Routes.APPLYING_DOCS, element: <ApplyingDocs /> },
           { path: Routes.APPLYING_RESULT, element: <ApplyingResult /> },
         ],

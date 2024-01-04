@@ -1,5 +1,5 @@
 .bb__container,
-.bb__container_right {
+.bb__container--indent {
   max-width: 1440px;
   padding: 0 100px;
   margin: 0 auto;
@@ -10,7 +10,7 @@
   }
 }
 
-.bb__container_right {
+.bb__container--indent {
   @media only screen and (max-width: 768px) {
     padding: 0 0 0 20px;
   }

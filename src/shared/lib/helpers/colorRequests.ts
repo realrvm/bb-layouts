@@ -1,4 +1,4 @@
-// Временная функция для стилизации. Удалить!!!
+// TODO Временная функция для стилизации. Удалить!!!
 export function colorRequests(res: string) {
   const variants: Record<string, string> = {
     Одобрена: "green",

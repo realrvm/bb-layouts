@@ -2,14 +2,19 @@ import { FC } from "react";
 
 import { Footer } from "@/widgets/footer";
 import { Navbar } from "@/widgets/navbar";
-import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import { Container } from "@/widgets/container";
+
+import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 
 import styles from "./styles.module.scss";
 
 type Page404Props = Record<string, never>;
 
-export const Page404: FC<Page404Props> = () => {
+/**
+ * Component for 404 page
+ * @returns {ReactNode}
+ */
+const Page404: FC<Page404Props> = () => {
   return (
     <>
       <Navbar />
@@ -28,3 +33,5 @@ export const Page404: FC<Page404Props> = () => {
     </>
   );
 };
+
+export default Page404;

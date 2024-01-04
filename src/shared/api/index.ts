@@ -6,6 +6,10 @@ import { userAccessActions } from "@/entities/user";
 
 let store: RootStateType;
 
+/**
+ * Use the Redux store in non-component files
+ * See {@link https://redux.js.org/faq/code-structure#how-can-i-use-the-redux-store-in-non-component-files}
+ */
 export const injectStore = (_store: RootStateType) => {
   store = _store;
 };
@@ -31,7 +35,7 @@ $api_reg.interceptors.response.use((config) => {
 });
 
 $api.interceptors.request.use((config) => {
-  const token = store.getState().access.accessToken;
+  const token = store.getState().access.accessToken as string;
 
   if (token) config.headers.Authorization = `Bearer ${token}`;
 
@@ -47,7 +51,7 @@ $api.interceptors.response.use(
       try {
         const token = JSON.parse(
           window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "",
-        );
+        ) as string;
 
         const response = await axios.post(`${API_URL}/token/refresh/`, {
           refresh: token,

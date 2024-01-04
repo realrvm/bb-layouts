@@ -1,9 +1,10 @@
 import { FC, ReactNode } from "react";
 import { Provider } from "react-redux";
 
+import { injectStore } from "@/shared/api";
+
 import { createReduxStore } from "../config/root";
 import { StateSchema } from "../config/StateSchema";
-import { injectStore } from "@/shared/api";
 
 type StoreProviderProps = {
   children: ReactNode;
