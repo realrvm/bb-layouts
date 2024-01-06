@@ -51,6 +51,10 @@
       text-transform: uppercase;
       font: var(--font-md);
 
+      &:focus-within {
+        border: 1px solid var(--brand-primary);
+      }
+
       & input {
         border-radius: 8px;
         width: 100%;

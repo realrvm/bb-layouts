@@ -10,13 +10,21 @@ import { cn } from "@/shared/lib/cn";
 import styles from "./styles.module.scss";
 
 import { useGetAutoDescr, useGetPlateId } from "@/features/serve";
+import { InputPlateMask } from "@/shared/ui/input-plate-mask";
+import { InputRegionMask } from "@/shared/ui/input-region-mask";
 
 type ApplyingAutoProps = Record<string, never>;
-//type ApplyingAutoCheckProps = Record<string, never>;
+type ApplyingAutoCheckProps = {
+  autoData: {
+    vin: string | null;
+    manufacture_year: number;
+    model: { name: string };
+    make: { name: string };
+  };
+};
 
-const ApplyingAutoCheck: FC<any> = ({autoDescr}) => {
-  console.log(autoDescr)
-  const { make, model, manufacture_year } = autoDescr || {};
+const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = ({ autoData }) => {
+  const { make, model, manufacture_year, vin } = autoData || {};
 
   return (
     <div className={styles.bb__applying_auto_check}>
@@ -38,7 +46,7 @@ const ApplyingAutoCheck: FC<any> = ({autoDescr}) => {
         </dl>
         <dl>
           <dt>Номер кузова/VIN</dt>
-          <dd>XYZ12-3456789</dd>
+          <dd>{vin ?? "Не определено"}</dd>
         </dl>
       </div>
       <Button theme={ButtonThemes.OUTLINE} onClick={() => {}}>
@@ -48,16 +56,36 @@ const ApplyingAutoCheck: FC<any> = ({autoDescr}) => {
   );
 };
 
+/**
+ * Function to check if the plate is the required length
+ * @param {string} - plate
+ * @param {string} - region
+ * @returns {boolean}
+ */
+function isPlateTheRequiredLength(plate: string, region: string): boolean {
+  return plate.length === 6 && (region.length === 2 || region.length === 3);
+}
+
 export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
   const [skip, setSkip] = useState(true);
   const [polling, setPolling] = useState(true);
+  const [plate, setPlate] = useState("");
+  const [region, setRegion] = useState("");
 
-  const { data, isLoading: isLoadingPlateId } = useGetPlateId(
-    { plate: "Н492ТЕ198" },
-    { skip },
+  const {
+    data,
+    isFetching: isFetchingPlateId,
+    isSuccess: isSuccessFetchingPlate,
+  } = useGetPlateId(
+    { plate: plate + region },
+    { skip: skip || !isPlateTheRequiredLength(plate, region) },
   );
 
-  const { data: dataAuto, isLoading: isLoadingAutoDescr } = useGetAutoDescr(
+  const {
+    data: dataAuto,
+    isFetching: isFetchingAutoData,
+    isSuccess: isSuccessFetchingAutoData,
+  } = useGetAutoDescr(
     { id: data?.uid },
     {
       pollingInterval: polling ? 1000 : undefined,
@@ -66,13 +94,15 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
   );
 
   useEffect(() => {
-    setPolling(false);
-  }, [dataAuto]);
+    setSkip(true);
+  }, [isSuccessFetchingPlate]);
 
-  const IsLoading = () => {
-    return isLoadingPlateId || isLoadingAutoDescr ? (
-      <div>Loading...</div>
-    ) : null;
+  useEffect(() => {
+    setPolling(false);
+  }, [isSuccessFetchingAutoData]);
+
+  const handlePlateRequest = () => {
+    setSkip(false);
   };
 
   return (
@@ -84,9 +114,16 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
           <p>Мы автоматически заполним данные</p>
           <div className={styles.bb__applying_auto_define}>
             <div className={styles.bb__applying_auto_define_inputs}>
-              <input type="text" placeholder="A 000 АА" />
+              <InputPlateMask
+                onSetPlate={setPlate}
+                disabled={isFetchingPlateId || isFetchingAutoData}
+              />
               <div className={styles.bb__applying_auto_define_inputs_wrap}>
-                <input type="text" placeholder="00" />
+                <InputRegionMask
+                  onSetRegion={setRegion}
+                  disabled={isFetchingPlateId || isFetchingAutoData}
+                  focus={plate.length === 6}
+                />
                 <div
                   className={styles.bb__applying_auto_define_inputs_wrap_code}
                 >
@@ -96,13 +133,17 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
             </div>
             <Button
               theme={ButtonThemes.PRIMARY}
-              onClick={() => setSkip((prev) => !prev)}
+              onClick={handlePlateRequest}
+              disabled={
+                !isPlateTheRequiredLength(plate, region) ||
+                isFetchingPlateId ||
+                isFetchingAutoData
+              }
             >
               Определить авто
             </Button>
           </div>
-          <IsLoading />
-          {dataAuto ? <ApplyingAutoCheck autoDescr={dataAuto} /> : null}
+          {dataAuto ? <ApplyingAutoCheck autoData={dataAuto} /> : null}
         </div>
         <div className={styles.bb__applying_auto_line}></div>
         <div className={styles.bb__applying_auto_btn}>
@@ -131,7 +172,6 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
             </div>
             <Button theme={ButtonThemes.PRIMARY}>Определить авто</Button>
           </div>
-          <ApplyingAutoCheck />
         </div>
         <div className={styles.bb__applying_auto_line}></div>
         <div className={styles.bb__applying_auto_btn}>
