@@ -1,23 +1,19 @@
 import { $api_query } from "@/shared/api";
 import { ReportsPlateSchema } from "../types";
 
-const reportsApi = $api_query
-  .enhanceEndpoints({ addTagTypes: ["plate"] })
-  .injectEndpoints({
-    endpoints: (build) => ({
-      getPlateId: build.query<ReportsPlateSchema, { plate: string }>({
-        query: ({ plate }) => ({
-          url: `/reports/make/${plate}/`,
-        }),
-        providesTags: ["plate"],
-      }),
-      getAutoDescr: build.query<any, { id: string }>({
-        query: ({ id }) => ({ url: `/reports/retrieve/${id}` }),
-        providesTags: ["plate"],
+const reportsApi = $api_query.injectEndpoints({
+  endpoints: (build) => ({
+    getPlateId: build.query<ReportsPlateSchema, { plate: string }>({
+      query: ({ plate }) => ({
+        url: `/reports/make/${plate}/`,
       }),
     }),
-    overrideExisting: false,
-  });
+    getAutoDescr: build.query<any, { id: string }>({
+      query: ({ id }) => ({ url: `/reports/retrieve/${id}` }),
+    }),
+  }),
+  overrideExisting: false,
+});
 
-export const useGetPlateId = reportsApi.useGetPlateIdQuery;
-export const useGetAutoDescr = reportsApi.useGetAutoDescrQuery;
+export const useGetPlateId = reportsApi.useLazyGetPlateIdQuery;
+export const useGetAutoDescr = reportsApi.useLazyGetAutoDescrQuery;

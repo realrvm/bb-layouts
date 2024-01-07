@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect, useState } from "react";
 
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import { Button, ButtonThemes } from "@/shared/ui/button";
@@ -77,43 +77,39 @@ function isPlateTheRequiredLength(plate: string, region: string): boolean {
 }
 
 export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
-  const [skip, setSkip] = useState(true);
-  const [polling, setPolling] = useState(true);
+  const [pollingInterval, setPollingInterval] = useState(POLLING_INTERVAL);
   const [plate, setPlate] = useState("");
   const [region, setRegion] = useState("");
 
-  const {
-    data,
-    isFetching: isFetchingPlateId,
-    isSuccess: isSuccessFetchingPlate,
-  } = useGetPlateId(
-    { plate: plate + region },
-    { skip: skip || !isPlateTheRequiredLength(plate, region) },
-  );
+  const [
+    getPlateId,
+    { data, isFetching: isFetchingPlateId, isSuccess: isSuccessFetchingPlate },
+  ] = useGetPlateId();
 
-  const {
-    currentData: dataAuto,
-    isFetching: isFetchingAutoData,
-    isSuccess: isSuccessFetchingAutoData,
-  } = useGetAutoDescr(
-    { id: data?.uid ?? "" },
+  const [
+    getAutoData,
     {
-      pollingInterval: polling ? POLLING_INTERVAL : 0,
-      skip: data?.uid ? false : true,
+      currentData: dataAuto,
+      isFetching: isFetchingAutoData,
+      isSuccess: isSuccessFetchingAutoData,
     },
-  );
+  ] = useGetAutoDescr({ pollingInterval });
 
   useEffect(() => {
-    setSkip(true);
-  }, [isSuccessFetchingPlate]);
+    if (isSuccessFetchingPlate && data?.uid) {
+      getAutoData({ id: data?.uid || "" });
+    }
+  }, [data?.uid]);
 
   useEffect(() => {
-    isSuccessFetchingAutoData && setPolling(false);
-  }, [isSuccessFetchingAutoData]);
+    isSuccessFetchingAutoData && setPollingInterval(0);
+  }, [dataAuto?.uid]);
 
-  const handlePlateRequest = () => {
-    setSkip(false);
-  };
+  const handlePlateRequest = useCallback(() => {
+    !!pollingInterval && setPollingInterval(POLLING_INTERVAL);
+    isPlateTheRequiredLength(plate, region) &&
+      getPlateId({ plate: plate + region });
+  }, [pollingInterval, plate, region, isPlateTheRequiredLength, getPlateId]);
 
   return (
     <>
