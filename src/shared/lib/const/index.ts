@@ -21,3 +21,11 @@ export const STEP_LOAN_VALUE = 50_000;
 
 // max accordion index
 export const MAX_ACCORDION_INDEX = 333;
+
+// plate length
+export const CORRECT_PLATE_LENGTH = 6;
+export const SHORT_REGION_NUMBER = 2;
+export const LONG_REGION_NUMBER = 3;
+
+// polling interval
+export const POLLING_INTERVAL = 1000;

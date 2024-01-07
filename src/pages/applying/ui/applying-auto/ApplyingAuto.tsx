@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, memo, useEffect, useState } from "react";
 
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import { Button, ButtonThemes } from "@/shared/ui/button";
@@ -7,11 +7,17 @@ import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
 import { ApplyingBackBtn } from "../shared/applying-back-btn/ApplyingBackBtn";
 import { cn } from "@/shared/lib/cn";
 
-import styles from "./styles.module.scss";
-
 import { useGetAutoDescr, useGetPlateId } from "@/features/serve";
 import { InputPlateMask } from "@/shared/ui/input-plate-mask";
 import { InputRegionMask } from "@/shared/ui/input-region-mask";
+import {
+  CORRECT_PLATE_LENGTH,
+  LONG_REGION_NUMBER,
+  POLLING_INTERVAL,
+  SHORT_REGION_NUMBER,
+} from "@/shared/lib/const";
+
+import styles from "./styles.module.scss";
 
 type ApplyingAutoProps = Record<string, never>;
 type ApplyingAutoCheckProps = {
@@ -23,7 +29,7 @@ type ApplyingAutoCheckProps = {
   };
 };
 
-const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = ({ autoData }) => {
+const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = memo(({ autoData }) => {
   const { make, model, manufacture_year, vin } = autoData || {};
 
   return (
@@ -54,7 +60,7 @@ const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = ({ autoData }) => {
       </Button>
     </div>
   );
-};
+});
 
 /**
  * Function to check if the plate is the required length
@@ -63,7 +69,11 @@ const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = ({ autoData }) => {
  * @returns {boolean}
  */
 function isPlateTheRequiredLength(plate: string, region: string): boolean {
-  return plate.length === 6 && (region.length === 2 || region.length === 3);
+  return (
+    plate.length === CORRECT_PLATE_LENGTH &&
+    (region.length === SHORT_REGION_NUMBER ||
+      region.length === LONG_REGION_NUMBER)
+  );
 }
 
 export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
@@ -82,13 +92,13 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
   );
 
   const {
-    data: dataAuto,
+    currentData: dataAuto,
     isFetching: isFetchingAutoData,
     isSuccess: isSuccessFetchingAutoData,
   } = useGetAutoDescr(
-    { id: data?.uid },
+    { id: data?.uid ?? "" },
     {
-      pollingInterval: polling ? 1000 : undefined,
+      pollingInterval: polling ? POLLING_INTERVAL : 0,
       skip: data?.uid ? false : true,
     },
   );
@@ -98,7 +108,7 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
   }, [isSuccessFetchingPlate]);
 
   useEffect(() => {
-    setPolling(false);
+    isSuccessFetchingAutoData && setPolling(false);
   }, [isSuccessFetchingAutoData]);
 
   const handlePlateRequest = () => {
@@ -122,7 +132,7 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
                 <InputRegionMask
                   onSetRegion={setRegion}
                   disabled={isFetchingPlateId || isFetchingAutoData}
-                  focus={plate.length === 6}
+                  focus={plate.length === CORRECT_PLATE_LENGTH}
                 />
                 <div
                   className={styles.bb__applying_auto_define_inputs_wrap_code}

@@ -1,21 +1,22 @@
 import { $api_query } from "@/shared/api";
+import { ReportsPlateSchema } from "../types";
 
 const reportsApi = $api_query
-  .enhanceEndpoints({ addTagTypes: ["plate", "autoData"] })
+  .enhanceEndpoints({ addTagTypes: ["plate"] })
   .injectEndpoints({
     endpoints: (build) => ({
-      getPlateId: build.query<any, { plate: string }>({
-        query: (body) => ({
-          url: `/reports/make/${body.plate}/`,
+      getPlateId: build.query<ReportsPlateSchema, { plate: string }>({
+        query: ({ plate }) => ({
+          url: `/reports/make/${plate}/`,
         }),
         providesTags: ["plate"],
       }),
       getAutoDescr: build.query<any, { id: string }>({
-        query: (body) => ({ url: `/reports/retrieve/${body.id}` }),
-        providesTags: ["autoData"],
+        query: ({ id }) => ({ url: `/reports/retrieve/${id}` }),
+        providesTags: ["plate"],
       }),
     }),
-    overrideExisting: true,
+    overrideExisting: false,
   });
 
 export const useGetPlateId = reportsApi.useGetPlateIdQuery;
