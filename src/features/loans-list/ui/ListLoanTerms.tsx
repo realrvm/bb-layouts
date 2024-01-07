@@ -6,6 +6,8 @@ import { terms } from "../const";
 import type { Terms } from "../types";
 
 import styles from "./styles.module.scss";
+import { useActionCreators } from "@/app/providers/rtk-provider";
+import { annuityActions } from "@/entities/annuity";
 
 type ListLoanTermsProps = {
   className?: string;
@@ -39,9 +41,11 @@ const ListLoanButtons: FC<ListLoanButtonsProps> = memo(
 
 export const ListLoanTerms: FC<ListLoanTermsProps> = memo(() => {
   const [activeTerm, setActiveTerm] = useState<Terms>(terms[0]);
+  const annuityPeriodAction = useActionCreators(annuityActions);
 
   const changeTerms = useCallback((term: Terms) => {
     setActiveTerm(term);
+    annuityPeriodAction.setPeriod(term);
   }, []);
 
   return (

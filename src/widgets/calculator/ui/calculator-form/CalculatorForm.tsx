@@ -1,43 +1,48 @@
-import { ChangeEvent, FC, FormEvent, memo, useState } from "react";
+import { ChangeEvent, FC, memo, useCallback, useState } from "react";
 
 import { RangeInput } from "@/features/range-input";
 import { Button } from "@/shared/ui/button";
-import { getUserAccess } from "@/entities/user";
 import { useStateSelector } from "@/app/providers/rtk-provider";
 import { ListLoanTerms } from "@/features/loans-list";
 import { calcLoanCredit } from "@/shared/lib/helpers/calcLoanCredit";
 
 import styles from "./styles.module.scss";
+import {
+  getAnnuityPeriod,
+  useGetAnnuityApproval,
+  useGetAnnuityRate,
+} from "@/entities/annuity";
+import { calcMonthlyPayment } from "@/shared/lib/helpers/calcMonthlyPayment";
 
 type CalculatorFormProps = Record<string, never>;
 
 export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
   const [marketPrice, setMarketPrice] = useState("");
   const [rangeValue, setRangeValue] = useState(1);
+  const { data: rate } = useGetAnnuityRate();
+  const period = useStateSelector(getAnnuityPeriod);
+  const { data } = useGetAnnuityApproval();
+  console.log(data);
 
-  const handleMarketPrice = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleMarketPrice = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     const onlyDigits = target.value.replace(/\D/g, "");
 
     setMarketPrice(onlyDigits);
-  };
+  }, []);
 
   if (marketPrice !== "") {
     const num = Number(marketPrice);
     console.log(num);
   }
 
-  // TODO
-  const access = useStateSelector(getUserAccess);
-
-  const getAccessKey = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(access);
-  };
-  //
+  const handleRate = () => {};
 
   return (
-    <form className={styles.bb__calc_form_wrap} onSubmit={getAccessKey}>
+    <form
+      className={styles.bb__calc_form_wrap}
+      onSubmit={(e) => e.preventDefault()}
+    >
       <div className={styles.bb__calc_form_range}>
         <p>Сумма кредита</p>
         <div className={styles.bb__calc_form_result}>
@@ -71,14 +76,16 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
       <div className={styles.bb__calc_form_resume}>
         <div className={styles.bb__calc_form_resume_item_l}>
           <span>Ежемесячный платёж</span>
-          <span>8 535 ₽</span>
+          <span>
+            {calcMonthlyPayment(calcLoanCredit(rangeValue), period, rate)} ₽
+          </span>
         </div>
         <div className={styles.bb__calc_form_resume_item_r}>
           <span>Вероятность одобрения</span>
           <span>Очень высокая</span>
         </div>
       </div>
-      <Button className={styles.bb__calc_form_submit} type="submit">
+      <Button className={styles.bb__calc_form_submit} onClick={handleRate}>
         Получить деньги
       </Button>
     </form>
