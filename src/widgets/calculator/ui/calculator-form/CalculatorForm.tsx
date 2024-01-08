@@ -2,27 +2,68 @@ import { ChangeEvent, FC, memo, useCallback, useState } from "react";
 
 import { RangeInput } from "@/features/range-input";
 import { Button } from "@/shared/ui/button";
-import { useStateSelector } from "@/app/providers/rtk-provider";
 import { ListLoanTerms } from "@/features/loans-list";
 import { calcLoanCredit } from "@/shared/lib/helpers/calcLoanCredit";
 
-import styles from "./styles.module.scss";
-import {
-  getAnnuityPeriod,
-  useGetAnnuityApproval,
-  useGetAnnuityRate,
-} from "@/entities/annuity";
+import { cn } from "@/shared/lib/cn";
+
 import { calcMonthlyPayment } from "@/shared/lib/helpers/calcMonthlyPayment";
+import { useLoanCalculator } from "@/shared/lib/hooks/useLoanCalculator";
+
+import {
+  calcPercents,
+  getHelpText,
+  getProbabilityOfApproval,
+  getProbabilityOfApprovalColor,
+} from "@/shared/lib/helpers/approval-helpers";
+
+import styles from "./styles.module.scss";
 
 type CalculatorFormProps = Record<string, never>;
+
+type MonthlyPaymentProps = {
+  rangeValue: number;
+  period: "24" | "36" | "48" | "60";
+  rate?: number;
+};
+
+const MonthlyPayment: FC<MonthlyPaymentProps> = memo(
+  ({ rangeValue, period, rate }) => {
+    return (
+      <div className={styles.bb__calc_form_resume_item_l}>
+        <span>Ежемесячный платёж</span>
+        <span>
+          {calcMonthlyPayment(calcLoanCredit(rangeValue), period, rate)} ₽
+        </span>
+      </div>
+    );
+  },
+);
+
+const ApprovalResult: FC<{ helpText: string }> = memo(({ helpText }) => {
+  return (
+    <div
+      className={cn(styles.bb__calc_form_resume_item_r, {}, [
+        getProbabilityOfApprovalColor(helpText, styles),
+      ])}
+    >
+      <span>Вероятность одобрения</span>
+      <span>{getProbabilityOfApproval(helpText)}</span>
+    </div>
+  );
+});
 
 export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
   const [marketPrice, setMarketPrice] = useState("");
   const [rangeValue, setRangeValue] = useState(1);
-  const { data: rate } = useGetAnnuityRate();
-  const period = useStateSelector(getAnnuityPeriod);
-  const { data } = useGetAnnuityApproval();
-  console.log(data);
+
+  const { rate, approvalProb, period } = useLoanCalculator();
+  const percents = calcPercents(marketPrice, calcLoanCredit(rangeValue));
+
+  const helpText =
+    approvalProb && Array.isArray(approvalProb)
+      ? getHelpText(percents, approvalProb)
+      : "low";
 
   const handleMarketPrice = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -30,13 +71,6 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
 
     setMarketPrice(onlyDigits);
   }, []);
-
-  if (marketPrice !== "") {
-    const num = Number(marketPrice);
-    console.log(num);
-  }
-
-  const handleRate = () => {};
 
   return (
     <form
@@ -74,18 +108,10 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
         <p>Введите рыночную стоимость авто по вашему мнению</p>
       </div>
       <div className={styles.bb__calc_form_resume}>
-        <div className={styles.bb__calc_form_resume_item_l}>
-          <span>Ежемесячный платёж</span>
-          <span>
-            {calcMonthlyPayment(calcLoanCredit(rangeValue), period, rate)} ₽
-          </span>
-        </div>
-        <div className={styles.bb__calc_form_resume_item_r}>
-          <span>Вероятность одобрения</span>
-          <span>Очень высокая</span>
-        </div>
+        <MonthlyPayment rangeValue={rangeValue} period={period} rate={rate} />
+        <ApprovalResult helpText={helpText} />
       </div>
-      <Button className={styles.bb__calc_form_submit} onClick={handleRate}>
+      <Button className={styles.bb__calc_form_submit} onClick={() => {}}>
         Получить деньги
       </Button>
     </form>

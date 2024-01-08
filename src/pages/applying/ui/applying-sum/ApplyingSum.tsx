@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 
 import { RangeInput } from "@/features/range-input";
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
@@ -8,11 +8,39 @@ import { ListLoanTerms } from "@/features/loans-list";
 import { calcLoanCredit } from "@/shared/lib/helpers/calcLoanCredit";
 
 import styles from "./styles.module.scss";
+import { useLoanCalculator } from "@/shared/lib/hooks/useLoanCalculator";
+import { calcMonthlyPayment } from "@/shared/lib/helpers/calcMonthlyPayment";
 
 type ApplyingSumProps = Record<string, never>;
 
+type MonthlyPaymentProps = {
+  rangeValue: number;
+  period: "24" | "36" | "48" | "60";
+  rate?: number;
+};
+
+const MonthlyPayment: FC<MonthlyPaymentProps> = memo(
+  ({ rangeValue, period, rate }) => {
+    return (
+      <>
+        <div>
+          Обязательный платёж
+          <div className={styles.bb__applying_sum_bind_left}>
+            <span className={styles.bb__applying_sum_bind_icon}></span>
+          </div>
+        </div>
+        <span>
+          {calcMonthlyPayment(calcLoanCredit(rangeValue), period, rate)} ₽
+        </span>
+      </>
+    );
+  },
+);
+
 const ApplyingSum: FC<ApplyingSumProps> = () => {
   const [rangeValue, setRangeValue] = useState(1);
+
+  const { rate, period } = useLoanCalculator();
 
   return (
     <div className={styles.bb__applying_wrapper}>
@@ -42,13 +70,11 @@ const ApplyingSum: FC<ApplyingSumProps> = () => {
         </form>
         <div className={styles.bb__applying_sum_binds}>
           <div className={styles.bb__applying_sum_bind}>
-            <div>
-              Обязательный платёж
-              <div className={styles.bb__applying_sum_bind_left}>
-                <span className={styles.bb__applying_sum_bind_icon}></span>
-              </div>
-            </div>
-            <span>11 062 ₽</span>
+            <MonthlyPayment
+              rangeValue={rangeValue}
+              period={period}
+              rate={rate}
+            />
           </div>
           <div className={styles.bb__applying_sum_bind}>
             <div>

@@ -126,8 +126,25 @@
     &_item_r {
       & > span:last-child {
         font: var(--heading4);
-        color: var(--special-green);
         white-space: nowrap;
+      }
+    }
+
+    &_item_r.approval-high {
+      & > span:last-child {
+        color: var(--special-green);
+      }
+    }
+
+    &_item_r.approval-average {
+      & > span:last-child {
+        color: var(--special-orange);
+      }
+    }
+
+    &_item_r.approval-low {
+      & > span:last-child {
+        color: var(--special-red);
       }
     }
   }
