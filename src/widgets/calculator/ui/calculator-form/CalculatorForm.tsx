@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, memo, useCallback, useState } from "react";
+import { ChangeEvent, FC, memo, useCallback, useEffect, useState } from "react";
 
 import { RangeInput } from "@/features/range-input";
 import { Button } from "@/shared/ui/button";
@@ -26,6 +26,32 @@ type MonthlyPaymentProps = {
   period: "24" | "36" | "48" | "60";
   rate?: number;
 };
+
+type MarketValueOfCarProps = {
+  marketPrice: string;
+  handleMarketPrice: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+const MarketValueOfCar: FC<MarketValueOfCarProps> = memo(
+  ({ marketPrice, handleMarketPrice }) => {
+    return (
+      <>
+        <p>Рыночная стоимость авто</p>
+        <div>
+          <input
+            type="text"
+            value={marketPrice}
+            inputMode="numeric"
+            onChange={handleMarketPrice}
+            maxLength={12}
+            placeholder="Рыночная стоимость"
+          />
+        </div>
+        <p>Введите рыночную стоимость авто по вашему мнению</p>
+      </>
+    );
+  },
+);
 
 const MonthlyPayment: FC<MonthlyPaymentProps> = memo(
   ({ rangeValue, period, rate }) => {
@@ -56,14 +82,9 @@ const ApprovalResult: FC<{ helpText: string }> = memo(({ helpText }) => {
 export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
   const [marketPrice, setMarketPrice] = useState("");
   const [rangeValue, setRangeValue] = useState(1);
+  const [helpText, setHelpText] = useState("low");
 
   const { rate, approvalProb, period } = useLoanCalculator();
-  const percents = calcPercents(marketPrice, calcLoanCredit(rangeValue));
-
-  const helpText =
-    approvalProb && Array.isArray(approvalProb)
-      ? getHelpText(percents, approvalProb)
-      : "low";
 
   const handleMarketPrice = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -71,6 +92,15 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
 
     setMarketPrice(onlyDigits);
   }, []);
+
+  useEffect(() => {
+    const percents = calcPercents(marketPrice, calcLoanCredit(rangeValue));
+
+    if (approvalProb && Array.isArray(approvalProb)) {
+      const text = getHelpText(percents, approvalProb);
+      setHelpText(text);
+    }
+  }, [marketPrice, rangeValue]);
 
   return (
     <form
@@ -94,18 +124,10 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
         </div>
       </div>
       <div className={styles.bb__calc_form_input}>
-        <p>Рыночная стоимость авто</p>
-        <div>
-          <input
-            type="text"
-            value={marketPrice}
-            inputMode="numeric"
-            onChange={handleMarketPrice}
-            maxLength={12}
-            placeholder="Рыночная стоимость"
-          />
-        </div>
-        <p>Введите рыночную стоимость авто по вашему мнению</p>
+        <MarketValueOfCar
+          marketPrice={marketPrice}
+          handleMarketPrice={handleMarketPrice}
+        />
       </div>
       <div className={styles.bb__calc_form_resume}>
         <MonthlyPayment rangeValue={rangeValue} period={period} rate={rate} />
