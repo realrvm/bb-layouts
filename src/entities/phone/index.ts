@@ -1,3 +1,7 @@
 export type { PhoneSchema } from "./model/types";
 
-export { phoneReducer, phoneActions } from "./model/slice/phoneSlice";
+export {
+  phoneReducer,
+  phoneActions,
+  getPhoneNumber,
+} from "./model/slice/phoneSlice";

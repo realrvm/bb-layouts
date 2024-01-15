@@ -1,6 +1,8 @@
+import { Months } from "@/shared/lib/types";
+
 export type AnnuitySchema = {
   sum: string;
-  period: "24" | "36" | "48" | "60";
+  period: Months;
 };
 
 export type AnnuityRateSchema = {

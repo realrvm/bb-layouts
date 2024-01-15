@@ -81,11 +81,9 @@ const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
   prepareHeaders: (headers) => {
     const token = store.getState().access.accessToken as string;
-
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
-
     return headers;
   },
 });

@@ -1,5 +1,7 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+
 import { AnnuitySchema } from "../types";
+import { Months } from "@/shared/lib/types";
 
 const initialState: AnnuitySchema = {
   sum: "0",
@@ -9,15 +11,20 @@ const initialState: AnnuitySchema = {
 const annuitySlice = createSlice({
   name: "annuity",
   initialState,
-  reducers: {
-    setSum: (state, action: PayloadAction<string>) => {
+  reducers: (create) => ({
+    setSum: create.reducer<string>((state, action) => {
       state.sum = action.payload;
-    },
-    setPeriod: (state, action: PayloadAction<"24" | "36" | "48" | "60">) => {
+    }),
+    setPeriod: create.reducer<Months>((state, action) => {
       state.period = action.payload;
-    },
+    }),
+  }),
+  selectors: {
+    getAnnuityPeriod: (state) => state.period,
   },
 });
 
 export const { reducer: annuityReducer, actions: annuityActions } =
   annuitySlice;
+
+export const { getAnnuityPeriod } = annuitySlice.selectors;

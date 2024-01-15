@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { HRSchema } from "../types";
 
 const initialState: HRSchema = {
@@ -8,11 +9,16 @@ const initialState: HRSchema = {
 const hrSlice = createSlice({
   name: "hr",
   initialState,
-  reducers: {
-    toggle: (state) => {
+  reducers: (create) => ({
+    toggle: create.reducer((state) => {
       state.isOpen = !state.isOpen;
-    },
+    }),
+  }),
+  selectors: {
+    getHRToggleValue: (state) => state.isOpen,
   },
 });
 
 export const { reducer: hrReducer, actions: hrActions } = hrSlice;
+
+export const { getHRToggleValue } = hrSlice.selectors;
