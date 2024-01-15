@@ -11,7 +11,6 @@ import { $api_query } from "@/shared/api";
 export type StateSchema = {
   hr: HRSchema;
   phone: PhoneSchema;
-  reg: RegSchema;
   obtain: RegSchema;
   access: UserAccessSchema;
   annuity: AnnuitySchema;
@@ -20,7 +19,6 @@ export type StateSchema = {
 
 export type ThunkExtraArgument = {
   api: AxiosInstance;
-  api_reg: AxiosInstance;
 };
 
 export type ThunkConfig<T> = {

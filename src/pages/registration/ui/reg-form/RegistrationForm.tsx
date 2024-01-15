@@ -7,11 +7,10 @@ import { Button } from "@/shared/ui/button";
 
 import {
   useActionCreators,
-  useAppDispatch,
 } from "@/app/providers/rtk-provider";
 import { phoneActions } from "@/entities/phone";
-import { register } from "@/features/serve";
 import { InputMask } from "@/shared/ui/input-mask";
+import { useRegApi } from "../../model/api/regApi";
 
 import styles from "./styles.module.scss";
 
@@ -21,9 +20,9 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
   const [checked, isChecked] = useState(false);
   const [phoneValue, setPhoneValue] = useState("");
 
-  const isValid = checked && phoneValue.length === 10;
+  const [register] = useRegApi();
 
-  const regDispatch = useAppDispatch();
+  const isValid = checked && phoneValue.length === 10;
 
   const navigate = useNavigate();
 
@@ -32,12 +31,12 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
   const navigateToNextStep = useCallback(() => {
     const correctPhone = `+7${phoneValue}`;
 
-    regDispatch(register({ phone_number: correctPhone }));
+    register({ phone_number: correctPhone });
 
     phoneAction.setPhone(correctPhone);
 
     navigate("/reg/reg_check_out/");
-  }, [phoneValue, phoneAction, regDispatch, register]);
+  }, [phoneValue, phoneAction, register]);
 
   const handleCheck = useCallback((state: boolean) => {
     isChecked(state);

@@ -10,6 +10,7 @@ import type {
 import { API_URL, LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
 import { RootStateType } from "@/app/providers/rtk-provider";
 import { userAccessActions } from "@/entities/user";
+import { RootState } from "@/app/providers/rtk-provider/types";
 
 let store: RootStateType;
 
@@ -24,22 +25,10 @@ export const injectStore = (_store: RootStateType) => {
 function createAxiosInstance(): AxiosInstance {
   return axios.create({
     baseURL: API_URL,
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
 }
 
-export const $api_reg = createAxiosInstance();
 export const $api = createAxiosInstance();
-
-$api_reg.interceptors.request.use((config) => {
-  return config;
-});
-
-$api_reg.interceptors.response.use((config) => {
-  return config;
-});
 
 $api.interceptors.request.use((config) => {
   const token = store.getState().access.accessToken as string;
@@ -79,11 +68,14 @@ $api.interceptors.response.use(
 // rtk query
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
-  prepareHeaders: (headers) => {
-    const token = store.getState().access.accessToken as string;
+  prepareHeaders: (headers, { getState }) => {
+    const store = getState() as RootState;
+    const token = store.access.accessToken;
+
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
+
     return headers;
   },
 });
@@ -105,7 +97,7 @@ const baseQueryWithReauth: BaseQueryFn<
     });
 
     if (response.data) {
-      store.dispatch(userAccessActions.setUserAccess(response.data.access));
+      api.dispatch(userAccessActions.setUserAccess(response.data.access));
       result = await baseQuery(args, api, extraOptions);
     }
   }

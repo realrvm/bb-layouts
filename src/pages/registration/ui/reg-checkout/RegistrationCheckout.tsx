@@ -2,13 +2,9 @@ import { FC, useState } from "react";
 
 import { Otp } from "@/features/otp";
 
-import { getPhoneNumber } from "@/entities/phone/model/selectors/getPhoneNumber";
-import { obtain, regActions } from "@/features/serve";
-import {
-  useActionCreators,
-  useAppDispatch,
-  useStateSelector,
-} from "@/app/providers/rtk-provider";
+import { getPhoneNumber } from "@/entities/phone";
+import { obtain } from "@/features/serve";
+import { useAppDispatch, useStateSelector } from "@/app/providers/rtk-provider";
 
 import styles from "./styles.module.scss";
 
@@ -20,10 +16,7 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
   const phone = useStateSelector(getPhoneNumber);
   const loginDispatch = useAppDispatch();
 
-  const regAction = useActionCreators(regActions);
-
   const sendToServer = () => {
-    regAction.setPhoneNumber(phone);
     loginDispatch(obtain({ phone_number: phone, password: otp }));
   };
 
