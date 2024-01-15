@@ -1,5 +1,4 @@
-import { ReducersMapObject } from "@reduxjs/toolkit";
-import { StateSchema } from "./StateSchema";
+import { combineSlices } from "@reduxjs/toolkit";
 
 // reducers
 import { hrReducer } from "@/widgets/navbar";
@@ -9,12 +8,11 @@ import { obtainReducer, regReducer } from "@/features/serve";
 import { annuityReducer } from "entities/annuity";
 import { $api_query } from "@/shared/api";
 
-export const reducers: ReducersMapObject<StateSchema> = {
+export const reducers = combineSlices($api_query, {
   hr: hrReducer,
   phone: phoneReducer,
   reg: regReducer,
   access: userAccessReducer,
   obtain: obtainReducer,
   annuity: annuityReducer,
-  [$api_query.reducerPath]: $api_query.reducer,
-};
+});
