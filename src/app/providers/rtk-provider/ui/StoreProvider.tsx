@@ -1,8 +1,6 @@
 import { FC, ReactNode } from "react";
 import { Provider } from "react-redux";
 
-import { injectStore } from "@/shared/api";
-
 import { createReduxStore } from "../config/root";
 import { StateSchema } from "../config/StateSchema";
 
@@ -16,8 +14,6 @@ export const StoreProvider: FC<StoreProviderProps> = ({
   initialState,
 }) => {
   const store = createReduxStore(initialState);
-
-  injectStore(store);
 
   return <Provider store={store}>{children}</Provider>;
 };

@@ -7,7 +7,7 @@ import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
 import { ApplyingBackBtn } from "../shared/applying-back-btn/ApplyingBackBtn";
 import { cn } from "@/shared/lib/cn";
 
-import { useGetAutoDescr, useGetPlateId } from "@/features/serve";
+import { useGetAutoDescr, useGetPlateId } from "../../model/api/reports";
 import { InputPlateMask } from "@/shared/ui/input-plate-mask";
 import { InputRegionMask } from "@/shared/ui/input-region-mask";
 import {

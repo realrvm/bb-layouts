@@ -1,4 +1,4 @@
-export type { StateSchema, ThunkConfig } from "./config/StateSchema";
+export type { StateSchema } from "./config/StateSchema";
 
 export type { RootStateType } from "./types";
 

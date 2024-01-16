@@ -1,6 +1,10 @@
 import { $api_query } from "@/shared/api";
 
-import { RegDataSchema } from "../types";
+import {
+  ObtainRequestSchema,
+  ObtainResponseSchema,
+  RegDataSchema,
+} from "../types";
 
 const regApi = $api_query.injectEndpoints({
   endpoints: (build) => ({
@@ -13,8 +17,19 @@ const regApi = $api_query.injectEndpoints({
         };
       },
     }),
+    obtain: build.mutation<ObtainResponseSchema, ObtainRequestSchema>({
+      query(obtainData) {
+        return {
+          method: "POST",
+          url: "/token/obtain/",
+          body: obtainData,
+        };
+      },
+      extraOptions: { maxRetries: 1 },
+    }),
   }),
   overrideExisting: false,
 });
 
 export const useRegApi = regApi.useRegisterMutation;
+export const useObtainApi = regApi.useObtainMutation;

@@ -10,8 +10,8 @@ const userSlice = createSlice({
   name: "phone",
   initialState,
   reducers: (create) => ({
-    setPhone: create.reducer<string>((state, action) => {
-      state.phone_number = action.payload;
+    setPhone: create.reducer<string>((state, { payload }) => {
+      state.phone_number = payload;
     }),
   }),
   selectors: {

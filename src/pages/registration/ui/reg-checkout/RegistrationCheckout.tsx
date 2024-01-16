@@ -1,10 +1,15 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 
 import { Otp } from "@/features/otp";
 
 import { getPhoneNumber } from "@/entities/phone";
-import { obtain } from "@/features/serve";
-import { useAppDispatch, useStateSelector } from "@/app/providers/rtk-provider";
+import {
+  useActionCreators,
+  useStateSelector,
+} from "@/app/providers/rtk-provider";
+
+import { useObtainApi } from "../../model/api/regApi";
+import { userAccessActions } from "@/entities/user";
 
 import styles from "./styles.module.scss";
 
@@ -14,11 +19,21 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
   const [otp, setOtp] = useState("");
 
   const phone = useStateSelector(getPhoneNumber);
-  const loginDispatch = useAppDispatch();
+  const accessAction = useActionCreators(userAccessActions);
+  const [obtain] = useObtainApi();
 
-  const sendToServer = () => {
-    loginDispatch(obtain({ phone_number: phone, password: otp }));
-  };
+  const sendToServer = useCallback(async () => {
+    try {
+      const token = await obtain({
+        phone_number: phone,
+        password: otp,
+      }).unwrap();
+
+      accessAction.setUserAccess(token);
+    } catch (e) {
+      if (e instanceof Error) console.log(e.message);
+    }
+  }, [phone, otp, obtain, accessAction]);
 
   if (otp.length === 6) {
     sendToServer();
