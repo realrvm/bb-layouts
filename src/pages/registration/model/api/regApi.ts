@@ -25,7 +25,6 @@ const regApi = $api_query.injectEndpoints({
           body: obtainData,
         };
       },
-      extraOptions: { maxRetries: 1 },
     }),
   }),
   overrideExisting: false,

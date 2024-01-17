@@ -17,12 +17,13 @@ type RegistrationCheckoutProps = Record<string, never>;
 
 export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
   const [otp, setOtp] = useState("");
+  const [isResendable, setIsResendable] = useState(true);
 
   const phone = useStateSelector(getPhoneNumber);
   const accessAction = useActionCreators(userAccessActions);
   const [obtain] = useObtainApi();
 
-  const sendToServer = useCallback(async () => {
+  const sendAuthDataToServer = useCallback(async () => {
     try {
       const token = await obtain({
         phone_number: phone,
@@ -33,10 +34,11 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
     } catch (e) {
       if (e instanceof Error) console.log(e.message);
     }
-  }, [phone, otp, obtain, accessAction]);
+  }, [otp, phone]);
 
-  if (otp.length === 6) {
-    sendToServer();
+  if (otp.length === 6 && isResendable) {
+    sendAuthDataToServer();
+    setIsResendable(false);
   }
 
   return (
@@ -45,11 +47,7 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
       <p className={styles.bb__gm_text}>
         Мы отправили код подтверждения на номер {phone}
       </p>
-      <Otp
-        value={otp}
-        onChange={(value) => setOtp(value)}
-        requestToServer={sendToServer}
-      />
+      <Otp value={otp} onChange={(value) => setOtp(value)} />
     </section>
   );
 };

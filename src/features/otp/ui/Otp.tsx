@@ -9,20 +9,12 @@ import styles from "./styles.module.scss";
 type OtpProps = {
   value: string;
   onChange: (value: string) => void;
-  requestToServer: () => void;
   valueLength?: number;
 };
 
-type OtpFinalCountdownProps = {
-  requestToServer: () => void;
-};
+type OtpFinalCountdownProps = Record<string, never>;
 
-export const Otp: FC<OtpProps> = ({
-  onChange,
-  value,
-  requestToServer,
-  valueLength = 6,
-}) => {
+export const Otp: FC<OtpProps> = ({ onChange, value, valueLength = 6 }) => {
   const navigate = useNavigate();
 
   return (
@@ -30,7 +22,7 @@ export const Otp: FC<OtpProps> = ({
       <div className={styles.bb__otp_inner}>
         <OtpForm value={value} onChange={onChange} valueLength={valueLength} />
       </div>
-      <OtpFinalCountdown requestToServer={requestToServer} />
+      <OtpFinalCountdown />
       <p>
         Ошиблись при вводе номера?
         <Button theme={ButtonThemes.CLEAN} onClick={() => navigate(-1)}>
@@ -41,36 +33,36 @@ export const Otp: FC<OtpProps> = ({
   );
 };
 
-const OtpFinalCountdown: FC<OtpFinalCountdownProps> = memo(
-  ({ requestToServer }) => {
-    const [seconds, setSeconds] = useState(60);
+const OtpFinalCountdown: FC<OtpFinalCountdownProps> = memo(() => {
+  const [seconds, setSeconds] = useState(60);
 
-    useEffect(() => {
-      const interval = setInterval(() => {
-        if (seconds > 0) {
-          setSeconds((prev) => prev - 1);
-        }
+  const resendOtp = () => {};
 
-        if (seconds === 0) {
-          clearInterval(interval);
-        }
-      }, 1000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds((prev) => prev - 1);
+      }
 
-      return () => {
+      if (seconds === 0) {
         clearInterval(interval);
-      };
-    }, [seconds]);
+      }
+    }, 1000);
 
-    return (
-      <>
-        {seconds > 0 ? (
-          <p>Запросить код повторно можно через {seconds} сек</p>
-        ) : (
-          <Button onClick={requestToServer} theme={ButtonThemes.CLEAN}>
-            Выслать код повторно
-          </Button>
-        )}
-      </>
-    );
-  },
-);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [seconds]);
+
+  return (
+    <>
+      {seconds > 0 ? (
+        <p>Запросить код повторно можно через {seconds} сек</p>
+      ) : (
+        <Button onClick={resendOtp} theme={ButtonThemes.CLEAN}>
+          Выслать код повторно
+        </Button>
+      )}
+    </>
+  );
+});

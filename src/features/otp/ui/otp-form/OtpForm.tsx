@@ -6,6 +6,8 @@ import {
   useCallback,
   useMemo,
   memo,
+  useRef,
+  useEffect,
 } from "react";
 
 import { DIGIT_REG } from "@/shared/lib/const";
@@ -32,6 +34,12 @@ export const OtpForm: FC<OtpFormProps> = memo(
 
       return itemsArray;
     }, [value, valueLength]);
+
+    const firstInputRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+      firstInputRef.current?.focus();
+    }, []);
 
     const focusToNextInput = useCallback((target: HTMLElement) => {
       const nextElementSibling =
@@ -139,6 +147,7 @@ export const OtpForm: FC<OtpFormProps> = memo(
       <div className={styles.bb__otp_container}>
         {items.map((digit, index: number) => (
           <input
+            ref={index === 0 ? firstInputRef : null}
             key={index}
             type="text"
             value={digit}

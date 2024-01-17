@@ -4,10 +4,13 @@ import type {
   FetchArgs,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
+import { Mutex } from "async-mutex";
 
 import { API_URL, LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
 import { userAccessActions } from "@/entities/user";
 import { RootState } from "@/app/providers/rtk-provider/types";
+
+const mutex = new Mutex();
 
 // rtk query
 const baseQuery = fetchBaseQuery({
@@ -29,29 +32,42 @@ const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+  await mutex.waitForUnlock();
+
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {
-    const token = JSON.parse(
-      window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "",
-    ) as string;
+    if (!mutex.isLocked()) {
+      const release = await mutex.acquire();
 
-    const response = await baseQuery(
-      {
-        url: "/token/refresh/",
-        body: { refresh: token },
-        method: "POST",
-      },
-      api,
-      extraOptions,
-    );
+      try {
+        const token = JSON.parse(
+          window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "",
+        ) as string;
 
-    if (response.data) {
-      api.dispatch(
-        userAccessActions.setUserAccess({
-          access: (response.data as { access: string }).access,
-        }),
-      );
+        const response = await baseQuery(
+          {
+            url: "/token/refresh/",
+            body: { refresh: token },
+            method: "POST",
+          },
+          api,
+          extraOptions,
+        );
+
+        if (response.data) {
+          api.dispatch(
+            userAccessActions.setUserAccess({
+              access: (response.data as { access: string }).access,
+            }),
+          );
+          result = await baseQuery(args, api, extraOptions);
+        }
+      } finally {
+        release();
+      }
+    } else {
+      await mutex.waitForUnlock();
       result = await baseQuery(args, api, extraOptions);
     }
   }

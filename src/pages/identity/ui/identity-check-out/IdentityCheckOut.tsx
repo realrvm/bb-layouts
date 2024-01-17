@@ -1,7 +1,8 @@
 import { FC, useState } from "react";
 
-import styles from "./styles.module.scss";
 import { Otp } from "@/features/otp";
+
+import styles from "./styles.module.scss";
 
 type IdentityCheckOutProps = Record<string, never>;
 
@@ -14,11 +15,7 @@ export const IdentityCheckOut: FC<IdentityCheckOutProps> = () => {
       <p className={styles.bb__ident_text}>
         Мы отправили код подтверждения на номер 8 (918) 233-23-22
       </p>
-      <Otp
-        value={otp}
-        onChange={(value) => setOtp(value)}
-        requestToServer={() => {}}
-      />
+      <Otp value={otp} onChange={(value) => setOtp(value)} />
     </section>
   );
 };
