@@ -1,6 +1,6 @@
-const pow = Math.pow.bind(Math);
+import { Months } from "@/shared/lib/types";
 
-type Months = "24" | "36" | "48" | "60";
+const pow = Math.pow.bind(Math);
 
 /**
  * Calculates the monthly payment for the term of the loan
@@ -10,11 +10,11 @@ type Months = "24" | "36" | "48" | "60";
  * @param {number} sum - monthly payment
  */
 export function calcMonthlyPayment(sum: string, period: Months, rate = 18) {
-  const amount = sum.replace(/\D/g, "")
-
-  const monthlyRate = rate / 12 / 100;
+  const amount = sum.replace(/\D/g, "");
 
   const term = Number(period);
+
+  const monthlyRate = rate / 12 / 100;
 
   const annuityCoefficient =
     (monthlyRate * pow(1 + monthlyRate, term)) /

@@ -1,4 +1,12 @@
-import { ChangeEvent, FC, memo, useCallback, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import { RangeInput } from "@/features/range-input";
 import { Button } from "@/shared/ui/button";
@@ -7,8 +15,9 @@ import { calcLoanCredit } from "@/shared/lib/helpers/calcLoanCredit";
 
 import { cn } from "@/shared/lib/cn";
 
-import { calcMonthlyPayment } from "@/shared/lib/helpers/calcMonthlyPayment";
 import { useLoanCalculator } from "@/shared/lib/hooks/useLoanCalculator";
+import { getWithSpaces } from "@/shared/lib/helpers/addSpacesToInputNumber";
+import { calcMonthlyPayment } from "@/shared/lib/helpers/calcMonthlyPayment";
 
 import {
   calcPercents,
@@ -17,13 +26,15 @@ import {
   getProbabilityOfApprovalColor,
 } from "@/shared/lib/helpers/approval-helpers";
 
+import { Months } from "@/shared/lib/types";
+
 import styles from "./styles.module.scss";
 
 type CalculatorFormProps = Record<string, never>;
 
 type MonthlyPaymentProps = {
   rangeValue: number;
-  period: "24" | "36" | "48" | "60";
+  period: Months;
   rate?: number;
 };
 
@@ -86,15 +97,25 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
 
   const { rate, approvalProb, period } = useLoanCalculator();
 
-  const handleMarketPrice = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const target = e.target;
-    const onlyDigits = target.value.replace(/\D/g, "");
+  const handleMarketPrice: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      const target = e.target;
+      const onlyDigits = target.value.replace(/\D/g, "");
 
-    setMarketPrice(onlyDigits);
-  }, []);
+      const withSpaces = getWithSpaces(Number(onlyDigits));
+
+      setMarketPrice(withSpaces);
+    },
+    [],
+  );
 
   useEffect(() => {
-    const percents = calcPercents(marketPrice, calcLoanCredit(rangeValue));
+    const marketPriceWithoutSpaces = marketPrice.replace(/\s/g, "");
+
+    const percents = calcPercents(
+      marketPriceWithoutSpaces,
+      calcLoanCredit(rangeValue),
+    );
 
     if (approvalProb && Array.isArray(approvalProb)) {
       const text = getHelpText(percents, approvalProb);

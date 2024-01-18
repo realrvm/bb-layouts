@@ -1,4 +1,5 @@
 import { STEP_LOAN_VALUE } from "@/shared/lib/const";
+import { getWithSpaces } from "shared/lib/helpers/addSpacesToInputNumber";
 
 type Step = { amounts: number };
 
@@ -17,15 +18,6 @@ export function calcLoanCredit(percent: number): string {
       } else return getWithSpaces(target[prop]);
     },
   });
-
-  /**
-   * The function replaces punctuation marks with spaces
-   * @param {number} num -
-   * @returns {string}
-   */
-  function getWithSpaces(num: number): string {
-    return num.toLocaleString().replace(/[,. ]/g, " ");
-  }
 
   return amounts.toString();
 }
