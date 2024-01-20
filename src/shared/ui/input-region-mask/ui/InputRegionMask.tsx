@@ -1,9 +1,9 @@
-import { FC, InputHTMLAttributes, memo, useEffect, useRef } from "react";
+import { ComponentPropsWithoutRef, FC, memo, useEffect, useRef } from "react";
 
 type InputRegionMaskProps = {
   onSetRegion: (region: string) => void;
   focus?: boolean;
-} & InputHTMLAttributes<HTMLInputElement>;
+} & ComponentPropsWithoutRef<"input">;
 
 export const InputRegionMask: FC<InputRegionMaskProps> = memo((props) => {
   const { onSetRegion, focus, ...other } = props;
@@ -15,15 +15,15 @@ export const InputRegionMask: FC<InputRegionMaskProps> = memo((props) => {
       .replace(/\D/g, "")
       .match(/(\d{0,3})/);
 
-    if (regionValue) {
-      (inputRegion.current as HTMLInputElement).value = regionValue[1];
+    if (regionValue && inputRegion.current) {
+      inputRegion.current.value = regionValue[1];
     }
 
     onSetRegion(inputRegion.current?.value || "00");
   };
 
   useEffect(() => {
-   focus && inputRegion.current?.focus();
+    focus && inputRegion.current?.focus();
   }, [focus]);
 
   return (

@@ -1,8 +1,8 @@
-import { FC, InputHTMLAttributes, memo, useRef } from "react";
+import { ComponentPropsWithoutRef, FC, memo, useRef } from "react";
 
 type InputPlateMaskProps = {
   onSetPlate: (plate: string) => void;
-} & InputHTMLAttributes<HTMLInputElement>;
+} & ComponentPropsWithoutRef<"input">;
 
 export const InputPlateMask: FC<InputPlateMaskProps> = memo((props) => {
   const { onSetPlate, ...other } = props;

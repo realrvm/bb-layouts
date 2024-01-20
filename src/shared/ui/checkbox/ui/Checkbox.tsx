@@ -1,4 +1,4 @@
-import { FC, InputHTMLAttributes, memo } from "react";
+import { ComponentPropsWithoutRef, FC, memo } from "react";
 
 import { cn } from "@/shared/lib/cn";
 
@@ -8,7 +8,7 @@ type CheckboxProps = {
   className?: string;
   isChecked?: boolean;
   handleCheck: (value: boolean) => void;
-} & InputHTMLAttributes<HTMLInputElement>;
+} & ComponentPropsWithoutRef<"input">;
 
 export const Checkbox: FC<CheckboxProps> = memo((props) => {
   const { className = "", isChecked = false, handleCheck, ...other } = props;

@@ -1,4 +1,4 @@
-import { ElementType, FC, useCallback, useState } from "react";
+import { ElementType, FC, memo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -8,12 +8,20 @@ import { Button } from "@/shared/ui/button";
 import { useActionCreators } from "@/app/providers/rtk-provider";
 import { phoneActions } from "@/entities/phone";
 import { InputMask } from "@/shared/ui/input-mask";
+import { useLocaleStorage } from "@/shared/lib/hooks/useLocalStorage";
+import { LOCAL_STORAGE_SITE_HAS_VISITED } from "@/shared/lib/const";
+
 import { useRegApi } from "../../model/api/regApi";
 
 import styles from "./styles.module.scss";
 
 type RegistrationFormProps = Record<string, never>;
 type RegistrationFormIconProps = Record<string, never>;
+
+type RegistrationFormCheckProps = {
+  checked: boolean;
+  handleCheck: (state: boolean) => void;
+};
 
 type RegistrationFormElementProps = {
   element: ElementType;
@@ -22,6 +30,7 @@ type RegistrationFormElementProps = {
 export const RegistrationForm: FC<RegistrationFormProps> = () => {
   const [checked, isChecked] = useState(false);
   const [phoneValue, setPhoneValue] = useState("");
+  const [item] = useLocaleStorage(LOCAL_STORAGE_SITE_HAS_VISITED);
 
   const [register] = useRegApi();
 
@@ -60,14 +69,9 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
       <div className={styles.bb__gm_form}>
         <label htmlFor="phone">Номер телефона</label>
         <InputMask setCard={setPhoneValue} />
-        <div className={styles.bb__gm_checkbox}>
-          <Checkbox handleCheck={handleCheck} checked={checked} />
-          <p>
-            Я даю <AppLink to="*">согласие</AppLink> на обработку своих
-            персональных данных в соответствии с Федеральным законом «О
-            персональных данных» от 27.07.2006 N 152-ФЗ
-          </p>
-        </div>
+        {item ? null : (
+          <RegistrationFormCheck handleCheck={handleCheck} checked={checked} />
+        )}
         <Button onClick={navigateToNextStep} disabled={!isValid}>
           Получить код из СМС
         </Button>
@@ -83,3 +87,18 @@ const RegistrationFormElement: FC<RegistrationFormElementProps> = (props) => {
 const RegistrationFormIcon: FC<RegistrationFormIconProps> = () => {
   return <div className={styles.bb__gm_icon} />;
 };
+
+const RegistrationFormCheck: FC<RegistrationFormCheckProps> = memo(
+  ({ checked, handleCheck }) => {
+    return (
+      <div className={styles.bb__gm_checkbox}>
+        <Checkbox handleCheck={handleCheck} checked={checked} />
+        <p>
+          Я даю <AppLink to="*">согласие</AppLink> на обработку своих
+          персональных данных в соответствии с Федеральным законом «О
+          персональных данных» от 27.07.2006 N 152-ФЗ
+        </p>
+      </div>
+    );
+  },
+);
