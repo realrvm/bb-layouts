@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useCallback } from "react";
 import Hamburger from "hamburger-react";
 
 import { Container } from "@/widgets/container";
@@ -12,14 +12,25 @@ import { Drawer } from "@/features/drawer";
 
 import { cn } from "@/shared/lib/cn";
 import { TABLET_WIDTH } from "@/shared/lib/const";
+import { Paths } from "@/shared/lib/types";
 
 import styles from "./styles.module.scss";
+import { useActionCreators } from "@/app/providers/rtk-provider";
+import { userAccessActions } from "@/entities/user";
 
 type NavbarProps = Record<string, never>;
 
 export const Navbar: FC<NavbarProps> = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const { width } = useWindowWidth();
+  const actionTargetPath = useActionCreators(userAccessActions);
+
+  const handleAnchorClick = useCallback(
+    (targetPath: Paths) => {
+      actionTargetPath.setTargetPath({ targetPath });
+    },
+    [actionTargetPath],
+  );
 
   return (
     <header className={styles.bb__header}>
@@ -31,13 +42,10 @@ export const Navbar: FC<NavbarProps> = () => {
             </AppLink>
             {width > TABLET_WIDTH ? (
               <div className={styles.bb__main_nav_logo_btns}>
-                <AppLink
-                  to="/applying/applying_sum"
-                  theme={AppLinkThemes.WO_HOVER}
-                >
+                <AppLink to="*" theme={AppLinkThemes.WO_HOVER}>
                   Клиентам
                 </AppLink>
-                <AppLink to="/account/account_all" theme={AppLinkThemes.CLEAN}>
+                <AppLink to="*" theme={AppLinkThemes.CLEAN}>
                   Агентам
                 </AppLink>
               </div>
@@ -46,12 +54,17 @@ export const Navbar: FC<NavbarProps> = () => {
           {width > TABLET_WIDTH ? (
             <div className={styles.bb__main_nav_action_btns}>
               <AppLink
-                to="/identity/identity_form"
+                to="/account/account_all"
                 theme={AppLinkThemes.OUTLINE}
+                onClick={() => handleAnchorClick(Paths.PROFILE)}
               >
                 Личный кабинет
               </AppLink>
-              <AppLink to="/reg/reg_form" theme={AppLinkThemes.PRIMARY}>
+              <AppLink
+                to="/applying/applying_sum"
+                theme={AppLinkThemes.PRIMARY}
+                onClick={() => handleAnchorClick(Paths.APPLYING)}
+              >
                 Получить займ
               </AppLink>
             </div>
@@ -78,13 +91,10 @@ export const Navbar: FC<NavbarProps> = () => {
                     styles["mobile"],
                   ])}
                 >
-                  <AppLink
-                    to="/applying/applying_sum"
-                    theme={AppLinkThemes.PRIMARY}
-                  >
+                  <AppLink to="*" theme={AppLinkThemes.PRIMARY}>
                     Клиентам
                   </AppLink>
-                  <AppLink to="/account/account_all" theme={AppLinkThemes.CLEAN}>
+                  <AppLink to="*" theme={AppLinkThemes.CLEAN}>
                     Агентам
                   </AppLink>
                 </div>
@@ -94,14 +104,16 @@ export const Navbar: FC<NavbarProps> = () => {
                   ])}
                 >
                   <AppLink
-                    to="/reg/reg_form"
+                    to="/applying/applying_sum"
                     theme={AppLinkThemes.PRIMARY}
+                    onClick={() => handleAnchorClick(Paths.PROFILE)}
                   >
                     Получить займ
                   </AppLink>
                   <AppLink
-                    to="/identity/identity_form"
+                    to="/account/account_all"
                     theme={AppLinkThemes.OUTLINE}
+                    onClick={() => handleAnchorClick(Paths.PROFILE)}
                   >
                     Личный кабинет
                   </AppLink>

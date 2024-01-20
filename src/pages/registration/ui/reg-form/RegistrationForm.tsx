@@ -1,30 +1,34 @@
-import { ElementType, FC, memo, useCallback, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Checkbox } from "@/shared/ui/checkbox";
 import { AppLink } from "@/shared/ui/app-link";
 import { Button } from "@/shared/ui/button";
 
-import { useActionCreators } from "@/app/providers/rtk-provider";
+import {
+  useActionCreators,
+  useStateSelector,
+} from "@/app/providers/rtk-provider";
 import { phoneActions } from "@/entities/phone";
 import { InputMask } from "@/shared/ui/input-mask";
 import { useLocaleStorage } from "@/shared/lib/hooks/useLocalStorage";
 import { LOCAL_STORAGE_SITE_HAS_VISITED } from "@/shared/lib/const";
 
 import { useRegApi } from "../../model/api/regApi";
+import { getTargetPath } from "@/entities/user";
 
 import styles from "./styles.module.scss";
+import { Paths } from "@/shared/lib/types";
 
 type RegistrationFormProps = Record<string, never>;
-type RegistrationFormIconProps = Record<string, never>;
+
+type RegistrationFormIconProps = {
+  targetPath?: Paths;
+};
 
 type RegistrationFormCheckProps = {
   checked: boolean;
   handleCheck: (state: boolean) => void;
-};
-
-type RegistrationFormElementProps = {
-  element: ElementType;
 };
 
 export const RegistrationForm: FC<RegistrationFormProps> = () => {
@@ -34,7 +38,9 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
 
   const [register] = useRegApi();
 
-  const isValid = checked && phoneValue.length === 10;
+  const targetPath = useStateSelector(getTargetPath);
+
+  const isValid = (item || checked) && phoneValue.length === 10;
 
   const navigate = useNavigate();
 
@@ -60,11 +66,18 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
 
   return (
     <section className={styles.bb__gm_container}>
-      <RegistrationFormElement element={RegistrationFormIcon} />
-      <h2 className={styles.bb__gm_title}>Получить деньги</h2>
+      <RegistrationFormIcon targetPath={targetPath} />
+      {targetPath === Paths.APPLYING && (
+        <h2 className={styles.bb__gm_title}>Получить деньги</h2>
+      )}
+      {targetPath === Paths.PROFILE && (
+        <h2 className={styles.bb__gm_title}>Войти в личный кабинет</h2>
+      )}
       <p className={styles.bb__gm_text}>
-        Введите номер телефона. На него вы получите СМС с кодом или звонок —
-        сбросьте его и введите последние 4 цифры номера
+        {targetPath === Paths.APPLYING &&
+          "Введите номер телефона. На него вы получите СМС с кодом или звонок — сбросьте его и введите последние 4 цифры номера"}
+        {targetPath === Paths.PROFILE &&
+          "Введите номер телефона, на который вы оформили займ.На него вы получите СМС с кодом."}
       </p>
       <div className={styles.bb__gm_form}>
         <label htmlFor="phone">Номер телефона</label>
@@ -80,12 +93,18 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
   );
 };
 
-const RegistrationFormElement: FC<RegistrationFormElementProps> = (props) => {
-  return <props.element />;
-};
-
-const RegistrationFormIcon: FC<RegistrationFormIconProps> = () => {
-  return <div className={styles.bb__gm_icon} />;
+const RegistrationFormIcon: FC<RegistrationFormIconProps> = ({
+  targetPath,
+}) => {
+  return (
+    <div
+      className={
+        targetPath === Paths.APPLYING
+          ? styles["bb__gm-icon"]
+          : styles["bb__gm-icon2"]
+      }
+    />
+  );
 };
 
 const RegistrationFormCheck: FC<RegistrationFormCheckProps> = memo(

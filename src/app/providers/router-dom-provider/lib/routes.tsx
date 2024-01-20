@@ -4,8 +4,6 @@ import { createBrowserRouter } from "react-router-dom";
 import { App } from "@/app/App";
 import { Main } from "@/pages/main";
 
-import { Identity, IdentityCheckOut, IdentityForm } from "@/pages/identity";
-
 import { Page404 } from "@/pages/page-404";
 
 import { ProtectedRoute } from "../ui/ProtectedRoute";
@@ -53,14 +51,6 @@ export const router = createBrowserRouter([
     children: [
       { path: Routes.MAIN, element: <Main /> },
       {
-        path: Routes.IDENTITY,
-        element: <Identity />,
-        children: [
-          { path: Routes.IDENTITY_FORM, element: <IdentityForm /> },
-          { path: Routes.IDENTITY_CHECK_OUT, element: <IdentityCheckOut /> },
-        ],
-      },
-      {
         path: Routes.REG,
         element: <Registration />,
         children: [
@@ -70,23 +60,29 @@ export const router = createBrowserRouter([
       },
       {
         path: Routes.APPLYING,
-        element: (
-          <Suspense fallback={null}>
-            <Applying />
-          </Suspense>
-        ),
+        element: <ProtectedRoute />,
         children: [
-          { path: Routes.APPLYING_AUTO, element: <ApplyingAuto /> },
           {
-            path: Routes.APPLYING_SUM,
+            path: Routes.APPLYING,
             element: (
               <Suspense fallback={null}>
-                <ApplyingSum />
+                <Applying />
               </Suspense>
             ),
+            children: [
+              { path: Routes.APPLYING_AUTO, element: <ApplyingAuto /> },
+              {
+                path: Routes.APPLYING_SUM,
+                element: (
+                  <Suspense fallback={null}>
+                    <ApplyingSum />
+                  </Suspense>
+                ),
+              },
+              { path: Routes.APPLYING_DOCS, element: <ApplyingDocs /> },
+              { path: Routes.APPLYING_RESULT, element: <ApplyingResult /> },
+            ],
           },
-          { path: Routes.APPLYING_DOCS, element: <ApplyingDocs /> },
-          { path: Routes.APPLYING_RESULT, element: <ApplyingResult /> },
         ],
       },
       {

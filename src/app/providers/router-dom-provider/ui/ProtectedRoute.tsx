@@ -10,7 +10,7 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = () => {
   const token = useStateSelector(getUserAccess);
 
   if (!token) {
-    return <Navigate to="/" />;
+    return <Navigate to="/reg/reg_form" />;
   }
 
   return <Outlet />;

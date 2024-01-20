@@ -4,4 +4,5 @@ export {
   userAccessReducer,
   userAccessActions,
   getUserAccess,
+  getTargetPath,
 } from "./model/slice/userAccessSlice";
