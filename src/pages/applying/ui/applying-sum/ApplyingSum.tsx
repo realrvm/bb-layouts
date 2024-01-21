@@ -1,7 +1,7 @@
-import { FC, memo, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { RangeInput } from "@/features/range-input";
-import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
 
 import { ListLoanTerms } from "@/features/loans-list";
@@ -10,6 +10,9 @@ import { calcLoanCredit } from "@/shared/lib/helpers/calcLoanCredit";
 import { useLoanCalculator } from "@/shared/lib/hooks/useLoanCalculator";
 import { calcMonthlyPayment } from "@/shared/lib/helpers/calcMonthlyPayment";
 import { Months } from "@/shared/lib/types";
+import { Button, ButtonThemes } from "@/shared/ui/button";
+
+import { usePostLoan } from "../..";
 
 import styles from "./styles.module.scss";
 
@@ -19,6 +22,11 @@ type MonthlyPaymentProps = {
   rangeValue: number;
   period: Months;
   rate?: number;
+};
+
+type ApplyingButtonProps = {
+  rangeValue: number;
+  period: Months;
 };
 
 const MonthlyPayment: FC<MonthlyPaymentProps> = memo(
@@ -35,6 +43,44 @@ const MonthlyPayment: FC<MonthlyPaymentProps> = memo(
           {calcMonthlyPayment(calcLoanCredit(rangeValue), period, rate)} ₽
         </span>
       </>
+    );
+  },
+);
+
+const ApplyingButton: FC<ApplyingButtonProps> = memo(
+  ({ rangeValue, period }) => {
+    const navigate = useNavigate();
+
+    const [postLoan, { isLoading }] = usePostLoan();
+
+    const handlePostLoan = useCallback(async () => {
+      try {
+        const sum = calcLoanCredit(rangeValue).replace(/\D/g, "");
+
+        const response = await postLoan({
+          borrower: 5,
+          sum,
+          term: Number(period),
+        }).unwrap();
+        navigate("/applying/applying_auto");
+
+        console.log(response);
+      } catch (e) {
+        if (e instanceof Error) console.log(e.message);
+        navigate("/reg/reg_form");
+      }
+    }, [postLoan, navigate, rangeValue, period]);
+
+    return (
+      <div className={styles.bb__applying_sum_btn}>
+        <Button
+          disabled={isLoading}
+          theme={ButtonThemes.PRIMARY}
+          onClick={handlePostLoan}
+        >
+          Продолжить
+        </Button>
+      </div>
     );
   },
 );
@@ -90,11 +136,7 @@ const ApplyingSum: FC<ApplyingSumProps> = () => {
         </div>
       </div>
       <div className={styles.bb__applying_sum_line}></div>
-      <div className={styles.bb__applying_sum_btn}>
-        <AppLink to="/applying/applying_auto" theme={AppLinkThemes.PRIMARY}>
-          Продолжить
-        </AppLink>
-      </div>
+      <ApplyingButton rangeValue={rangeValue} period={period} />
     </div>
   );
 };
