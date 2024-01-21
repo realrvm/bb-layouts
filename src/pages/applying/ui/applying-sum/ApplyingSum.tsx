@@ -7,15 +7,17 @@ import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
 import { ListLoanTerms } from "@/features/loans-list";
 import { calcLoanCredit } from "@/shared/lib/helpers/calcLoanCredit";
 
-import styles from "./styles.module.scss";
 import { useLoanCalculator } from "@/shared/lib/hooks/useLoanCalculator";
 import { calcMonthlyPayment } from "@/shared/lib/helpers/calcMonthlyPayment";
+import { Months } from "@/shared/lib/types";
+
+import styles from "./styles.module.scss";
 
 type ApplyingSumProps = Record<string, never>;
 
 type MonthlyPaymentProps = {
   rangeValue: number;
-  period: "24" | "36" | "48" | "60";
+  period: Months;
   rate?: number;
 };
 

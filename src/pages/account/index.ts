@@ -15,3 +15,5 @@ export { AccountProfileMail } from "./ui/account-profile/account-profile-mail/Ac
 export { AccountProfilePhone } from "./ui/account-profile/account-profile-phone/AccountProfilePhone";
 
 export { Application } from "./ui/account-all/application/Application";
+
+export { useGetProfile } from "./model/api/profileApi";

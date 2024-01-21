@@ -8,3 +8,5 @@ export { ApplyingDocs } from "./ui/applying-docs/ApplyingDocs";
 export { ApplyingResult } from "./ui/applying-result/ApplyingResult";
 
 export { ApplyingSum, Applying };
+
+export { useGetLoans } from "./model/api/loans";

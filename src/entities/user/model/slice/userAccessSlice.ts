@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { UserAccessSchema } from "../types";
 import { LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
-import { Paths } from "@/shared/lib/types";
 
 const initialState: UserAccessSchema = {
   accessToken: "",
@@ -22,19 +21,13 @@ const userAccessSlice = createSlice({
         }
       },
     ),
-    setTargetPath: create.reducer<{ targetPath: Paths }>(
-      (state, { payload }) => {
-        state.targetPath = payload.targetPath;
-      },
-    ),
   }),
   selectors: {
     getUserAccess: (state) => state.accessToken,
-    getTargetPath: (state) => state.targetPath,
   },
 });
 
 export const { reducer: userAccessReducer, actions: userAccessActions } =
   userAccessSlice;
 
-export const { getUserAccess, getTargetPath } = userAccessSlice.selectors;
+export const { getUserAccess } = userAccessSlice.selectors;

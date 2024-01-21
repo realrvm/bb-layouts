@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import { Footer } from "@/widgets/footer";
-import { Navbar } from "@/widgets/navbar";
+import { Navbar } from "@/widgets/navbar/ui/Navbar";
 import { Container } from "@/widgets/container";
 
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";

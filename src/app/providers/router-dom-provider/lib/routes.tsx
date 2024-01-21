@@ -93,7 +93,10 @@ export const router = createBrowserRouter([
             path: Routes.ACCOUNT,
             element: <Account />,
             children: [
-              { path: Routes.ACCOUNT_ALL, element: <AccountAll /> },
+              {
+                path: Routes.ACCOUNT_ALL,
+                element: <AccountAll />,
+              },
               { path: Routes.ACCOUNT_DOCS, element: <AccountDocs /> },
               { path: Routes.ACCOUNT_LOANS, element: <AccountLoans /> },
               { path: Routes.ACCOUNT_PERSONAL, element: <AccountPersonal /> },

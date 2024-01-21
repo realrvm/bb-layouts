@@ -14,23 +14,47 @@ import { cn } from "@/shared/lib/cn";
 import { TABLET_WIDTH } from "@/shared/lib/const";
 import { Paths } from "@/shared/lib/types";
 
-import styles from "./styles.module.scss";
 import { useActionCreators } from "@/app/providers/rtk-provider";
-import { userAccessActions } from "@/entities/user";
+import { targetPathActions } from "@/entities/user";
+
+import { Button, ButtonThemes } from "@/shared/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useGetProfile } from "@/pages/account";
+import { useGetLoans } from "@/pages/applying";
+
+import styles from "./styles.module.scss";
 
 type NavbarProps = Record<string, never>;
 
 export const Navbar: FC<NavbarProps> = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const { width } = useWindowWidth();
-  const actionTargetPath = useActionCreators(userAccessActions);
+  const actionTargetPath = useActionCreators(targetPathActions);
+  const navigate = useNavigate();
+  const [getProfile, { isFetching: isProfileFetching }] = useGetProfile();
+  const [getLoans, { isFetching: isLoansFetching }] = useGetLoans();
 
-  const handleAnchorClick = useCallback(
-    (targetPath: Paths) => {
-      actionTargetPath.setTargetPath({ targetPath });
-    },
-    [actionTargetPath],
-  );
+  const handleProfileClick = useCallback(async () => {
+    try {
+      const profile = await getProfile().unwrap();
+      navigate("/account/account_all");
+      actionTargetPath.setTargetPath({ targetPath: Paths.PROFILE });
+      console.log(profile);
+    } catch (e) {
+      navigate("/reg/reg_form");
+    }
+  }, [getProfile, navigate, actionTargetPath]);
+
+  const handleApplyingClick = useCallback(async () => {
+    try {
+      const loans = await getLoans().unwrap();
+      navigate("/applying/applying_sum");
+      actionTargetPath.setTargetPath({ targetPath: Paths.APPLYING });
+      console.log(loans);
+    } catch (e) {
+      navigate("/reg/reg_form");
+    }
+  }, [getLoans, navigate, actionTargetPath]);
 
   return (
     <header className={styles.bb__header}>
@@ -53,20 +77,20 @@ export const Navbar: FC<NavbarProps> = () => {
           </div>
           {width > TABLET_WIDTH ? (
             <div className={styles.bb__main_nav_action_btns}>
-              <AppLink
-                to="/account/account_all"
-                theme={AppLinkThemes.OUTLINE}
-                onClick={() => handleAnchorClick(Paths.PROFILE)}
+              <Button
+                disabled={isProfileFetching}
+                theme={ButtonThemes.OUTLINE}
+                onClick={handleProfileClick}
               >
                 Личный кабинет
-              </AppLink>
-              <AppLink
-                to="/applying/applying_sum"
-                theme={AppLinkThemes.PRIMARY}
-                onClick={() => handleAnchorClick(Paths.APPLYING)}
+              </Button>
+              <Button
+                disabled={isLoansFetching}
+                theme={ButtonThemes.PRIMARY}
+                onClick={handleApplyingClick}
               >
                 Получить займ
-              </AppLink>
+              </Button>
             </div>
           ) : (
             <>
@@ -103,20 +127,20 @@ export const Navbar: FC<NavbarProps> = () => {
                     styles["mobile"],
                   ])}
                 >
-                  <AppLink
-                    to="/applying/applying_sum"
-                    theme={AppLinkThemes.PRIMARY}
-                    onClick={() => handleAnchorClick(Paths.PROFILE)}
+                  <Button
+                    disabled={isLoansFetching}
+                    theme={ButtonThemes.PRIMARY}
+                    onClick={handleApplyingClick}
                   >
                     Получить займ
-                  </AppLink>
-                  <AppLink
-                    to="/account/account_all"
-                    theme={AppLinkThemes.OUTLINE}
-                    onClick={() => handleAnchorClick(Paths.PROFILE)}
+                  </Button>
+                  <Button
+                    disabled={isProfileFetching}
+                    theme={ButtonThemes.OUTLINE}
+                    onClick={handleProfileClick}
                   >
                     Личный кабинет
-                  </AppLink>
+                  </Button>
                 </div>
               </Drawer>
             </>

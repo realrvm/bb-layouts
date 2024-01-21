@@ -108,12 +108,17 @@
       }
     }
 
+    & > button {
+      padding: 7px 12px;
+      font: var(--heading6);
+    }
+
     & > a {
       padding: 7px 12px;
       font: var(--heading6);
     }
 
-    & > a:last-child {
+    & > button:last-child {
       padding: 8px 12px;
     }
 
@@ -121,7 +126,7 @@
       flex-direction: column;
       gap: 12px;
 
-      & > a {
+      & > button {
         align-self: stretch;
         text-align: center;
         padding: 12px 20px;

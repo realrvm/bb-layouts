@@ -15,9 +15,11 @@ const annuityApi = $api_query.injectEndpoints({
       }),
       transformResponse: (response: AnnuityApprovalSchema[]) => {
         const result: AnnuityApprovalSchema[] = [];
+
         response.forEach((e) => {
           result.push({ help_text: e.help_text, value: e.value });
         });
+
         return result;
       },
     }),
