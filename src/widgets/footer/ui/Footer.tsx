@@ -5,7 +5,7 @@ import bor from "@/shared/assets/images/bor.png";
 import mir from "@/shared/assets/images/mir.png";
 
 import { AppImage } from "@/shared/ui/app-image";
-import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
+import { AppLink } from "@/shared/ui/app-link";
 import { Container } from "@/widgets/container";
 
 import {
@@ -15,12 +15,17 @@ import {
   BIBIMONEY_KPP,
   BIBIMONEY_OGRN,
 } from "../const";
+import { Button, ButtonThemes } from "@/shared/ui/button";
+
+import { useHandleApplying } from "@/shared/lib/hooks/useHandleApplying";
 
 import styles from "./styles.module.scss";
 
 type FooterProps = Record<string, never>;
 
 export const Footer: FC<FooterProps> = () => {
+  const { isLoansFetching, handleApplyingClick } = useHandleApplying();
+
   return (
     <footer className={styles.bb__footer}>
       <Container>
@@ -29,9 +34,13 @@ export const Footer: FC<FooterProps> = () => {
             <AppLink to="/">
               <AppImage src={logo} alt="logo" width={150} height={34} />
             </AppLink>
-            <AppLink to="/reg/reg_form" theme={AppLinkThemes.PRIMARY}>
+            <Button
+              theme={ButtonThemes.PRIMARY}
+              disabled={isLoansFetching}
+              onClick={handleApplyingClick}
+            >
               Получить займ
-            </AppLink>
+            </Button>
           </div>
           <div className={styles.bb__footer_details}>
             <div className={styles.bb__footer_details_item}>

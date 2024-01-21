@@ -42,7 +42,8 @@ const baseQueryWithReauth: BaseQueryFn<
 
       try {
         const token = JSON.parse(
-          window.localStorage.getItem(LOCAL_STORAGE_TOKEN) || "",
+          window.localStorage.getItem(LOCAL_STORAGE_TOKEN) ||
+            JSON.stringify(""),
         ) as string;
 
         const response = await baseQuery(

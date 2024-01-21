@@ -3,9 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Paths } from "@/shared/lib/types";
 import { TargetPathSchema } from "../types";
 
-const initialState: TargetPathSchema = {};
+const initialState: TargetPathSchema = {
+  targetPath: Paths.PROFILE,
+};
 
-const userAccessSlice = createSlice({
+const targetPathSlice = createSlice({
   name: "targetPath",
   initialState,
   reducers: (create) => ({
@@ -21,6 +23,6 @@ const userAccessSlice = createSlice({
 });
 
 export const { reducer: targetPathReducer, actions: targetPathActions } =
-  userAccessSlice;
+  targetPathSlice;
 
-export const { getTargetPath } = userAccessSlice.selectors;
+export const { getTargetPath } = targetPathSlice.selectors;
