@@ -1,4 +1,4 @@
-import { Paths } from "@/shared/lib/types";
+import { Months, Paths } from "@/shared/lib/types";
 
 export type UserAccessSchema = {
   accessToken: string;
@@ -7,4 +7,10 @@ export type UserAccessSchema = {
 
 export type TargetPathSchema = {
   targetPath?: Paths;
+};
+
+export type LoanRequestSchema = {
+  sum: string;
+  term: Months;
+  borrower?: number;
 };

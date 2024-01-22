@@ -1,4 +1,4 @@
-export type { UserAccessSchema } from "./model/types";
+export type { UserAccessSchema, LoanRequestSchema } from "./model/types";
 
 export {
   userAccessReducer,
@@ -11,3 +11,11 @@ export {
   targetPathActions,
   getTargetPath,
 } from "./model/slice/targetPathSlice";
+
+export {
+  loanRequestActions,
+  loanRequestReducer,
+  getLoanRequestBorrower,
+  getLoanRequestTerm,
+  getLoanRequestSum,
+} from "./model/slice/loanRequestSlice";

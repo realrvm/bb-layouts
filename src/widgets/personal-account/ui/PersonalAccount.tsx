@@ -1,10 +1,12 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 
 import { Container } from "@/widgets/container";
 
 import { AppImage } from "@/shared/ui/app-image";
-import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
 import phone from "@/shared/assets/images/phone.png";
+import { Button, ButtonThemes } from "@/shared/ui/button";
+
+import { useHandleProfile } from "@/shared/lib/hooks/useHandleProlile";
 
 import styles from "./styles.module.scss";
 
@@ -42,16 +44,25 @@ export const PersonalAccount: FC<PersonalAccountProps> = () => {
                 <span>Узнать сумму для полного погашения</span>
               </li>
             </ul>
-            <AppLink
-              to="/personal-account"
-              theme={AppLinkThemes.PRIMARY}
-              className={styles.bb__pa_details_link}
-            >
-              Войти в личный кабинет
-            </AppLink>
+            <PersonalAccountLink />
           </div>
         </div>
       </div>
     </Container>
   );
 };
+
+const PersonalAccountLink: FC<PersonalAccountProps> = memo(() => {
+  const { isProfileFetching, handleProfileClick } = useHandleProfile();
+
+  return (
+    <Button
+      disabled={isProfileFetching}
+      onClick={handleProfileClick}
+      theme={ButtonThemes.PRIMARY}
+      className={styles.bb__pa_details_link}
+    >
+      Войти в личный кабинет
+    </Button>
+  );
+});

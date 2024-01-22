@@ -4,7 +4,11 @@ import { StateSchema } from "..";
 
 // reducers
 import { phoneReducer } from "@/entities/phone";
-import { targetPathReducer, userAccessReducer } from "@/entities/user";
+import {
+  loanRequestReducer,
+  targetPathReducer,
+  userAccessReducer,
+} from "@/entities/user";
 import { annuityReducer } from "entities/annuity";
 import { $api_query } from "@/shared/api";
 
@@ -13,4 +17,5 @@ export const reducers = combineSlices($api_query, {
   access: userAccessReducer,
   annuity: annuityReducer,
   targetPath: targetPathReducer,
+  loanRequest: loanRequestReducer,
 }).withLazyLoadedSlices<StateSchema>();
