@@ -12,12 +12,14 @@ import { useObtainApi } from "../../model/api/regApi";
 import { userAccessActions } from "@/entities/user";
 
 import styles from "./styles.module.scss";
+import { useNavigate } from "react-router-dom";
 
 type RegistrationCheckoutProps = Record<string, never>;
 
 export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
   const [otp, setOtp] = useState("");
   const [isResendable, setIsResendable] = useState(true);
+  const navigate = useNavigate();
 
   const phone = useStateSelector(getPhoneNumber);
   const accessAction = useActionCreators(userAccessActions);
@@ -31,6 +33,7 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
       }).unwrap();
 
       accessAction.setUserAccess(token);
+      navigate("/account/account_all");
     } catch (e) {
       if (e instanceof Error) console.log(e.message);
     }

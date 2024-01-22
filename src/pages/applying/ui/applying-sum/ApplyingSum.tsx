@@ -1,5 +1,4 @@
-import { FC, memo, useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FC, memo, useState } from "react";
 
 import { RangeInput } from "@/features/range-input";
 import { ApplyingTitle } from "../shared/applying-title/ApplyingTitle";
@@ -11,8 +10,7 @@ import { useLoanCalculator } from "@/shared/lib/hooks/useLoanCalculator";
 import { calcMonthlyPayment } from "@/shared/lib/helpers/calcMonthlyPayment";
 import { Months } from "@/shared/lib/types";
 import { Button, ButtonThemes } from "@/shared/ui/button";
-
-import { usePostLoan } from "../..";
+import { useLoanApplication } from "@/shared/lib/hooks/useLoanApplication";
 
 import styles from "./styles.module.scss";
 
@@ -49,34 +47,14 @@ const MonthlyPayment: FC<MonthlyPaymentProps> = memo(
 
 const ApplyingButton: FC<ApplyingButtonProps> = memo(
   ({ rangeValue, period }) => {
-    const navigate = useNavigate();
-
-    const [postLoan, { isLoading }] = usePostLoan();
-
-    const handlePostLoan = useCallback(async () => {
-      try {
-        const sum = calcLoanCredit(rangeValue).replace(/\D/g, "");
-
-        const response = await postLoan({
-          borrower: 5,
-          sum,
-          term: Number(period),
-        }).unwrap();
-        navigate("/applying/applying_auto");
-
-        console.log(response);
-      } catch (e) {
-        if (e instanceof Error) console.log(e.message);
-        navigate("/reg/reg_form");
-      }
-    }, [postLoan, navigate, rangeValue, period]);
+    const { isLoading, handlePostLoan } = useLoanApplication();
 
     return (
       <div className={styles.bb__applying_sum_btn}>
         <Button
           disabled={isLoading}
           theme={ButtonThemes.PRIMARY}
-          onClick={handlePostLoan}
+          onClick={() => handlePostLoan(rangeValue, period)}
         >
           Продолжить
         </Button>

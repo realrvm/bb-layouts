@@ -29,6 +29,7 @@ import {
 import { Months } from "@/shared/lib/types";
 
 import styles from "./styles.module.scss";
+import { useLoanApplication } from "@/shared/lib/hooks/useLoanApplication";
 
 type CalculatorFormProps = Record<string, never>;
 
@@ -94,6 +95,7 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
   const [marketPrice, setMarketPrice] = useState("");
   const [rangeValue, setRangeValue] = useState(1);
   const [helpText, setHelpText] = useState("low");
+  const { isLoading, handlePostLoan } = useLoanApplication();
 
   const { rate, approvalProb, period } = useLoanCalculator();
 
@@ -154,7 +156,11 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
         <MonthlyPayment rangeValue={rangeValue} period={period} rate={rate} />
         <ApprovalResult helpText={helpText} />
       </div>
-      <Button className={styles.bb__calc_form_submit} onClick={() => {}}>
+      <Button
+        disabled={isLoading}
+        className={styles.bb__calc_form_submit}
+        onClick={() => handlePostLoan(rangeValue, period)}
+      >
         Получить деньги
       </Button>
     </form>
