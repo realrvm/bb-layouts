@@ -1,5 +1,5 @@
 import { $api_query } from "@/shared/api";
-import { ReportsPlateSchema } from "../types";
+import { AutoDescrSchema, ReportsPlateSchema } from "../types";
 
 const reportsApi = $api_query.injectEndpoints({
   endpoints: (build) => ({
@@ -8,7 +8,7 @@ const reportsApi = $api_query.injectEndpoints({
         url: `/reports/make/${plate}/`,
       }),
     }),
-    getAutoDescr: build.query<any, { id: string }>({
+    getAutoDescr: build.query<AutoDescrSchema, { id: string }>({
       query: ({ id }) => ({ url: `/reports/retrieve/${id}` }),
     }),
   }),

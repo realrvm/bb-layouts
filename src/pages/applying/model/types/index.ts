@@ -6,6 +6,25 @@ export type ReportsPlateSchema = {
   eta: string;
 };
 
+export type AutoDescrSchema = {
+  uid?: string;
+  make: {
+    id?: number;
+    name: string;
+  };
+  model: {
+    id?: number;
+    make_on_read?: {
+      id: number;
+      name: string;
+    };
+    name: string;
+  };
+  manufacture_year: number;
+  body: string;
+  vin: string;
+};
+
 type LoansResultPayments = {
   id: number;
   sum: string;

@@ -26,11 +26,12 @@ type ApplyingAutoCheckProps = {
     manufacture_year: number;
     model: { name: string };
     make: { name: string };
+    body: string;
   };
 };
 
 const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = memo(({ autoData }) => {
-  const { make, model, manufacture_year, vin } = autoData || {};
+  const { make, model, manufacture_year, vin, body } = autoData || {};
 
   return (
     <div className={styles.bb__applying_auto_check}>
@@ -52,7 +53,7 @@ const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = memo(({ autoData }) => {
         </dl>
         <dl>
           <dt>Номер кузова/VIN</dt>
-          <dd>{vin ?? "Не определено"}</dd>
+          <dd>{vin ?? body ?? "Не определено"}</dd>
         </dl>
       </div>
       <Button theme={ButtonThemes.OUTLINE} onClick={() => {}}>
