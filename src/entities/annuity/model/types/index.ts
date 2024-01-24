@@ -1,8 +1,5 @@
-import { Months } from "@/shared/lib/types";
-
 export type AnnuitySchema = {
   sum: string;
-  period: Months;
 };
 
 export type AnnuityRateSchema = {

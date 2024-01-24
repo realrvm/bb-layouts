@@ -3,19 +3,19 @@ import { FC, memo, useCallback, useState } from "react";
 import { Button, ButtonThemes } from "@/shared/ui/button";
 import { terms } from "../const";
 
-import type { Terms } from "../types";
+import { useActionCreators } from "@/app/providers/rtk-provider";
+import { Months } from "@/shared/lib/types";
+import { loanRequestActions } from "@/entities/user";
 
 import styles from "./styles.module.scss";
-import { useActionCreators } from "@/app/providers/rtk-provider";
-import { annuityActions } from "@/entities/annuity";
 
 type ListLoanTermsProps = {
   className?: string;
 };
 
 type ListLoanButtonsProps = {
-  activeTerm: Terms;
-  changeTerms: (term: Terms) => void;
+  activeTerm: Months;
+  changeTerms: (term: Months) => void;
 };
 
 const ListLoanButtons: FC<ListLoanButtonsProps> = memo(
@@ -40,12 +40,12 @@ const ListLoanButtons: FC<ListLoanButtonsProps> = memo(
 );
 
 export const ListLoanTerms: FC<ListLoanTermsProps> = memo(() => {
-  const [activeTerm, setActiveTerm] = useState<Terms>(terms[0]);
-  const annuityPeriodAction = useActionCreators(annuityActions);
+  const [activeTerm, setActiveTerm] = useState<Months>(terms[0]);
+  const loanTermAction = useActionCreators(loanRequestActions);
 
-  const changeTerms = useCallback((term: Terms) => {
+  const changeTerms = useCallback((term: Months) => {
     setActiveTerm(term);
-    annuityPeriodAction.setPeriod(term);
+    loanTermAction.setLoanRequestTerm({term});
   }, []);
 
   return (

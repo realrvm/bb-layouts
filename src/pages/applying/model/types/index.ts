@@ -56,6 +56,6 @@ export type LoansRequestSchema = {
   loaned_at?: string;
   sum: string;
   term: number;
-  borrower: number;
+  borrower?: number;
   vehicle?: 0;
 };

@@ -20,7 +20,6 @@ export const useLoanApplication = () => {
       const sum = calcLoanCredit(range).replace(/\D/g, "");
       try {
         const response = await postLoan({
-          borrower: 5,
           sum,
           term: Number(term),
         }).unwrap();

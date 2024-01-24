@@ -1,3 +1,3 @@
-import { Terms } from "../types";
+import { Months } from "@/shared/lib/types";
 
-export const terms: Terms[] = ["24", "36", "48", "60"];
+export const terms = ["24", "36", "48", "60"] satisfies Months[];
