@@ -8,7 +8,7 @@ import {
   useStateSelector,
 } from "@/app/providers/rtk-provider";
 
-import { useObtainApi, useRegApi } from "../../model/api/regApi";
+import { useObtainApi } from "../../model/api/regApi";
 import { getTargetPath, userAccessActions } from "@/entities/user";
 
 import styles from "./styles.module.scss";
@@ -22,9 +22,6 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
 
   const navigate = useNavigate();
 
-  const [, { isError: isRegisterError }] = useRegApi({
-    fixedCacheKey: "shared-register-post",
-  });
   const [obtain] = useObtainApi({ fixedCacheKey: "shared-obtain-post" });
 
   const phone = useStateSelector(getPhoneNumber);
@@ -43,10 +40,11 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
       if (targetPath) navigate(targetPath);
     } catch (e) {
       if (e instanceof Error) console.log(e.message);
+      setOtp("");
     }
   }, [otp, phone, targetPath]);
 
-  if (otp.length === 6 && isResendable && !isRegisterError) {
+  if (otp.length === 6 && isResendable) {
     sendAuthDataToServer();
     setIsResendable(false);
   }
@@ -57,7 +55,11 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
       <p className={styles.bb__gm_text}>
         Мы отправили код подтверждения на номер {phone}
       </p>
-      <Otp value={otp} onChange={(value) => setOtp(value)} />
+      <Otp
+        value={otp}
+        onChange={(value) => setOtp(value)}
+        resendable={setIsResendable}
+      />
     </section>
   );
 };

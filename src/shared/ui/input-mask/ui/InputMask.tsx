@@ -1,4 +1,4 @@
-import { useRef, memo, FC } from "react";
+import { useRef, memo, FC, useEffect } from "react";
 
 import styles from "./styles.module.scss";
 
@@ -23,6 +23,10 @@ export const InputMask: FC<InputMaskProps> = memo(({ setCard }) => {
     const numbers = inputCard.current?.value.replace(/(\D)/g, "") as string;
     setCard(numbers);
   };
+
+  useEffect(() => {
+    inputCard?.current?.focus();
+  }, []);
 
   return (
     <div className={styles.bb__input_mask_tel}>

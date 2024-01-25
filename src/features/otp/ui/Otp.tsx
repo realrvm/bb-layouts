@@ -14,6 +14,7 @@ type OtpProps = {
   value: string;
   onChange: (value: string) => void;
   valueLength?: number;
+  resendable: (e: boolean) => void;
 };
 
 type OtpFinalCountdownProps = {
@@ -21,7 +22,12 @@ type OtpFinalCountdownProps = {
   isResending: boolean;
 };
 
-export const Otp: FC<OtpProps> = ({ onChange, value, valueLength = 6 }) => {
+export const Otp: FC<OtpProps> = ({
+  onChange,
+  value,
+  resendable,
+  valueLength = 6,
+}) => {
   const navigate = useNavigate();
   const phone_number = useStateSelector(getPhoneNumber);
 
@@ -65,11 +71,12 @@ export const Otp: FC<OtpProps> = ({ onChange, value, valueLength = 6 }) => {
 
   const resendOtp = useCallback(async () => {
     try {
+      resendable(true);
       await register({ phone_number });
     } catch (e) {
       if (e instanceof Error) console.log(e.message);
     }
-  }, []);
+  }, [register]);
 
   return (
     <div className={styles.bb__otp_wrapper}>
