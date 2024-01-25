@@ -64,21 +64,25 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
     isChecked(state);
   }, []);
 
+  const getCorrectDesctiption = useCallback(() => {
+    if (targetPath === Paths.PROFILE) {
+      return "Введите номер телефона, на который вы оформили займ.На него вы получите СМС с кодом.";
+    }
+    return "Введите номер телефона. На него вы получите СМС с кодом или звонок — сбросьте его и введите последние 4 цифры номера";
+  }, [targetPath]);
+
+  const getCorrectTitle = useCallback(() => {
+    if (targetPath === Paths.PROFILE) {
+      return <h2 className={styles.bb__gm_title}>Войти в личный кабинет</h2>;
+    }
+    return <h2 className={styles.bb__gm_title}>Получить деньги</h2>;
+  }, [targetPath]);
+
   return (
     <section className={styles.bb__gm_container}>
       <RegistrationFormIcon targetPath={targetPath} />
-      {targetPath === Paths.APPLYING && (
-        <h2 className={styles.bb__gm_title}>Получить деньги</h2>
-      )}
-      {targetPath === Paths.PROFILE && (
-        <h2 className={styles.bb__gm_title}>Войти в личный кабинет</h2>
-      )}
-      <p className={styles.bb__gm_text}>
-        {targetPath === Paths.APPLYING &&
-          "Введите номер телефона. На него вы получите СМС с кодом или звонок — сбросьте его и введите последние 4 цифры номера"}
-        {targetPath === Paths.PROFILE &&
-          "Введите номер телефона, на который вы оформили займ.На него вы получите СМС с кодом."}
-      </p>
+      {getCorrectTitle()}
+      <p className={styles.bb__gm_text}>{getCorrectDesctiption()}</p>
       <div className={styles.bb__gm_form}>
         <label htmlFor="phone">Номер телефона</label>
         <InputMask setCard={setPhoneValue} />
@@ -99,7 +103,7 @@ const RegistrationFormIcon: FC<RegistrationFormIconProps> = ({
   return (
     <div
       className={
-        targetPath === Paths.APPLYING
+        targetPath === Paths.APPLYING_SUM || Paths.APPLYING_AUTO
           ? styles["bb__gm-icon"]
           : styles["bb__gm-icon2"]
       }

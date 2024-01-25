@@ -9,7 +9,7 @@ import {
 } from "@/app/providers/rtk-provider";
 
 import { useObtainApi } from "../../model/api/regApi";
-import { userAccessActions } from "@/entities/user";
+import { getTargetPath, userAccessActions } from "@/entities/user";
 
 import styles from "./styles.module.scss";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +22,8 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
   const navigate = useNavigate();
 
   const phone = useStateSelector(getPhoneNumber);
+  const targetPath = useStateSelector(getTargetPath);
+
   const accessAction = useActionCreators(userAccessActions);
   const [obtain] = useObtainApi();
 
@@ -33,11 +35,11 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
       }).unwrap();
 
       accessAction.setUserAccess(token);
-      navigate("/account/account_all");
+      if (targetPath) navigate(targetPath);
     } catch (e) {
       if (e instanceof Error) console.log(e.message);
     }
-  }, [otp, phone]);
+  }, [otp, phone, targetPath]);
 
   if (otp.length === 6 && isResendable) {
     sendAuthDataToServer();

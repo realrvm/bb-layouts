@@ -10,3 +10,4 @@ export { ApplyingResult } from "./ui/applying-result/ApplyingResult";
 export { ApplyingSum, Applying };
 
 export { useGetLoans, usePostLoan } from "./model/api/loans";
+export { useGetVehiclesList } from "./model/api/vehicles";

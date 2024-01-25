@@ -26,7 +26,7 @@ import {
   getProbabilityOfApprovalColor,
 } from "@/shared/lib/helpers/approval-helpers";
 
-import { Months } from "@/shared/lib/types";
+import { Months, Paths } from "@/shared/lib/types";
 
 import styles from "./styles.module.scss";
 import { useLoanApplication } from "@/shared/lib/hooks/useLoanApplication";
@@ -159,7 +159,7 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
       <Button
         disabled={isLoading}
         className={styles.bb__calc_form_submit}
-        onClick={() => handlePostLoan(rangeValue, period)}
+        onClick={() => handlePostLoan(rangeValue, period, Paths.APPLYING_AUTO)}
       >
         Получить деньги
       </Button>

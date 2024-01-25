@@ -8,7 +8,7 @@ import { calcLoanCredit } from "@/shared/lib/helpers/calcLoanCredit";
 
 import { useLoanCalculator } from "@/shared/lib/hooks/useLoanCalculator";
 import { calcMonthlyPayment } from "@/shared/lib/helpers/calcMonthlyPayment";
-import { Months } from "@/shared/lib/types";
+import { Months, Paths } from "@/shared/lib/types";
 import { Button, ButtonThemes } from "@/shared/ui/button";
 import { useLoanApplication } from "@/shared/lib/hooks/useLoanApplication";
 
@@ -54,7 +54,9 @@ const ApplyingButton: FC<ApplyingButtonProps> = memo(
         <Button
           disabled={isLoading}
           theme={ButtonThemes.PRIMARY}
-          onClick={() => handlePostLoan(rangeValue, period)}
+          onClick={() =>
+            handlePostLoan(rangeValue, period, Paths.APPLYING_AUTO)
+          }
         >
           Продолжить
         </Button>

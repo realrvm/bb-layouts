@@ -16,6 +16,7 @@ import {
   POLLING_INTERVAL,
   SHORT_REGION_NUMBER,
 } from "@/shared/lib/const";
+import { useGetVehiclesList } from "../..";
 
 import styles from "./styles.module.scss";
 
@@ -32,6 +33,18 @@ type ApplyingAutoCheckProps = {
 
 const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = memo(({ autoData }) => {
   const { make, model, manufacture_year, vin, body } = autoData || {};
+
+  const [getVehiclesList, { isLoading: isVehiclesListLoading }] =
+    useGetVehiclesList();
+
+  const handleGetVehiclesList = useCallback(async () => {
+    try {
+      const list = await getVehiclesList().unwrap();
+      console.log(list);
+    } catch (e) {
+      if (e instanceof Error) console.log(e.message);
+    }
+  }, [getVehiclesList]);
 
   return (
     <div className={styles.bb__applying_auto_check}>
@@ -56,7 +69,11 @@ const ApplyingAutoCheck: FC<ApplyingAutoCheckProps> = memo(({ autoData }) => {
           <dd>{vin ?? body ?? "Не определено"}</dd>
         </dl>
       </div>
-      <Button theme={ButtonThemes.OUTLINE} onClick={() => {}}>
+      <Button
+        theme={ButtonThemes.OUTLINE}
+        onClick={handleGetVehiclesList}
+        disabled={isVehiclesListLoading}
+      >
         Это не моё авто
       </Button>
     </div>

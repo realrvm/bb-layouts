@@ -17,6 +17,7 @@ import { Button, ButtonThemes } from "@/shared/ui/button";
 
 import { useHandleProfile } from "@/shared/lib/hooks/useHandleProlile";
 import { useHandleApplying } from "@/shared/lib/hooks/useHandleApplying";
+import { Paths } from "@/shared/lib/types";
 
 import styles from "./styles.module.scss";
 
@@ -26,7 +27,7 @@ type NavbarChildrenProps = {
   handleProfileClick: () => void;
   isLoansFetching: boolean;
   isProfileFetching: boolean;
-  handleApplyingClick: () => void;
+  handleApplyingClick: (targetPath: Paths) => void;
 };
 
 export const Navbar: FC<NavbarProps> = () => {
@@ -94,7 +95,7 @@ const NavbarDesktop: FC<NavbarChildrenProps> = memo(
         <Button
           disabled={isLoansFetching}
           theme={ButtonThemes.PRIMARY}
-          onClick={handleApplyingClick}
+          onClick={() => handleApplyingClick(Paths.APPLYING_SUM)}
         >
           Получить займ
         </Button>
@@ -147,7 +148,7 @@ const NavbarMobile: FC<NavbarChildrenProps> = memo(
             <Button
               disabled={isLoansFetching}
               theme={ButtonThemes.PRIMARY}
-              onClick={handleApplyingClick}
+              onClick={() => handleApplyingClick(Paths.APPLYING_SUM)}
             >
               Получить займ
             </Button>

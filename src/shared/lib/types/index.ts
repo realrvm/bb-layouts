@@ -1,6 +1,7 @@
 export type Months = "24" | "36" | "48" | "60";
 
 export const enum Paths {
-  APPLYING = "applying",
-  PROFILE = "profile",
+  APPLYING_SUM = "/applying/applying_sum",
+  APPLYING_AUTO = "/applying/applying_auto",
+  PROFILE = "/account/account_all",
 }

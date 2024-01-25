@@ -18,6 +18,7 @@ import {
 import { Button, ButtonThemes } from "@/shared/ui/button";
 
 import { useHandleApplying } from "@/shared/lib/hooks/useHandleApplying";
+import { Paths } from "@/shared/lib/types";
 
 import styles from "./styles.module.scss";
 
@@ -37,7 +38,7 @@ export const Footer: FC<FooterProps> = () => {
             <Button
               theme={ButtonThemes.PRIMARY}
               disabled={isLoansFetching}
-              onClick={handleApplyingClick}
+              onClick={() => handleApplyingClick(Paths.APPLYING_SUM)}
             >
               Получить займ
             </Button>

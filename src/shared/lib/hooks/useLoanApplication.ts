@@ -16,7 +16,7 @@ export const useLoanApplication = () => {
   const [postLoan, { isLoading }] = usePostLoan();
 
   const handlePostLoan = useCallback(
-    async (range: number, term: Months) => {
+    async (range: number, term: Months, targetPath: Paths) => {
       const sum = calcLoanCredit(range).replace(/\D/g, "");
       try {
         const response = await postLoan({
@@ -24,12 +24,12 @@ export const useLoanApplication = () => {
           term: Number(term),
         }).unwrap();
 
-        navigate("/applying/applying_auto");
+        navigate(targetPath);
 
         console.log(response);
       } catch (e) {
         if (e instanceof Error) console.log(e.message);
-        actionTargetPath.setTargetPath({ targetPath: Paths.APPLYING });
+        actionTargetPath.setTargetPath({ targetPath });
         actionLoanRequest.setLoanRequestSum({ sum });
         actionLoanRequest.setLoanRequestTerm({ term });
 

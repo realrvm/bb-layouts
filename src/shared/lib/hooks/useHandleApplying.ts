@@ -11,18 +11,22 @@ export const useHandleApplying = () => {
   const [getLoans, { isFetching: isLoansFetching }] = useGetLoans();
   const actionTargetPath = useActionCreators(targetPathActions);
 
-  const handleApplyingClick = useCallback(async () => {
-    try {
-      const loans = await getLoans().unwrap();
+  const handleApplyingClick = useCallback(
+    async (targetPath: Paths) => {
+      try {
+        const loans = await getLoans().unwrap();
 
-      navigate("/applying/applying_sum");
-      console.log(loans);
-    } catch (e) {
-      actionTargetPath.setTargetPath({ targetPath: Paths.APPLYING });
+        actionTargetPath.setTargetPath({ targetPath });
+        navigate(targetPath);
+        console.log(loans);
+      } catch (e) {
+        actionTargetPath.setTargetPath({ targetPath });
 
-      navigate("/reg/reg_form");
-    }
-  }, [getLoans, navigate, actionTargetPath]);
+        navigate("/reg/reg_form");
+      }
+    },
+    [getLoans, navigate, actionTargetPath],
+  );
 
   return { handleApplyingClick, isLoansFetching };
 };
