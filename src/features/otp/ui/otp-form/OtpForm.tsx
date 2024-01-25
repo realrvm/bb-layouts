@@ -13,15 +13,17 @@ import {
 import { DIGIT_REG } from "@/shared/lib/const";
 
 import styles from "./styles.module.scss";
+import { cn } from "@/shared/lib/cn";
 
 type OtpFormProps = {
   value: string;
   onChange: (value: string) => void;
   valueLength?: number;
+  isWrongRegisterData?: boolean;
 };
 
 export const OtpForm: FC<OtpFormProps> = memo(
-  ({ value, valueLength = 6, onChange }) => {
+  ({ value, valueLength = 6, onChange, isWrongRegisterData = false }) => {
     const items = useMemo(() => {
       const valueArray = [...value];
       const itemsArray: string[] = [];
@@ -155,7 +157,9 @@ export const OtpForm: FC<OtpFormProps> = memo(
             autoComplete="one-time-code"
             pattern="\d{1}"
             maxLength={valueLength}
-            className={styles.bb__otp_input}
+            className={cn(styles.bb__otp_input, {
+              [styles["bb__otp_input--wrong"]]: isWrongRegisterData,
+            })}
             onChange={(e) => handleOnChange(e, index)}
             onFocus={handleOnFocus}
             onKeyDown={handleKeyDown}

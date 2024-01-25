@@ -21,7 +21,7 @@
     text-align: center;
     outline: none;
 
-    &.error {
+    &--wrong {
       border-bottom: 2px solid var(--special-red);
     }
   }

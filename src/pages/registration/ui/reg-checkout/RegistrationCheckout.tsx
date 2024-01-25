@@ -8,7 +8,7 @@ import {
   useStateSelector,
 } from "@/app/providers/rtk-provider";
 
-import { useObtainApi } from "../../model/api/regApi";
+import { useObtainApi, useRegApi } from "../../model/api/regApi";
 import { getTargetPath, userAccessActions } from "@/entities/user";
 
 import styles from "./styles.module.scss";
@@ -19,13 +19,18 @@ type RegistrationCheckoutProps = Record<string, never>;
 export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
   const [otp, setOtp] = useState("");
   const [isResendable, setIsResendable] = useState(true);
+
   const navigate = useNavigate();
+
+  const [, { isError: isRegisterError }] = useRegApi({
+    fixedCacheKey: "shared-register-post",
+  });
+  const [obtain] = useObtainApi({ fixedCacheKey: "shared-obtain-post" });
 
   const phone = useStateSelector(getPhoneNumber);
   const targetPath = useStateSelector(getTargetPath);
 
   const accessAction = useActionCreators(userAccessActions);
-  const [obtain] = useObtainApi();
 
   const sendAuthDataToServer = useCallback(async () => {
     try {
@@ -41,7 +46,7 @@ export const RegistrationCheckout: FC<RegistrationCheckoutProps> = () => {
     }
   }, [otp, phone, targetPath]);
 
-  if (otp.length === 6 && isResendable) {
+  if (otp.length === 6 && isResendable && !isRegisterError) {
     sendAuthDataToServer();
     setIsResendable(false);
   }

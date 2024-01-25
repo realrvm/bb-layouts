@@ -36,7 +36,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
   const [phoneValue, setPhoneValue] = useState("");
   const [item] = useLocaleStorage(LOCAL_STORAGE_SITE_HAS_VISITED);
 
-  const [register] = useRegApi();
+  const [register] = useRegApi({ fixedCacheKey: "shared-register-post" });
 
   const targetPath = useStateSelector(getTargetPath);
 

@@ -5,3 +5,8 @@ export const enum Paths {
   APPLYING_AUTO = "/applying/applying_auto",
   PROFILE = "/account/account_all",
 }
+
+export const enum ServerErrors {
+  WRONG_PHONE = "message is denied",
+  WRONG_SMS = "No active account found with the given credentials",
+}
