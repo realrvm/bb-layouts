@@ -1,13 +1,19 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 
 import { BackButton, Button, ButtonThemes } from "@/shared/ui/button";
 
 import { cn } from "@/shared/lib/cn";
 
-import styles from "./styles.module.scss";
 import { AppLink, AppLinkThemes } from "@/shared/ui/app-link";
+import { usePreviewImage } from "@/shared/lib/hooks/usePreviewImage";
+
+import styles from "./styles.module.scss";
 
 type ApplicationProps = Record<string, never>;
+
+type ApplicationUploadProps = {
+  multiple?: boolean;
+};
 
 export const Application: FC<ApplicationProps> = () => {
   return (
@@ -38,66 +44,19 @@ export const Application: FC<ApplicationProps> = () => {
                   На фото должно быть разборчиво видно ваше ФИО и фотографию
                 </p>
               </div>
-              <label className={styles.bb__req_application_card_label}>
-                <span>Прикрепить</span>
-                <input type="file" name="file" />
-              </label>
+              <ApplicationUpload />
             </div>
             <div className={styles.bb__req_application_card_docs}>
               <div className={styles.bb__req_application_card_docs_descr}>
                 <h5>2. Фото паспорта (Разворот с пропиской)</h5>
               </div>
-              <label className={styles.bb__req_application_card_label}>
-                <span>Прикрепить</span>
-                <input type="file" name="file" />
-              </label>
+              <ApplicationUpload />
             </div>
             <div className={styles.bb__req_application_card_docs}>
               <div className={styles.bb__req_application_card_docs_descr}>
                 <h5>3. ПТС (Все страницы)</h5>
               </div>
-              <label className={styles.bb__req_application_card_label}>
-                <span>Прикрепить</span>
-                <input type="file" name="file" />
-              </label>
-            </div>
-          </div>
-          <Button theme={ButtonThemes.PRIMARY}>Далее</Button>
-
-          <div className={styles.bb__req_application_card}>
-            <h4>Прикрепите следующие документы</h4>
-            <div className={styles.bb__req_application_card_docs}>
-              <div className={styles.bb__req_application_card_docs_descr}>
-                <h5>1. Фото разворота паспорта</h5>
-              </div>
-              <div className={styles.bb__req_application_card_docs_img_wrap}>
-                <div className={styles.bb__req_application_card_docs_img}></div>
-                <Button theme={ButtonThemes.CLEAN} onClick={() => {}}>
-                  <span></span>
-                </Button>
-              </div>
-            </div>
-            <div className={styles.bb__req_application_card_docs}>
-              <div className={styles.bb__req_application_card_docs_descr}>
-                <h5>2. Разворот с пропиской</h5>
-              </div>
-              <div className={styles.bb__req_application_card_docs_img_wrap}>
-                <div className={styles.bb__req_application_card_docs_img}></div>
-                <Button theme={ButtonThemes.CLEAN} onClick={() => {}}>
-                  <span></span>
-                </Button>
-              </div>
-            </div>
-            <div className={styles.bb__req_application_card_docs}>
-              <div className={styles.bb__req_application_card_docs_descr}>
-                <h5>3. ПТС</h5>
-              </div>
-              <div className={styles.bb__req_application_card_docs_img_wrap}>
-                <div className={styles.bb__req_application_card_docs_img}></div>
-                <Button theme={ButtonThemes.CLEAN} onClick={() => {}}>
-                  <span></span>
-                </Button>
-              </div>
+              <ApplicationUpload multiple={true} />
             </div>
           </div>
           <Button theme={ButtonThemes.PRIMARY}>Далее</Button>
@@ -198,3 +157,30 @@ export const Application: FC<ApplicationProps> = () => {
     </div>
   );
 };
+
+const ApplicationUpload: FC<ApplicationUploadProps> = memo(
+  ({ multiple = false }) => {
+    const { previewImage, handleSelectImage } = usePreviewImage();
+
+    return (
+      <div className={styles.bb__req_application_card_docs_img_wrap}>
+        {previewImage ? (
+          <div className={styles.bb__req_application_card_docs_img}>
+            <img src={previewImage as string} alt="preview" />
+          </div>
+        ) : (
+          <label className={styles.bb__req_application_card_label}>
+            <span>Прикрепить</span>
+            <input
+              multiple={multiple}
+              type="file"
+              name="file"
+              onChange={handleSelectImage}
+              accept="image/*"
+            />
+          </label>
+        )}
+      </div>
+    );
+  },
+);

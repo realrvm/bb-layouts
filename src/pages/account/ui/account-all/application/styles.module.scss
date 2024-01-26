@@ -172,7 +172,13 @@
         width: 60px;
         height: 60px;
         border-radius: 8px;
-        background: var(--bg-grey);
+        overflow: hidden;
+
+        & > img {
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
       }
 
       &_img_wrap {
