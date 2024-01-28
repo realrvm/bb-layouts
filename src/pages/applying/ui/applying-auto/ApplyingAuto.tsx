@@ -16,11 +16,15 @@ import {
   POLLING_INTERVAL,
   SHORT_REGION_NUMBER,
 } from "@/shared/lib/const";
-import { useGetVehiclesList } from "../..";
+import { useCreateModel, useGetVehiclesList } from "../..";
+
+import { useNavigate } from "react-router-dom";
 
 import styles from "./styles.module.scss";
+import { AutoDescrSchema } from "../../model/types";
 
 type ApplyingAutoProps = Record<string, never>;
+
 type ApplyingAutoCheckProps = {
   autoData: {
     vin: string | null;
@@ -98,25 +102,38 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
   const [pollingInterval, setPollingInterval] = useState(POLLING_INTERVAL);
   const [plate, setPlate] = useState("");
   const [region, setRegion] = useState("");
+  const [autoDataValue, setAutoDataValue] = useState<
+    AutoDescrSchema | undefined
+  >();
+
+  const navigate = useNavigate();
 
   const [
     getPlateId,
     { data, isFetching: isFetchingPlateId, isSuccess: isSuccessFetchingPlate },
   ] = useGetPlateId();
 
+  const [createModel] = useCreateModel({
+    fixedCacheKey: "shared-create-model-post",
+  });
+
   const [
     getAutoData,
     {
-      currentData: dataAuto,
+      data: dataAuto,
       isFetching: isFetchingAutoData,
       isSuccess: isSuccessFetchingAutoData,
     },
   ] = useGetAutoDescr({ pollingInterval });
 
   useEffect(() => {
-    if (isSuccessFetchingPlate && data?.uid) {
-      getAutoData({ id: data?.uid || "" });
+    async function fetchAutoData() {
+      if (isSuccessFetchingPlate && data?.uid) {
+        const res = await getAutoData({ id: data?.uid || "" }).unwrap();
+        setAutoDataValue(res);
+      }
     }
+    fetchAutoData();
   }, [data?.uid]);
 
   useEffect(() => {
@@ -128,6 +145,26 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
     isPlateTheRequiredLength(plate, region) &&
       getPlateId({ plate: plate + region });
   }, [pollingInterval, plate, region, isPlateTheRequiredLength, getPlateId]);
+
+  const handleGoToDocPage = useCallback(async () => {
+    const { manufacture_year, model, body, vin } = autoDataValue || {};
+    try {
+      if (manufacture_year && model && model.id) {
+        await createModel({
+          model: model.id,
+          manufacture_year: manufacture_year?.toString(),
+          plate: plate + region,
+          market_price: "1000000",
+          body,
+          vin,
+        }).unwrap();
+
+        navigate("/applying/applying_docs");
+      }
+    } catch (e) {
+      if (e instanceof Error) console.log(e.message);
+    }
+  }, [autoDataValue]);
 
   return (
     <>
@@ -167,14 +204,20 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
               Определить авто
             </Button>
           </div>
-          {dataAuto ? <ApplyingAutoCheck autoData={dataAuto} /> : null}
+          {autoDataValue?.uid ? (
+            <ApplyingAutoCheck autoData={autoDataValue} />
+          ) : null}
         </div>
         <div className={styles.bb__applying_auto_line}></div>
         <div className={styles.bb__applying_auto_btn}>
           <ApplyingBackBtn />
-          <AppLink to="/applying/applying_docs" theme={AppLinkThemes.PRIMARY}>
+          <Button
+            theme={ButtonThemes.PRIMARY}
+            onClick={handleGoToDocPage}
+            disabled={!isSuccessFetchingAutoData}
+          >
             Продолжить
-          </AppLink>
+          </Button>
         </div>
       </div>
       <div className={styles.bb__applying_wrapper}>

@@ -78,3 +78,17 @@ export type LoansRequestSchema = {
   borrower?: number;
   vehicle?: 0;
 };
+
+export type ModelObjectRequest = {
+  owner?: number;
+  model: number;
+  body?: string;
+  vin?: string;
+  market_price: string;
+  manufacture_year: string;
+  plate: string;
+};
+
+export type ModelObjectResponse = {
+  id: number;
+};

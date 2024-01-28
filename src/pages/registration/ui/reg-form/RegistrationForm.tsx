@@ -16,9 +16,9 @@ import { LOCAL_STORAGE_SITE_HAS_VISITED } from "@/shared/lib/const";
 
 import { useRegApi } from "../../model/api/regApi";
 import { getTargetPath } from "@/entities/user";
+import { Paths } from "@/shared/lib/types";
 
 import styles from "./styles.module.scss";
-import { Paths } from "@/shared/lib/types";
 
 type RegistrationFormProps = Record<string, never>;
 
@@ -97,19 +97,19 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
   );
 };
 
-const RegistrationFormIcon: FC<RegistrationFormIconProps> = ({
-  targetPath,
-}) => {
-  return (
-    <div
-      className={
-        targetPath === Paths.APPLYING_SUM || Paths.APPLYING_AUTO
-          ? styles["bb__gm-icon"]
-          : styles["bb__gm-icon2"]
-      }
-    />
-  );
-};
+const RegistrationFormIcon: FC<RegistrationFormIconProps> = memo(
+  ({ targetPath }) => {
+    return (
+      <div
+        className={
+          targetPath === Paths.PROFILE
+            ? styles["bb__gm-icon--profile"]
+            : styles["bb__gm-icon--wallet"]
+        }
+      />
+    );
+  },
+);
 
 const RegistrationFormCheck: FC<RegistrationFormCheckProps> = memo(
   ({ checked, handleCheck }) => {
