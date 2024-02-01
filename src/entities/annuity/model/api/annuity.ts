@@ -3,7 +3,7 @@ import { AnnuityApprovalSchema, AnnuityRateSchema } from "../types";
 
 const annuityApi = $api_query.injectEndpoints({
   endpoints: (build) => ({
-    getAnnuityRate: build.query<number, void>({
+    getAnnuityRate: build.query<number, any>({
       query: () => ({
         url: `/config/?name=INTEREST_RATE`,
       }),

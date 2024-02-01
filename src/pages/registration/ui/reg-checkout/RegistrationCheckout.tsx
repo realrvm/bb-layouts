@@ -1,4 +1,5 @@
 import { FC, useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Otp } from "@/features/otp";
 
@@ -12,7 +13,6 @@ import { useObtainApi } from "../../model/api/regApi";
 import { getTargetPath, userAccessActions } from "@/entities/user";
 
 import styles from "./styles.module.scss";
-import { useNavigate } from "react-router-dom";
 
 type RegistrationCheckoutProps = Record<string, never>;
 

@@ -154,7 +154,6 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
           model: model.id,
           manufacture_year: manufacture_year?.toString(),
           plate: plate + region,
-          market_price: "1000000",
           body,
           vin,
         }).unwrap();

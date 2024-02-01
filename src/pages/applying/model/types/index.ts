@@ -84,7 +84,6 @@ export type ModelObjectRequest = {
   model: number;
   body?: string;
   vin?: string;
-  market_price: string;
   manufacture_year: string;
   plate: string;
 };

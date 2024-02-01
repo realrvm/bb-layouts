@@ -30,6 +30,7 @@ import { Months, Paths } from "@/shared/lib/types";
 
 import styles from "./styles.module.scss";
 import { useLoanApplication } from "@/shared/lib/hooks/useLoanApplication";
+import { AnnuityApprovalSchema } from "@/entities/annuity/model/types";
 
 type CalculatorFormProps = Record<string, never>;
 
@@ -43,6 +44,12 @@ type MarketValueOfCarProps = {
   marketPrice: string;
   handleMarketPrice: (e: ChangeEvent<HTMLInputElement>) => void;
 };
+
+const initialApprovalProb: AnnuityApprovalSchema[] = [
+  { help_text: "very high", value: 30 },
+  { help_text: "high", value: 50 },
+  { help_text: "average", value: 70 },
+];
 
 const MarketValueOfCar: FC<MarketValueOfCarProps> = memo(
   ({ marketPrice, handleMarketPrice }) => {
@@ -94,7 +101,7 @@ const ApprovalResult: FC<{ helpText: string }> = memo(({ helpText }) => {
 export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
   const [marketPrice, setMarketPrice] = useState("");
   const [rangeValue, setRangeValue] = useState(1);
-  const [helpText, setHelpText] = useState("low");
+  const [helpText, setHelpText] = useState("high");
   const { isLoading, handlePostLoan } = useLoanApplication();
 
   const { rate, approvalProb, period } = useLoanCalculator();
@@ -119,11 +126,9 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
       calcLoanCredit(rangeValue),
     );
 
-    if (approvalProb && Array.isArray(approvalProb)) {
-      const text = getHelpText(percents, approvalProb);
-      setHelpText(text);
-    }
-  }, [marketPrice, rangeValue]);
+    const text = getHelpText(percents, approvalProb || initialApprovalProb);
+    setHelpText(text);
+  }, [marketPrice, rangeValue, approvalProb, calcPercents, getHelpText]);
 
   return (
     <form
