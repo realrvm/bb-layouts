@@ -94,7 +94,7 @@ const ApprovalResult: FC<{ helpText: string }> = memo(({ helpText }) => {
 export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
   const [marketPrice, setMarketPrice] = useState("");
   const [rangeValue, setRangeValue] = useState(1);
-  const [helpText, setHelpText] = useState("high");
+  const [helpText, setHelpText] = useState("low");
 
   const { isLoading, handlePostLoan } = useLoanApplication();
   const { rate, approvalProb, period } = useLoanCalculator();

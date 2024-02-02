@@ -21,11 +21,14 @@ export function getProbabilityOfApprovalColor(
 
 export function getProbabilityOfApproval(approval: string): string {
   switch (approval) {
-    case "very high" || "очень высокая":
+    case "very high":
+    case "очень высокая":
       return "Очень высокая";
-    case "high" || "высокая":
+    case "high":
+    case "высокая":
       return "Высокая";
-    case "average" || "средняя":
+    case "average":
+    case "средняя":
       return "Средняя";
     default:
       return "Низкая";
