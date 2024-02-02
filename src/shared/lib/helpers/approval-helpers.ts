@@ -9,10 +9,13 @@ export function getProbabilityOfApprovalColor(
 ): string {
   switch (approval) {
     case "very high":
+    case "очень высокая":
       return styles["approval-high"];
     case "high":
+    case "высокая":
       return styles["approval-high"];
     case "average":
+    case "средняя":
       return styles["approval-average"];
     default:
       return styles["approval-low"];
