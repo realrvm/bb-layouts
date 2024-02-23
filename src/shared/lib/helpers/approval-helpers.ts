@@ -1,8 +1,15 @@
-type GetMap = {
+export type GetMap = {
   help_text: string;
   value: number;
 };
 
+/**
+ *  Returns the color for the given approval level.
+ *
+ *  @param {string} approval - The approval level to get the color for.
+ *  @param {CSSModuleClasses} styles - The styles containing the color classes.
+ *  @returns {string} The color for the given approval level.
+ */
 export function getProbabilityOfApprovalColor(
   approval: string,
   styles: CSSModuleClasses,
@@ -22,6 +29,12 @@ export function getProbabilityOfApprovalColor(
   }
 }
 
+/**
+ *  Returns the probability of approval based on the given approval string.
+ *
+ *  @param {string} approval - The approval string to be evaluated.
+ *  @returns {string} The probability of approval.
+ */
 export function getProbabilityOfApproval(approval: string): string {
   switch (approval) {
     case "very high":
@@ -38,7 +51,13 @@ export function getProbabilityOfApproval(approval: string): string {
   }
 }
 
-function getMap(data: GetMap[]) {
+/**
+ *  Creates a map of help texts based on the given data array.
+ *
+ *  @param {GetMap} data - The array of GetMap objects containing help texts and values.
+ *  @returns {Record<number | string, string>} The map of help texts.
+ */
+export function getMap(data: GetMap[]) {
   return data.reduce((prev, next) => {
     const { help_text, value } = next;
 
@@ -46,16 +65,31 @@ function getMap(data: GetMap[]) {
   }, {});
 }
 
+/**
+ *  Returns the help text for a given value and data.
+ *
+ *  @param {number} val - The value to find help text for.
+ *  @param {GetMap} data - The data containing the help text.
+ *  @returns {string} The help text for the given value.
+ */
 export function getHelpText(val: number, data: GetMap[]): string {
   const obj: Record<number | string, string> = getMap(data);
   const points: number[] = Object.keys(obj)
     .map(Number)
-    .sort((a, b) => a - b);
+    .sort((a, b) => a - b)
+    .reduceRight((acc, point, i, arr) => {
+      if (val <= point) {
+        acc.push(point);
+        return acc;
+      }
+      if (i === arr.length - 1) {
+        acc.push(arr[i + 1]);
+      }
+      return acc;
+    }, [] as number[]);
 
-  if (val <= points[0]) return obj[points[0]];
-  if (val > points[0] && val <= points[1]) return obj[points[1]];
-  if (val > points[1] && val <= points[2]) return obj[points[2]];
-  return "low";
+  if (points.length === 0) return "low";
+  return obj[points[points.length - 1]];
 }
 
 /**
@@ -65,6 +99,7 @@ export function getHelpText(val: number, data: GetMap[]): string {
  * @returns {number} - percent
  */
 export function calcPercents(sum: string, price: string): number {
+  if (!sum) return 0;
   const amount = price.replace(/\D/g, "");
 
   return (Number(amount) / Number(sum || "1")) * 100;

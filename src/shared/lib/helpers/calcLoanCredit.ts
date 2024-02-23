@@ -1,4 +1,4 @@
-import { STEP_LOAN_VALUE } from "@/shared/lib/const";
+import { MAX_LOAN_VALUE, MIN_LOAN_VALUE } from "@/shared/lib/const";
 import { getWithSpaces } from "shared/lib/helpers/addSpacesToInputNumber";
 
 type Step = { amounts: number };
@@ -9,12 +9,14 @@ type Step = { amounts: number };
  * @returns {string} - number in string form with spaces
  */
 export function calcLoanCredit(percent: number): string {
-  const step: Step = { amounts: STEP_LOAN_VALUE * percent };
+  const step: Step = { amounts: (MAX_LOAN_VALUE / 100) * percent };
 
   const { amounts } = new Proxy(step, {
     get(target: Step, prop: keyof Step) {
-      if (target[prop] < STEP_LOAN_VALUE) {
-        return getWithSpaces(STEP_LOAN_VALUE);
+      if (target[prop] < MIN_LOAN_VALUE) {
+        return getWithSpaces(MIN_LOAN_VALUE);
+      } else if (target[prop] > MAX_LOAN_VALUE) {
+        return getWithSpaces(MAX_LOAN_VALUE);
       } else return getWithSpaces(target[prop]);
     },
   });

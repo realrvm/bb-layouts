@@ -17,8 +17,9 @@ export const API_URL = "https://api.bibimoney.ru/api/v1";
 export const LOCAL_STORAGE_TOKEN = "token";
 export const LOCAL_STORAGE_SITE_HAS_VISITED = "has_visited";
 
-// loan credit step
-export const STEP_LOAN_VALUE = 50_000;
+// loan credit values
+export const MIN_LOAN_VALUE = 50_000;
+export const MAX_LOAN_VALUE = 1_000_000;
 
 // max accordion index
 export const MAX_ACCORDION_INDEX = 333;

@@ -11,6 +11,8 @@ export const RangeInput: FC<RangeInputProps> = memo(({ setRangeValue }) => {
   return (
     <RangeSlider
       className="bb__range-slider"
+      min={5}
+      max={100}
       defaultValue={[0, 0]}
       thumbsDisabled={[true, false]}
       rangeSlideDisabled={true}
