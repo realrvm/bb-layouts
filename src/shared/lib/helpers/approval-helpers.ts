@@ -24,6 +24,8 @@ export function getProbabilityOfApprovalColor(
     case "average":
     case "средняя":
       return styles["approval-average"];
+    case "initial":
+      return styles["approval-initial"];
     default:
       return styles["approval-low"];
   }
@@ -73,6 +75,7 @@ export function getMap(data: GetMap[]) {
  *  @returns {string} The help text for the given value.
  */
 export function getHelpText(val: number, data: GetMap[]): string {
+  if (!val) return "initial";
   const obj: Record<number | string, string> = getMap(data);
   const points: number[] = Object.keys(obj)
     .map(Number)
@@ -102,5 +105,7 @@ export function calcPercents(sum: string, price: string): number {
   if (!sum) return 0;
   const amount = price.replace(/\D/g, "");
 
-  return (Number(amount) / Number(sum || "1")) * 100;
+  const approvalPercents = (Number(amount) / Number(sum || "1")) * 100;
+
+  return approvalPercents < 100 ? approvalPercents : 100;
 }

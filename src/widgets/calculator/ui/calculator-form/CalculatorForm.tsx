@@ -86,7 +86,9 @@ const ApprovalResult: FC<{ helpText: string }> = memo(({ helpText }) => {
       ])}
     >
       <span>Вероятность одобрения</span>
-      <span>{getProbabilityOfApproval(helpText)}</span>
+      <span>
+        {helpText === "initial" ? "—" : getProbabilityOfApproval(helpText)}
+      </span>
     </div>
   );
 });
@@ -94,7 +96,7 @@ const ApprovalResult: FC<{ helpText: string }> = memo(({ helpText }) => {
 export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
   const [marketPrice, setMarketPrice] = useState("");
   const [rangeValue, setRangeValue] = useState(1);
-  const [helpText, setHelpText] = useState("low");
+  const [helpText, setHelpText] = useState("initial");
 
   const { isLoading, handlePostLoan } = useLoanApplication();
   const { rate, approvalProb, period } = useLoanCalculator();
@@ -121,7 +123,7 @@ export const CalculatorForm: FC<CalculatorFormProps> = memo(() => {
 
     const text = getHelpText(percents, approvalProb || []);
     setHelpText(text);
-  }, [marketPrice, rangeValue, approvalProb, calcPercents, getHelpText]);
+  }, [marketPrice, rangeValue]);
 
   return (
     <form

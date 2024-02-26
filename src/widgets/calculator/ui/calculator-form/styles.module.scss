@@ -142,6 +142,13 @@
       }
     }
 
+    &_item_r.approval-initial {
+      & > span:last-child {
+        color: var(--text-grey);
+        font-weight: 700;
+      }
+    }
+
     &_item_r.approval-low {
       & > span:last-child {
         color: var(--special-red);
