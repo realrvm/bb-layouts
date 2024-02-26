@@ -11,7 +11,8 @@ export { ApplyingSum, Applying };
 
 export { useGetLoans, usePostLoan } from "./model/api/loans";
 export {
-  useGetVehiclesList,
   useCreateModel,
   useGetPresign,
+  useGetBrands,
+  useGetModel,
 } from "./model/api/vehicles";

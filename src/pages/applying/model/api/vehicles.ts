@@ -5,11 +5,10 @@ const vehiclesApi = $api_query
   .enhanceEndpoints({ addTagTypes: ["Vehicles"] })
   .injectEndpoints({
     endpoints: (build) => ({
-      getModelsList: build.query<any, void>({
-        query: () => ({
-          url: `/vehicles/models/`,
+      getModel: build.query<any, string>({
+        query: (id: string) => ({
+          url: `/vehicles/models/?make=${id}`,
         }),
-        providesTags: ["Vehicles"],
       }),
       createModelObject: build.mutation<
         ModelObjectResponse,
@@ -21,6 +20,11 @@ const vehiclesApi = $api_query
           body,
         }),
       }),
+      getListVehiclesBrands: build.query<any, void>({
+        query: () => ({
+          url: "/vehicles/makes/",
+        }),
+      }),
       getUrlImagesPresign: build.mutation<
         { url: string },
         { uid: string; file_name: string }
@@ -28,13 +32,14 @@ const vehiclesApi = $api_query
         query: ({ file_name, uid }) => ({
           url: `/vehicles/${uid}/images/presign/`,
           method: "POST",
-          body: { file_name: file_name },
+          body: { file_name },
         }),
       }),
     }),
     overrideExisting: false,
   });
 
-export const useGetVehiclesList = vehiclesApi.useLazyGetModelsListQuery;
+export const useGetModel = vehiclesApi.useLazyGetModelQuery;
 export const useCreateModel = vehiclesApi.useCreateModelObjectMutation;
 export const useGetPresign = vehiclesApi.useGetUrlImagesPresignMutation;
+export const useGetBrands = vehiclesApi.useLazyGetListVehiclesBrandsQuery;

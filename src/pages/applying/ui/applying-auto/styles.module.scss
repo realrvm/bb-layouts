@@ -227,29 +227,13 @@
 }
 
 .bb__applying_select_wrap {
-  position: relative;
-
-  &:after {
-    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.79289 8.29289C6.18342 7.90237 6.81658 7.90237 7.20711 8.29289L12.5 13.5858L17.7929 8.29289C18.1834 7.90237 18.8166 7.90237 19.2071 8.29289C19.5976 8.68342 19.5976 9.31658 19.2071 9.70711L13.2071 15.7071C12.8166 16.0976 12.1834 16.0976 11.7929 15.7071L5.79289 9.70711C5.40237 9.31658 5.40237 8.68342 5.79289 8.29289Z" fill="%23969696"/></svg>');
-    display: block;
-    position: absolute;
-    width: 15px;
-    height: 9px;
-    right: 22px;
-    top: 8px;
-    z-index: 10;
-    pointer-events: none;
-  }
-
-  & > select {
+  & > input {
     width: 100%;
     background-color: var(--bg-white);
     outline: none;
     border: 1px solid var(--border-grey);
     padding: 12px;
     border-radius: 8px;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
+    font: var(--font-md);
   }
 }
