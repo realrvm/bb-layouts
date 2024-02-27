@@ -1,4 +1,11 @@
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import AsyncSelect from "react-select/async";
 import { SingleValue } from "react-select";
@@ -36,9 +43,14 @@ type ApplyingAutoCheckProps = {
   setIsManualInput: (val: boolean) => void;
 };
 
-type BrandType = {
+type VehicleBrandType = {
   id: string;
   name: string;
+};
+
+type VehicleBrandTypeWithLabel = {
+  id: string;
+  label: string;
 };
 
 /**
@@ -99,14 +111,14 @@ const AsyncSelectBrandsComponent = ({
   setModel,
   setBrand,
 }: {
-  list: BrandType[];
+  list: VehicleBrandType[];
   setVehiclesList: any;
-  setModel: any;
-  setBrand: any;
+  setModel: (val: string) => void;
+  setBrand: (val: VehicleBrandTypeWithLabel) => void;
 }) => {
   const [getModel] = useGetModel();
 
-  const listWithLabel = list.map((el: BrandType) => ({
+  const listWithLabel = list.map((el: VehicleBrandType) => ({
     id: el?.id.toString(),
     label: el?.name,
   }));
@@ -118,15 +130,13 @@ const AsyncSelectBrandsComponent = ({
   };
 
   const listOptions = (inputValue: string) =>
-    new Promise<any>((resolve) => {
+    new Promise<VehicleBrandTypeWithLabel[]>((resolve) => {
       setTimeout(() => {
         resolve(filter(inputValue));
       }, 300);
     });
 
-  const handleAsyncSelect = (
-    val: SingleValue<{ id: string; label: string }>,
-  ) => {
+  const handleAsyncSelect = (val: SingleValue<VehicleBrandTypeWithLabel>) => {
     async function fetchModel() {
       try {
         if (val) {
@@ -177,11 +187,11 @@ const AsyncSelectModelsComponent = ({
   model,
   setModel,
 }: {
-  list: BrandType[];
-  model: any;
-  setModel: any;
+  list: VehicleBrandType[];
+  model: VehicleBrandTypeWithLabel;
+  setModel: (val: SingleValue<VehicleBrandTypeWithLabel>) => void;
 }) => {
-  const listWithLabel = list.map((el: BrandType) => ({
+  const listWithLabel = list.map((el: VehicleBrandType) => ({
     id: el?.id.toString(),
     label: el?.name,
   }));
@@ -193,7 +203,7 @@ const AsyncSelectModelsComponent = ({
   };
 
   let listOptions = (inputValue: string) =>
-    new Promise<any>((resolve) => {
+    new Promise<VehicleBrandTypeWithLabel[]>((resolve) => {
       setTimeout(() => {
         resolve(filter(inputValue));
       }, 300);
@@ -245,7 +255,7 @@ const ApplyingAutoManualCheck = ({
   setManualManufactureYear,
 }: any) => {
   const [vehiclesList, setVehiclesList] = useState([]);
-  const [brandsList, setBrandsList] = useState<BrandType[]>([]);
+  const [brandsList, setBrandsList] = useState<VehicleBrandType[]>([]);
 
   const [getBrandsList] = useGetBrands();
 
@@ -261,6 +271,14 @@ const ApplyingAutoManualCheck = ({
 
     fetchVehiclesAndBrandsLists();
   }, []);
+
+  const handleManufactureYear: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { value, maxLength } = e.target;
+
+    const onlyDigits = value.replace(/\D/g, "").slice(0, maxLength);
+
+    setManualManufactureYear(onlyDigits);
+  };
 
   return (
     <div className={styles.bb__applying_auto_check}>
@@ -294,9 +312,11 @@ const ApplyingAutoManualCheck = ({
           <div className={styles.bb__applying_select_wrap}>
             <input
               type="text"
+              inputMode="numeric"
               id="id3"
               value={manualManufactureYear}
-              onChange={(e) => setManualManufactureYear(e.target.value)}
+              onChange={handleManufactureYear}
+              maxLength={4}
             />
           </div>
         </div>
@@ -324,8 +344,8 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
   const [autoDataValue, setAutoDataValue] = useState<
     AutoDescrSchema | undefined
   >();
-  const [brand, setBrand] = useState("");
-  const [model, setModel] = useState("");
+  const [brand, setBrand] = useState<VehicleBrandTypeWithLabel | string>("");
+  const [model, setModel] = useState<VehicleBrandTypeWithLabel | string>("");
   const [manualVin, setManualVin] = useState("");
   const [manualManufactureYear, setManualManufactureYear] = useState("");
 
