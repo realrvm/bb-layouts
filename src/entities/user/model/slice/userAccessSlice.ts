@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { UserAccessSchema } from "../types";
-import { LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
+import { LOCAL_STORAGE_TOKEN, STORAGE } from "@/shared/lib/const";
 
 const initialState: UserAccessSchema = {
   accessToken: "",
@@ -17,7 +17,7 @@ const userAccessSlice = createSlice({
 
         if (payload.refresh) {
           const refreshToken = JSON.stringify(payload.refresh);
-          window.localStorage.setItem(LOCAL_STORAGE_TOKEN, refreshToken);
+          STORAGE.setItem(LOCAL_STORAGE_TOKEN, refreshToken);
         }
       },
     ),

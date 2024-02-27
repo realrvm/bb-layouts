@@ -6,7 +6,7 @@ import type {
 } from "@reduxjs/toolkit/query";
 import { Mutex } from "async-mutex";
 
-import { API_URL, LOCAL_STORAGE_TOKEN } from "@/shared/lib/const";
+import { API_URL, LOCAL_STORAGE_TOKEN, STORAGE } from "@/shared/lib/const";
 import { userAccessActions } from "@/entities/user";
 import { RootState } from "@/app/providers/rtk-provider/types";
 
@@ -42,7 +42,7 @@ const baseQueryWithReauth: BaseQueryFn<
 
       try {
         const token = JSON.parse(
-          window.localStorage.getItem(LOCAL_STORAGE_TOKEN) ||
+          STORAGE.getItem(LOCAL_STORAGE_TOKEN) ||
             JSON.stringify(""),
         ) as string;
 
