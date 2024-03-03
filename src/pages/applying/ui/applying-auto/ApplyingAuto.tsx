@@ -419,7 +419,7 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
         navigate("/applying/applying_docs");
       }
     } catch (e) {
-      if (e instanceof Error) console.log(e.message);
+      if (e instanceof Error) alert(e.message);
     }
   }, [autoDataValue, isManualInput]);
 

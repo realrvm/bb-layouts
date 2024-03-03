@@ -36,7 +36,9 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
   const [phoneValue, setPhoneValue] = useState("");
   const [item] = useLocaleStorage(LOCAL_STORAGE_SITE_HAS_VISITED);
 
-  const [register] = useRegApi({ fixedCacheKey: "shared-register-post" });
+  const [register, { isLoading: isLoadingRegForm }] = useRegApi({
+    fixedCacheKey: "shared-register-post",
+  });
 
   const targetPath = useStateSelector(getTargetPath);
 
@@ -64,7 +66,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
     isChecked(state);
   }, []);
 
-  const getCorrectDesctiption = useCallback(() => {
+  const getCorrectDescription = useCallback(() => {
     if (targetPath === Paths.PROFILE) {
       return "Введите номер телефона, на который вы оформили займ.На него вы получите СМС с кодом.";
     }
@@ -82,14 +84,17 @@ export const RegistrationForm: FC<RegistrationFormProps> = () => {
     <section className={styles.bb__gm_container}>
       <RegistrationFormIcon targetPath={targetPath} />
       {getCorrectTitle()}
-      <p className={styles.bb__gm_text}>{getCorrectDesctiption()}</p>
+      <p className={styles.bb__gm_text}>{getCorrectDescription()}</p>
       <div className={styles.bb__gm_form}>
         <label htmlFor="phone">Номер телефона</label>
         <InputMask setCard={setPhoneValue} />
         {item ? null : (
           <RegistrationFormCheck handleCheck={handleCheck} checked={checked} />
         )}
-        <Button onClick={navigateToNextStep} disabled={!isValid}>
+        <Button
+          onClick={navigateToNextStep}
+          disabled={!isValid || isLoadingRegForm}
+        >
           Получить код из СМС
         </Button>
       </div>

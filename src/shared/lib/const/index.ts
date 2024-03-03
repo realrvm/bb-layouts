@@ -14,7 +14,7 @@ export const DIGIT_REG = new RegExp(/^\d+$/);
 export const API_URL = "https://api.bibimoney.ru/api/v1";
 
 // storage
-export const STORAGE = window.localStorage;
+export const STORAGE = window.sessionStorage;
 
 // localstorage
 export const LOCAL_STORAGE_TOKEN = "token";
