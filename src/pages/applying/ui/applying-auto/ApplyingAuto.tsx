@@ -358,9 +358,17 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
     { data, isFetching: isFetchingPlateId, isSuccess: isSuccessFetchingPlate },
   ] = useGetPlateId();
 
-  const [createModel] = useCreateModel({
+  const [createModel, { error, reset }] = useCreateModel({
     fixedCacheKey: "shared-create-model-post",
   });
+
+  useEffect(() => {
+    const errors = Object.values((error as any)?.data || []);
+    errors.forEach((e: any) => {
+      console.log(e[0]);
+    });
+    reset();
+  }, [error]);
 
   const [
     getAutoData,
@@ -424,7 +432,7 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
   }, [autoDataValue, isManualInput]);
 
   return (
-    <>
+    <div className={styles["bb__applying-wrap"]}>
       <div className={styles.bb__applying_wrapper}>
         <ApplyingTitle index={"two"} />
         <div className={styles.bb__applying_inner}>
@@ -461,6 +469,9 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
               Определить авто
             </Button>
           </div>
+          {isFetchingPlateId ? (
+            <p style={{ marginTop: 20 }}>Загрузка...</p>
+          ) : null}
           {autoDataValue?.uid && !isManualInput ? (
             <ApplyingAutoCheck
               autoData={autoDataValue}
@@ -566,6 +577,6 @@ export const ApplyingAuto: FC<ApplyingAutoProps> = () => {
         </div>
       </div>
       */}
-    </>
+    </div>
   );
 };

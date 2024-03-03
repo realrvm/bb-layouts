@@ -1,4 +1,8 @@
 .bb__applying {
+  &-wrap {
+    height: 100%;
+    padding-bottom: 30px;
+  }
   &_wrapper {
     max-width: 616px;
     border-radius: 8px;
