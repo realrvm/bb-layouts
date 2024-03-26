@@ -1,11 +1,13 @@
-import { FC, ReactNode } from "react";
+import { FC, PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
 
 type PortalProps = {
-  children: ReactNode;
   element: HTMLElement;
 };
 
-export const Portal: FC<PortalProps> = ({ children, element }) => {
+export const Portal: FC<PropsWithChildren<PortalProps>> = ({
+  children,
+  element,
+}) => {
   return createPortal(children, element);
 };

@@ -6,7 +6,7 @@ const initialState: PhoneSchema = {
   phone_number: "",
 };
 
-const userSlice = createSlice({
+const phoneSlice = createSlice({
   name: "phone",
   initialState,
   reducers: (create) => ({
@@ -19,6 +19,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { reducer: phoneReducer, actions: phoneActions } = userSlice;
+export const { reducer: phoneReducer, actions: phoneActions } = phoneSlice;
 
-export const { getPhoneNumber } = userSlice.selectors;
+export const { getPhoneNumber } = phoneSlice.selectors;

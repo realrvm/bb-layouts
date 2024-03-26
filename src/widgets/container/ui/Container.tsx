@@ -1,20 +1,10 @@
-import { FC, ReactNode } from "react";
+import { FC, PropsWithChildren } from "react";
 
-import styles from "./styles.module.scss";
+import { cn } from "@/shared/lib/cn";
 
-type ContainerProps = {
-  children: ReactNode;
-  hasRightIndent?: boolean;
-};
-
-export const Container: FC<ContainerProps> = ({ children, hasRightIndent }) => {
-  return (
-    <div
-      className={
-        hasRightIndent ? styles["bb__container--indent"] : styles.bb__container
-      }
-    >
-      {children}
-    </div>
-  );
+export const Container: FC<PropsWithChildren<{ className?: string }>> = ({
+  children,
+  className = "",
+}) => {
+  return <div className={cn("container max-w-7xl", className)}>{children}</div>;
 };

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-export const useMountTransition = (isMounted: boolean, delay: number) => {
+export const useMountTransition = (
+  isMounted: boolean,
+  delay: number,
+): boolean => {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {

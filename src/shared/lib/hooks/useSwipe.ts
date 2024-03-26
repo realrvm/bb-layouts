@@ -7,8 +7,11 @@ export const useSwipe = (ref: RefObject<any>) => {
 
   const handleDown = useCallback((e: MouseEvent) => {
     setMouseDown(true);
+
     if (!ref.current?.contains(e.target)) return;
+
     startX.current = e.pageX - ref.current?.offsetLeft;
+
     setStartScrollLeft(ref.current?.scrollLeft);
   }, []);
 
@@ -17,7 +20,9 @@ export const useSwipe = (ref: RefObject<any>) => {
       e.preventDefault();
       if (!ref.current?.contains(e.target)) return;
       const mouseX = e.pageX - ref.current?.offsetLeft;
+
       const moveX = mouseX - startX.current;
+
       if (mouseDown) {
         ref.current.scrollLeft = startScrollLeft - moveX;
       }

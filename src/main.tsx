@@ -1,10 +1,10 @@
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 
-import { router } from "./app/providers/router-dom-provider";
-import { StoreProvider } from "./app/providers/rtk-provider";
+import { router } from "@/app/providers/router";
+import { StoreProvider } from "@/app/providers/rtk";
 
-import "@/app/styles/index.scss";
+import "@/app/styles/index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StoreProvider>

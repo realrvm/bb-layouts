@@ -1,29 +1,39 @@
-import { ComponentPropsWithoutRef, FC, ReactNode, memo } from "react";
+import {
+  ComponentPropsWithoutRef,
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  memo,
+} from "react";
 
-import { ButtonThemes } from "../types";
 import { cn } from "@/shared/lib/cn";
-
-import styles from "./styles.module.scss";
+import { ButtonThemes } from "@/shared/lib/enums";
 
 type ButtonProps = {
-  children: ReactNode;
+  variant?: ButtonThemes;
   className?: string;
-  theme?: ButtonThemes;
+  icon?: ReactNode;
 } & ComponentPropsWithoutRef<"button">;
 
-export const Button: FC<ButtonProps> = memo((props) => {
+export const Button: FC<PropsWithChildren<ButtonProps>> = memo((props) => {
   const {
-    className = "",
-    theme = ButtonThemes.PRIMARY,
+    variant = ButtonThemes.PRIMARY,
+    className = "btn-medium",
+    icon,
     children,
-    ...other
+    ...rest
   } = props;
+
   return (
-    <button
-      className={cn(styles.bb__btn, { [styles[theme]]: true }, [className])}
-      {...other}
-    >
-      {children}
+    <button className={cn(variant, className)} {...rest}>
+      {icon ? (
+        <span className="flex items-center gap-x-2">
+          {icon}
+          <span>{children}</span>
+        </span>
+      ) : (
+        children
+      )}
     </button>
   );
 });

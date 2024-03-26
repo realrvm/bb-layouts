@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { z } from "zod";
+
+const localeStorageSchema = z.string().min(1);
 
 export const useLocaleStorage = (key: string) => {
   const [state, setState] = useState(window.localStorage.getItem(key));
@@ -8,5 +11,7 @@ export const useLocaleStorage = (key: string) => {
     setState(item);
   }
 
-  return [state, setStorage] as const;
+  const { success } = localeStorageSchema.safeParse(state);
+
+  return { state, success, setStorage };
 };

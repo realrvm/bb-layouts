@@ -1,27 +1,42 @@
-import { ComponentPropsWithoutRef, FC, memo } from "react";
+import { ComponentPropsWithoutRef, FC, forwardRef } from "react";
+import clsx from "clsx";
 
-import { cn } from "@/shared/lib/cn";
-
-import styles from "./styles.module.scss";
+import styles from "./styles.module.css";
 
 type CheckboxProps = {
-  className?: string;
+  label: string;
   isChecked?: boolean;
   handleCheck: (value: boolean) => void;
+  className?: string;
 } & ComponentPropsWithoutRef<"input">;
 
-export const Checkbox: FC<CheckboxProps> = memo((props) => {
-  const { className = "", isChecked = false, handleCheck, ...other } = props;
+export const Checkbox: FC<CheckboxProps> = forwardRef<
+  HTMLInputElement,
+  Omit<CheckboxProps, "ref">
+>((props, ref) => {
+  const {
+    isChecked = false,
+    label,
+    handleCheck,
+    className = "",
+    ...rest
+  } = props;
 
   return (
-    <input
-      type="checkbox"
-      className={cn(styles.bb__checkbox, { [styles["checked"]]: isChecked }, [
-        className && styles[className],
-      ])}
-      checked={isChecked}
-      onChange={(e) => handleCheck(e.target.checked)}
-      {...other}
-    />
+    <label className="flex gap-2">
+      <input
+        type="checkbox"
+        className={clsx(
+          styles["checkbox"],
+          { [styles["checked"]]: isChecked },
+          className, 'cursor-pointer'
+        )}
+        checked={isChecked}
+        onChange={(e) => handleCheck(e.target.checked)}
+        ref={ref}
+        {...rest}
+      />
+      <span>{label}</span>
+    </label>
   );
 });

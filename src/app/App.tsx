@@ -1,13 +1,13 @@
-import { FC } from "react";
-import { AppRouter } from "./providers/router-dom-provider";
 import { Outlet } from "react-router-dom";
 
-type AppProps = Record<string, never>;
+import { AppRouter } from "./providers/router";
 
-export const App: FC<AppProps> = () => {
+function App() {
   return (
     <AppRouter>
       <Outlet />
     </AppRouter>
   );
-};
+}
+
+export default App;

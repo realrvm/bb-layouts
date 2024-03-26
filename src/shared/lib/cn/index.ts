@@ -1,18 +1,6 @@
-export type Mods = Record<string, boolean | string | undefined>;
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-export const cn = (
-  className: string,
-  mods: Record<string, boolean | undefined | string> = {},
-  additional: (string | undefined)[] = [],
-): string => {
-  const modsKeys: string[] = Object.entries(mods).reduce(
-    (prev: string[], [key, value]) => {
-      return value ? [...prev, key] : prev;
-    },
-    [],
-  );
-
-  return [className, ...additional.filter(Boolean), ...modsKeys]
-    .join(" ")
-    .trim();
-};
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
