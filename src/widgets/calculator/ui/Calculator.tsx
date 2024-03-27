@@ -44,9 +44,9 @@ export const Calculator: FC = () => {
 
     const value = calcLoanCredit(rangeValue);
 
-    const funding = Number(getOnlyDigits(value));
+    const sum = Number(getOnlyDigits(value));
 
-    loanAction.setLoan({ term: activeTerm, funding });
+    loanAction.setLoan({ term: activeTerm, sum });
 
     handleNavigateToApplication();
   };

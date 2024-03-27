@@ -1,6 +1,15 @@
-import { FC, FormEventHandler, PropsWithChildren, memo, useState } from "react";
+import {
+  FC,
+  FormEventHandler,
+  PropsWithChildren,
+  ChangeEventHandler,
+  memo,
+  useState,
+  useCallback,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import AsyncSelect from "react-select/async";
+import { SingleValue } from "react-select";
 
 import { Application, ApplicationTitle } from "../Application";
 import { Button } from "@/shared/ui/button";
@@ -11,41 +20,113 @@ import { ButtonThemes } from "@/shared/lib/enums";
 
 import { Loader } from "@/shared/ui/loader";
 import { CORRECT_PLATE_LENGTH } from "@/shared/lib/constants";
-import { useGetAutoData } from "../../lib/hooks";
+import {
+  useGetAutoData,
+  useGetBrandModel,
+  useManufactureYear,
+  useVinBody,
+} from "../../lib/hooks";
 import { cn } from "@/shared/lib/cn";
+import {
+  isPlateTheRequiredLength,
+  replaceNameWithLabel,
+} from "../../lib/utils";
+
+import { Warn } from "@/shared/ui/icons";
+import {
+  ApplicationAutoCheckProps,
+  FormType,
+  VehicleBrandType,
+  VehicleBrandTypeWithLabel,
+} from "../../lib/types";
+
+import { ZodError } from "zod";
+import { vehicleSchema } from "../../config/schema";
+import { useCreateModel } from "../../model/api/vehiclesApi";
+import { initialForm } from "../../constants";
 
 import styles from "./styles.module.css";
-import { isPlateTheRequiredLength } from "../../lib/utils";
-
-type ApplicationAutoCheckProps = {
-  autoData?: {
-    vin: string | null;
-    manufacture_year: number;
-    model: { name: string };
-    make: { name: string };
-    body: string;
-  };
-  setIsManualInput: (val: boolean) => void;
-};
 
 const ApplicationVehicle: FC = () => {
   const [plate, setPlate] = useState("");
   const [region, setRegion] = useState("");
+  const [brand, setBrand] = useState<VehicleBrandTypeWithLabel>({
+    id: "",
+    label: "",
+  });
+  const [model, setModel] = useState<VehicleBrandTypeWithLabel | string>("");
   const [isManualInput, setIsManualInput] = useState(false);
+  const [errors, setErrors] = useState<FormType>(initialForm);
+
   const navigate = useNavigate();
 
-  const {
-    handleInitiateReport,
-    autoData,
-    isSuccessRetrievedReport: isSuccess,
-    isLoading,
-  } = useGetAutoData(plate, region);
+  const [createModel] = useCreateModel({
+    fixedCacheKey: "shared-create-model-post",
+  });
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
+  const { handleInitiateReport, autoData, isLoading, isError } = useGetAutoData(
+    plate,
+    region,
+    setModel,
+    setErrors,
+  );
+  const { manufactureYear, handleManufactureYear } = useManufactureYear();
+  const { vinBody, handleVinBody } = useVinBody();
 
-    navigate("/application/docs");
-  };
+  const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const isNotAutoInput = isError || isManualInput;
+
+      const { manufacture_year, model, body, vin } = autoData || {};
+
+      const formData = {
+        model: isNotAutoInput ? Number(brand.id) : model?.id,
+        plate: plate + region,
+        manufacture_year: isNotAutoInput
+          ? manufactureYear
+          : manufacture_year?.toString(),
+        body: isNotAutoInput ? vinBody : body,
+        vin: isNotAutoInput ? vinBody : vin,
+      };
+
+      try {
+        vehicleSchema.parse(formData);
+
+        await createModel(formData as any);
+
+        navigate("/application/docs");
+      } catch (e) {
+        if (e instanceof ZodError) {
+          const validationErrors = {} as FormType;
+
+          e.errors.forEach((err) => {
+            if (err.path) {
+              validationErrors[err.path[0]] = err.message;
+            }
+          });
+
+          setErrors(validationErrors);
+        }
+
+        if (e instanceof Error) {
+          console.log(e);
+        }
+      }
+    },
+    [
+      autoData,
+      brand.id,
+      createModel,
+      isError,
+      isManualInput,
+      manufactureYear,
+      navigate,
+      plate,
+      region,
+      vinBody,
+    ],
+  );
 
   return (
     <Application>
@@ -55,24 +136,36 @@ const ApplicationVehicle: FC = () => {
           <p className="text-text-gray mb-6">
             Мы автоматически заполним данные
           </p>
-          <div className="flex flex-col md:flex-row items-center gap-3 mb-9">
-            <div className="w-full md:w-[272px] border border-border-gray rounded-lg grid grid-cols-[auto_76px] uppercase focus-within:border-common-brand">
-              <InputMaskPlate
-                onSetPlate={setPlate}
-                className="rounded-lg w-full outline-none uppercase placeholder:uppercase placeholder:text-text-gray border-r border-r-border-gray p-3"
-              />
-              <div className="pl-3">
-                <InputMaskRegion
-                  onSetRegion={setRegion}
-                  className="rounded-lg w-full border-0 outline-none uppercase placeholder:uppercase placeholder:text-text-gray pt-[5px]"
-                  focus={plate.length === CORRECT_PLATE_LENGTH}
+          <div className="flex flex-col md:flex-row gap-3 mb-9">
+            <div className="flex flex-col gap-1">
+              <div
+                className={cn(
+                  "w-full md:w-[272px] border border-border-gray rounded-lg grid grid-cols-[auto_76px] uppercase focus-within:border-common-brand",
+                  { "border-special-red": errors.plate },
+                )}
+              >
+                <InputMaskPlate
+                  onSetPlate={setPlate}
+                  className="rounded-lg w-full outline-none uppercase placeholder:uppercase placeholder:text-text-gray border-r border-r-border-gray p-3"
                 />
-                <div className={styles["flag"]}>RUS</div>
+                <div className="pl-3">
+                  <InputMaskRegion
+                    onSetRegion={setRegion}
+                    className="rounded-lg w-full border-0 outline-none uppercase placeholder:uppercase placeholder:text-text-gray pt-[5px]"
+                    focus={plate.length === CORRECT_PLATE_LENGTH}
+                  />
+                  <div className={styles["flag"]}>RUS</div>
+                </div>
               </div>
+              {errors.plate && (
+                <span className="text-small text-special-red">
+                  Обязательное поле
+                </span>
+              )}
             </div>
             <Button
               type="button"
-              className="w-full md:w-auto btn-medium mt-4 md:mt-0"
+              className="w-full md:w-auto btn-medium mt-4 md:mt-0 self-start"
               onClick={handleInitiateReport}
               disabled={!isPlateTheRequiredLength(plate, region) || isLoading}
             >
@@ -83,13 +176,25 @@ const ApplicationVehicle: FC = () => {
             <Loader className="text-center" />
           ) : (
             <>
-              {!isManualInput && autoData?.uid && (
+              {!isManualInput && autoData?.uid && !isError && (
                 <ApplicationAutoCheck
                   setIsManualInput={setIsManualInput}
                   autoData={autoData}
                 />
               )}
-              {isManualInput && <ApplicationManualCheck />}
+              {(isManualInput || isError) && (
+                <ApplicationManualCheck
+                  setBrand={setBrand}
+                  model={model}
+                  setModel={setModel}
+                  isError={isError}
+                  manufactureYear={manufactureYear}
+                  handleManufactureYear={handleManufactureYear}
+                  handleVinBody={handleVinBody}
+                  vinBody={vinBody}
+                  errors={errors}
+                />
+              )}
             </>
           )}
         </div>
@@ -104,7 +209,7 @@ const ApplicationVehicle: FC = () => {
           </Button>
           <Button
             className="btn-medium flex-1 md:flex-none"
-            disabled={isLoading || !isSuccess}
+            disabled={isLoading}
           >
             Продолжить
           </Button>
@@ -114,17 +219,39 @@ const ApplicationVehicle: FC = () => {
   );
 };
 
-const ApplicationCheckTitle: FC<PropsWithChildren<{ className?: string }>> =
-  memo(({ className, children }) => {
-    return (
-      <div className={cn("mt-6 py-6 border-t border-t-border-gray", className)}>
-        <h5 className="heading-5 mb-6">
-          Это ваш авто? Проверьте корректность данных
-        </h5>
-        {children}
+const ApplicationCheckTitle: FC<
+  PropsWithChildren<{ className?: string; isError?: boolean }>
+> = memo(({ className, children, isError = false }) => {
+  return (
+    <div className={cn("mt-6 py-6 border-t border-t-border-gray", className)}>
+      {!isError ? (
+        <>
+          <h5 className="heading-5 mb-6">
+            Это ваш авто? Проверьте корректность данных
+          </h5>
+          {children}
+        </>
+      ) : (
+        <ApplicationCheckWarnTitle>{children}</ApplicationCheckWarnTitle>
+      )}
+    </div>
+  );
+});
+
+const ApplicationCheckWarnTitle: FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <>
+      <div className="p-3 rounded-lg bg-bg-warn flex gap-2 mb-6">
+        <Warn />
+        <span className="-translate-y-0.5">
+          Не удалось автозаполнить данные авто. Выберите параметры вашего авто
+          вручную
+        </span>
       </div>
-    );
-  });
+      {children}
+    </>
+  );
+};
 
 const ApplicationAutoCheck: FC<ApplicationAutoCheckProps> = memo(
   ({ autoData, setIsManualInput }) => {
@@ -166,59 +293,134 @@ const ApplicationAutoCheck: FC<ApplicationAutoCheckProps> = memo(
   },
 );
 
-const ApplicationManualCheck: FC = memo(() => {
-  return (
-    <>
-      <ApplicationCheckTitle className="md:mb-9">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
-          <div className="flex flex-col gap-2">
-            <label>Марка авто</label>
-            <div className={styles.bb__applying_select_wrap}>
-              <AsyncSelectBrand />
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label>Модель авто</label>
-            <div className={styles.bb__applying_select_wrap}>
-              <AsyncSelectModel />
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="id3">Год выпуска</label>
-            <div>
-              <input
-                type="text"
-                inputMode="numeric"
-                id="id3"
-                maxLength={4}
-                className="w-full bg-common-white outline-none border border-border-gray py-2 px-3 rounded-lg focus:border-common-brand"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="id4">Номер кузова/VIN</label>
-            <div>
-              <input
-                type="text"
-                id="id4"
-                className="w-full bg-common-white outline-none border border-border-gray py-2 px-3 rounded-lg focus:border-common-brand"
-              />
-            </div>
-          </div>
-        </div>
-      </ApplicationCheckTitle>
-    </>
-  );
-});
+const ApplicationManualCheck: FC<{
+  model: SingleValue<string | VehicleBrandTypeWithLabel>;
+  setModel: any;
+  setBrand: any;
+  isError?: boolean;
+  manufactureYear: string;
+  handleManufactureYear: ChangeEventHandler<HTMLInputElement>;
+  vinBody: string;
+  handleVinBody: ChangeEventHandler<HTMLInputElement>;
+  errors: FormType;
+}> = memo(
+  ({
+    model,
+    setModel,
+    setBrand,
+    isError = false,
+    manufactureYear,
+    handleManufactureYear,
+    vinBody,
+    handleVinBody,
+    errors,
+  }) => {
+    const { isFetching, brandsList, vehiclesList, handleGetModelsOfBrand } =
+      useGetBrandModel(setBrand, setModel);
 
-const AsyncSelectBrand = () => {
+    return (
+      <>
+        <ApplicationCheckTitle className="md:mb-9" isError={isError}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
+            <div className="flex flex-col gap-2">
+              <label>Марка авто</label>
+              <div>
+                <AsyncSelectBrand
+                  list={brandsList}
+                  isFetchingBrands={isFetching}
+                  handleGetModelsOfBrand={handleGetModelsOfBrand}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label>Модель авто</label>
+              <div className="flex flex-col">
+                <div
+                  className={cn({
+                    "border border-special-red rounded-lg": errors.model,
+                  })}
+                >
+                  <AsyncSelectModel
+                    setModel={setModel}
+                    model={model as string | VehicleBrandTypeWithLabel}
+                    isFetchingModels={isFetching}
+                    list={vehiclesList}
+                  />
+                </div>
+                {errors.model ? (
+                  <span className="text-small text-special-red mb-2">
+                    Поле не должно быть пустым.
+                  </span>
+                ) : null}
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="id3">Год выпуска</label>
+              <div className="flex flex-col gap-1">
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  id="id3"
+                  value={manufactureYear}
+                  onChange={handleManufactureYear}
+                  maxLength={4}
+                  className={cn(
+                    "w-full bg-common-white outline-none border border-border-gray py-2 px-3 rounded-lg focus:border-common-brand",
+                    { "border-special-red": errors.manufacture_year },
+                  )}
+                />
+                {errors.manufacture_year && (
+                  <span className="text-small text-special-red">
+                    Год должен быть из 4 чисел
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="id4">Номер кузова/VIN</label>
+              <div className="flex flex-col gap-1">
+                <input
+                  type="text"
+                  id="id4"
+                  className="w-full bg-common-white outline-none border border-border-gray py-2 px-3 rounded-lg focus:border-common-brand"
+                  value={vinBody}
+                  onChange={handleVinBody}
+                />
+                {(errors.vin || errors.body) && (
+                  <span className="text-small text-special-red">
+                    Поле не должно быть пустым.
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </ApplicationCheckTitle>
+      </>
+    );
+  },
+);
+
+const AsyncSelectBrand = ({
+  list,
+  isFetchingBrands,
+  handleGetModelsOfBrand,
+}: {
+  list: VehicleBrandType[];
+  isFetchingBrands: boolean;
+  handleGetModelsOfBrand: (val: SingleValue<VehicleBrandTypeWithLabel>) => void;
+}) => {
+  const { listWithLabel, listOptions } = replaceNameWithLabel(list);
+
   return (
     <AsyncSelect
       cacheOptions
-      defaultOptions={true}
+      defaultOptions={listWithLabel}
       placeholder={false}
+      loadOptions={listOptions}
+      isDisabled={isFetchingBrands}
+      onChange={handleGetModelsOfBrand}
       styles={{
         control: (baseStyles) => ({
           ...baseStyles,
@@ -241,11 +443,34 @@ const AsyncSelectBrand = () => {
   );
 };
 
-const AsyncSelectModel = () => {
+const AsyncSelectModel = ({
+  isFetchingModels,
+  list,
+  model,
+  setModel,
+}: {
+  isFetchingModels: boolean;
+  list: VehicleBrandType[];
+  model: string | VehicleBrandTypeWithLabel;
+  setModel: (val: SingleValue<string | VehicleBrandTypeWithLabel>) => void;
+}) => {
+  const { listWithLabel, listOptions } = replaceNameWithLabel(list);
+
+  const handleSetModel = (
+    val: SingleValue<string | VehicleBrandTypeWithLabel>,
+  ) => {
+    setModel(val);
+  };
+
   return (
     <AsyncSelect
       cacheOptions
       placeholder={false}
+      defaultOptions={listWithLabel}
+      loadOptions={listOptions}
+      isDisabled={isFetchingModels}
+      value={model}
+      onChange={handleSetModel}
       styles={{
         control: (baseStyles) => ({
           ...baseStyles,

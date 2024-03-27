@@ -4,7 +4,7 @@ import { LoanSchema } from "../types";
 
 const initialState: LoanSchema = {
   term: "24",
-  funding: 50000,
+  sum: 50000,
 };
 
 const loanSlice = createSlice({
@@ -13,11 +13,11 @@ const loanSlice = createSlice({
   reducers: (create) => ({
     setLoan: create.reducer<LoanSchema>((state, { payload }) => {
       state.term = payload.term;
-      state.funding = payload.funding;
+      state.sum = payload.sum;
     }),
   }),
   selectors: {
-    getLoan: (state) => state.term,
+    getLoan: (state) => state,
   },
 });
 

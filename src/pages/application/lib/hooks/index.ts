@@ -6,11 +6,12 @@ import {
   useState,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { SingleValue } from "react-select";
 
 import { ApplicationPages, Months } from "@/shared/lib/types";
 import { calcLoanCredit, getOnlyDigits } from "@/widgets/calculator/lib/utils";
 import { useActionCreators } from "@/app/providers/rtk";
-import { loanActions } from "@/entities/loan";
+import { loanActions, usePostLoan } from "@/entities/loan";
 import { POLLING_INTERVAL } from "@/shared/lib/constants";
 import { ReportsRetrieveSchema } from "../../model/types";
 import {
@@ -18,7 +19,18 @@ import {
   useInitiateReport,
 } from "../../model/api/reportsApi";
 import { isPlateTheRequiredLength } from "../utils";
-import { useCreateModel, useGetPresign } from "../../model/api/vehiclesApi";
+import {
+  useCreateModel,
+  useGetBrands,
+  useGetModel,
+  useGetPresign,
+} from "../../model/api/vehiclesApi";
+import {
+  FormType,
+  VehicleBrandType,
+  VehicleBrandTypeWithLabel,
+} from "../types";
+import { initialForm } from "../../constants";
 
 export function useLocationIndex() {
   const pages: ApplicationPages[] = ["calculator", "vehicle", "docs"];
@@ -38,23 +50,35 @@ export function useApplicationCalculator(
 ) {
   const navigate = useNavigate();
   const loanAction = useActionCreators(loanActions);
+  const [postLoan, { isLoading }] = usePostLoan();
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     const value = calcLoanCredit(rangeValue);
 
-    const funding = Number(getOnlyDigits(value));
+    const sum = Number(getOnlyDigits(value));
 
-    loanAction.setLoan({ term: activeTerm, funding });
+    loanAction.setLoan({ term: activeTerm, sum });
 
-    navigate("/application/vehicle");
+    try {
+      await postLoan({ term: activeTerm, sum }).unwrap();
+
+      navigate("/application/vehicle");
+    } catch (error) {
+      if (error instanceof Error) console.log(error.message);
+    }
   };
 
-  return { handleSubmit };
+  return { handleSubmit, isLoading };
 }
 
-export function useGetAutoData(plate: string, region: string) {
+export function useGetAutoData(
+  plate: string,
+  region: string,
+  setModal: any,
+  setErrors: (e: FormType) => void,
+) {
   const [pollingInterval, setPollingInterval] = useState(POLLING_INTERVAL);
   const [autoData, setAutoData] = useState<ReportsRetrieveSchema | undefined>();
 
@@ -64,6 +88,7 @@ export function useGetAutoData(plate: string, region: string) {
       data,
       isFetching: isFetchingInitiateReport,
       isSuccess: isSuccessInitiateReport,
+      isError: isErrorInitiateReport,
     },
   ] = useInitiateReport();
 
@@ -73,6 +98,7 @@ export function useGetAutoData(plate: string, region: string) {
       data: dataAuto,
       isFetching: isFetchingRetrievedReport,
       isSuccess: isSuccessRetrievedReport,
+      isError: isErrorRetrievedReport,
     },
   ] = useGetRetrievedReport({ pollingInterval });
 
@@ -92,6 +118,8 @@ export function useGetAutoData(plate: string, region: string) {
   }, [dataAuto?.uid, isSuccessRetrievedReport]);
 
   const handleInitiateReport = () => {
+    setModal("");
+    setErrors(initialForm);
     !!pollingInterval && setPollingInterval(POLLING_INTERVAL);
 
     isPlateTheRequiredLength(plate, region) &&
@@ -99,11 +127,13 @@ export function useGetAutoData(plate: string, region: string) {
   };
 
   const isLoading = isFetchingInitiateReport || isFetchingRetrievedReport;
+  const isError = isErrorInitiateReport || isErrorRetrievedReport;
 
   return {
     handleInitiateReport,
     autoData,
     isLoading,
+    isError,
     isSuccessRetrievedReport,
   };
 }
@@ -179,3 +209,70 @@ export const usePreviewImage = () => {
 
   return { previewImage, handleSelectImage };
 };
+
+export function useGetBrandModel(setBrand: any, setModel: any) {
+  const [vehiclesList, setVehiclesList] = useState([]);
+  const [brandsList, setBrandsList] = useState<VehicleBrandType[]>([]);
+  const [getBrandsList, { isFetching: isFetchingBrands }] = useGetBrands();
+  const [getModel, { isFetching: isFetchingModel }] = useGetModel();
+
+  const isFetching = isFetchingBrands || isFetchingModel;
+
+  useEffect(() => {
+    async function fetchBrandsList() {
+      try {
+        const brands = await getBrandsList().unwrap();
+        setBrandsList(brands?.results);
+      } catch (e) {
+        if (e instanceof Error) console.log(e.message);
+      }
+    }
+
+    fetchBrandsList();
+  }, [getBrandsList]);
+
+  const handleGetModelsOfBrand = (
+    brandId: SingleValue<VehicleBrandTypeWithLabel>,
+  ) => {
+    async function fetchModel() {
+      try {
+        if (brandId) {
+          setModel("");
+          setBrand(brandId);
+          const { results } = await getModel(brandId.id).unwrap();
+          setVehiclesList(results);
+        }
+      } catch (e) {
+        if (e instanceof Error) console.log(e.message);
+      }
+    }
+
+    fetchModel();
+  };
+
+  return { isFetching, brandsList, vehiclesList, handleGetModelsOfBrand };
+}
+
+export function useManufactureYear() {
+  const [manufactureYear, setManufactureYear] = useState("");
+
+  const handleManufactureYear: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { value, maxLength } = e.target;
+
+    const yearOnlyDigits = value.replace(/\D/g, "").slice(0, maxLength);
+    setManufactureYear(yearOnlyDigits);
+  };
+
+  return { manufactureYear, handleManufactureYear };
+}
+
+export function useVinBody() {
+  const [vinBody, setVinBody] = useState("");
+
+  const handleVinBody: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { value } = e.target;
+    setVinBody(value);
+  };
+
+  return { vinBody, handleVinBody };
+}

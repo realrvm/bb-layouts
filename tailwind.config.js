@@ -22,6 +22,7 @@ export default {
       "common-brand": "var(--color-common-brand)",
       "bg-gray": "var(--color-bg-gray)",
       "bg-light-gray": "var(--color-bg-light-gray)",
+      "bg-warn": "var(--color-bg-warn)",
       "text-gray": "var(--color-text-gray)",
       "text-dark": "var(--color-text-dark)",
       "brand-primary": "var(--color-common-brand)",

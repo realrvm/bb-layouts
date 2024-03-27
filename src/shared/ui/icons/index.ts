@@ -7,3 +7,4 @@ export { Funding } from "./Funding";
 export { Account } from "./Account";
 export { Clock } from "./Clock";
 export { Profile } from "./Profile";
+export { Warn } from "./Warn";
