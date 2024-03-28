@@ -25,7 +25,10 @@ export function useNavigateTo(page: TargetPages) {
         await postLoan(loan).unwrap();
       }
 
-      if (page === TargetPages.PROFILE) {
+      if (
+        page === TargetPages.PROFILE ||
+        page === TargetPages.APPLICATION_CALCULATOR
+      ) {
         await getProfile().unwrap();
       }
 
