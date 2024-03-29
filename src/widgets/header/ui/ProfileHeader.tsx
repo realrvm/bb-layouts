@@ -2,15 +2,14 @@ import { FC } from "react";
 
 import { AppLink } from "@/shared/ui/app-link";
 import { Button } from "@/shared/ui/button";
-import { Logo, Profile } from "@/shared/ui/icons";
+import { Logo } from "@/shared/ui/icons";
 import { Container } from "@/widgets/container";
-import { useWindowWidth } from "@/shared/lib/hooks/useWindowWidth";
 import { Widths } from "@/shared/lib/enums";
+import { ProfileIconPhone } from "@/shared/ui/profile-icon-phone";
+import { useIsMobile } from "../lib/hooks";
 
 export const ProfileHeader: FC = () => {
-  const { width } = useWindowWidth();
-
-  const isMobile = width < 768;
+  const { isMobile } = useIsMobile();
 
   return (
     <header className="h-20 md:h-[76px]">
@@ -20,10 +19,7 @@ export const ProfileHeader: FC = () => {
             <Logo width={isMobile ? Widths.MOBILE : Widths.DESKTOP} />
           </AppLink>
           <div className="flex items-center gap-12">
-            <div className="hidden md:flex items-center gap-2">
-              <Profile />
-              <span>ID: 82332344</span>
-            </div>
+            <ProfileIconPhone />
             <Button onClick={() => {}} className="btn-small">
               Получить займ
             </Button>

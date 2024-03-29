@@ -2,7 +2,7 @@ import { $api } from "@/shared/api";
 
 import { ProfileResponseSchema } from "../types";
 
-const profiletApi = $api.injectEndpoints({
+const profileApi = $api.injectEndpoints({
   endpoints: (builder) => ({
     getProfile: builder.query<ProfileResponseSchema, void>({
       query: () => "/profile/",
@@ -11,4 +11,5 @@ const profiletApi = $api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const useGetProfile = profiletApi.useLazyGetProfileQuery;
+export const useGetProfile = profileApi.useLazyGetProfileQuery;
+export const useProfile = profileApi.useGetProfileQuery;

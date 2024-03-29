@@ -7,6 +7,9 @@ import { Button } from "@/shared/ui/button";
 import { ButtonThemes, TargetPages } from "@/shared/lib/enums";
 import { Drawer } from "@/widgets/drawer";
 import { useNavigateTo } from "@/shared/lib/hooks/useNavigateTo";
+import { useStateSelector } from "@/app/providers/rtk";
+import { getAccessToken } from "@/features/auth";
+import { ProfileIconPhone } from "@/shared/ui/profile-icon-phone";
 
 export const HeaderMainMobile: FC = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -32,6 +35,8 @@ export const HeaderMainMobile: FC = () => {
 };
 
 const DrawerContent = () => {
+  const token = useStateSelector(getAccessToken);
+
   const {
     handleNavigateTo: handleNavigateToProfile,
     isNavigateFetching: isNavigateFetchingToProfile,
@@ -74,7 +79,11 @@ const DrawerContent = () => {
             isNavigateFetchingToProfile || isNavigateFetchingToApplication
           }
         >
-          Личный кабинет
+          {token ? (
+            <ProfileIconPhone className="flex justify-center" />
+          ) : (
+            "Личный кабинет"
+          )}
         </Button>
       </div>
     </>

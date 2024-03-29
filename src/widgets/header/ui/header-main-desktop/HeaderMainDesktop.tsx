@@ -5,8 +5,13 @@ import { ButtonThemes, TargetPages, Widths } from "@/shared/lib/enums";
 import { AppLink } from "@/shared/ui/app-link";
 import { Button } from "@/shared/ui/button";
 import { useNavigateTo } from "@/shared/lib/hooks/useNavigateTo";
+import { useStateSelector } from "@/app/providers/rtk";
+import { getAccessToken } from "@/features/auth";
+import { ProfileIconPhone } from "@/shared/ui/profile-icon-phone";
 
 export const HeaderMainDesktop: FC = () => {
+  const token = useStateSelector(getAccessToken);
+
   const {
     handleNavigateTo: handleNavigateToProfile,
     isNavigateFetching: isNavigateFetchingToProfile,
@@ -47,7 +52,7 @@ export const HeaderMainDesktop: FC = () => {
             isNavigateFetchingToProfile || isNavigateFetchingToApplication
           }
         >
-          Личный кабинет
+          {token ? <ProfileIconPhone /> : "Личный кабинет"}
         </Button>
         <Button
           className="btn-small"

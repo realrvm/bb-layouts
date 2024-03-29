@@ -15,3 +15,5 @@ export {
   ProfileDocs,
   ProfileClient,
 };
+
+export { useProfile } from "./model/api/profileApi";
