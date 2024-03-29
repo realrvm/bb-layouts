@@ -1,5 +1,5 @@
 .intro {
-  background-image: url("/intro.png"),
+  background-image: url("../../../../shared/lib/assets/images/intro.png"),
     url('data:image/svg+xml,<svg width="428" height="428" viewBox="0 0 428 428" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M214 328C276.96 328 328 276.96 328 214C328 151.04 276.96 100 214 100C151.04 100 100 151.04 100 214C100 276.96 151.04 328 214 328ZM214 428C332.189 428 428 332.189 428 214C428 95.8111 332.189 0 214 0C95.8111 0 0 95.8111 0 214C0 332.189 95.8111 428 214 428Z" fill="url(%23paint0_linear_10893_2550)"/><defs><linearGradient id="paint0_linear_10893_2550" x1="380" y1="69.5" x2="-8.46776e-06" y2="370.5" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="%23EBF1FA"/></linearGradient></defs></svg>');
   background-repeat: no-repeat, no-repeat;
   background-position:
