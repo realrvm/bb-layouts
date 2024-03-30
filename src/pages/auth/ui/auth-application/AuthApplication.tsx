@@ -12,7 +12,7 @@ import { LOCAL_STORAGE_SITE_HAS_VISITED } from "@/shared/lib/constants";
 import { useLocaleStorage } from "@/shared/lib/hooks/useLocalStorage";
 
 const AuthLApplication: FC = () => {
-  const [checked, isChecked] = useState(false);
+  const [checked, setChecked] = useState(false);
   const { state: hasVisitedToken } = useLocaleStorage(
     LOCAL_STORAGE_SITE_HAS_VISITED,
   );
@@ -25,7 +25,7 @@ const AuthLApplication: FC = () => {
   } = useRegister();
 
   const handleCheck = useCallback((state: boolean) => {
-    isChecked(state);
+    setChecked(state);
   }, []);
 
   return (

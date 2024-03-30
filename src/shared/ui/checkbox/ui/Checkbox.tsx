@@ -4,7 +4,7 @@ import clsx from "clsx";
 import styles from "./styles.module.css";
 
 type CheckboxProps = {
-  label: string;
+  label?: string;
   isChecked?: boolean;
   handleCheck: (value: boolean) => void;
   className?: string;
@@ -16,7 +16,7 @@ export const Checkbox: FC<CheckboxProps> = forwardRef<
 >((props, ref) => {
   const {
     isChecked = false,
-    label,
+    label = "",
     handleCheck,
     className = "",
     ...rest
@@ -29,14 +29,15 @@ export const Checkbox: FC<CheckboxProps> = forwardRef<
         className={clsx(
           styles["checkbox"],
           { [styles["checked"]]: isChecked },
-          className, 'cursor-pointer'
+          className,
+          "cursor-pointer",
         )}
         checked={isChecked}
         onChange={(e) => handleCheck(e.target.checked)}
         ref={ref}
         {...rest}
       />
-      <span>{label}</span>
+      {label && <span>{label}</span>}
     </label>
   );
 });

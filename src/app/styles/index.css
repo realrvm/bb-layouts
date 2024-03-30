@@ -42,6 +42,8 @@
     /* SPECIAL */
     --color-special-red: #e92c2c;
     --color-special-green: #17a53e;
+    --color-special-green-light: #dbf6e3;
+    --color-special-green-medium: #0fc040;
     --color-special-orange: #ffa800;
   }
 }

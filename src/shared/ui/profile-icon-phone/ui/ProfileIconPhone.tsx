@@ -1,8 +1,8 @@
 import { FC } from "react";
 
-import { useProfile } from "@/pages/profile";
 import { Profile } from "@/shared/ui/icons";
 import { cn } from "@/shared/lib/cn";
+import { useProfileData } from "@/pages/profile/lib/hooks";
 
 function phoneNumberMask(phoneNumber?: string) {
   return phoneNumber?.replace(
@@ -14,11 +14,7 @@ function phoneNumberMask(phoneNumber?: string) {
 export const ProfileIconPhone: FC<{ className?: string }> = ({
   className = "hidden",
 }) => {
-  const { phone_number } = useProfile(undefined, {
-    selectFromResult: ({ currentData }) => ({
-      phone_number: currentData?.phone_number,
-    }),
-  });
+  const { phone_number } = useProfileData();
 
   return (
     <div className={cn("md:flex items-center gap-2", className)}>

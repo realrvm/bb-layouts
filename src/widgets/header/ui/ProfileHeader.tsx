@@ -7,9 +7,11 @@ import { Container } from "@/widgets/container";
 import { Widths } from "@/shared/lib/enums";
 import { ProfileIconPhone } from "@/shared/ui/profile-icon-phone";
 import { useIsMobile } from "../lib/hooks";
+import { useNavigate } from "react-router-dom";
 
 export const ProfileHeader: FC = () => {
   const { isMobile } = useIsMobile();
+  const navigate = useNavigate();
 
   return (
     <header className="h-20 md:h-[76px]">
@@ -20,7 +22,10 @@ export const ProfileHeader: FC = () => {
           </AppLink>
           <div className="flex items-center gap-12">
             <ProfileIconPhone />
-            <Button onClick={() => {}} className="btn-small">
+            <Button
+              className="btn-small"
+              onClick={() => navigate("/application/calculator")}
+            >
               Получить займ
             </Button>
           </div>

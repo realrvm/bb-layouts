@@ -1,9 +1,14 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, memo } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { ProfileHeader } from "@/widgets/header";
 import { Sidebar } from "@/widgets/sidebar";
 import { Container } from "@/widgets/container";
 import { useProfile } from "../model/api/profileApi";
+import { useIsMobile } from "@/widgets/header/lib/hooks";
+import { Button } from "@/shared/ui/button";
+import { ButtonThemes } from "@/shared/lib/enums";
+import { Chevron } from "@/shared/ui/icons";
 
 export const Profile: FC<PropsWithChildren<{ title: string }>> = ({
   children,
@@ -17,7 +22,7 @@ export const Profile: FC<PropsWithChildren<{ title: string }>> = ({
       <Container>
         <section className="flex flex-col md:flex-row gap-6 md:gap-16 mt-4 md:mt-9">
           <Sidebar />
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-1 flex-col gap-6">
             <h3 className="heading-3 md:heading-title">{title}</h3>
             <div>{children}</div>
           </div>
@@ -26,3 +31,32 @@ export const Profile: FC<PropsWithChildren<{ title: string }>> = ({
     </>
   );
 };
+
+export const ProfileReturnButton: FC<PropsWithChildren<{ path: string }>> =
+  memo(({ children, path }) => {
+    const navigate = useNavigate();
+    const { isMobile } = useIsMobile();
+
+    return (
+      <>
+        {isMobile ? (
+          <Button
+            variant={ButtonThemes.ICON_SECONDARY}
+            className="py-3 px-4 self-start"
+            onClick={() => navigate(path)}
+          >
+            <Chevron />
+          </Button>
+        ) : (
+          <Button
+            variant={ButtonThemes.SECONDARY}
+            className="btn-small self-start"
+            icon={<Chevron />}
+            onClick={() => navigate(path)}
+          >
+            <span className="ml-1">{children}</span>
+          </Button>
+        )}
+      </>
+    );
+  });

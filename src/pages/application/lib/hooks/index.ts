@@ -32,8 +32,11 @@ import {
 } from "../types";
 import { initialForm } from "../../constants";
 
-export function useLocationIndex() {
-  const pages: ApplicationPages[] = ["calculator", "vehicle", "docs"];
+const pagesApplication: ApplicationPages[] = ["calculator", "vehicle", "docs"];
+const profilePages = ["schedule", "approved", "payout"];
+
+export function useLocationIndex(paths = "application") {
+  const pages = paths === "profile" ? profilePages : pagesApplication;
 
   const location = useLocation();
 

@@ -19,6 +19,9 @@ import {
   ProfileClient,
   ProfileDocs,
   ProfileMain,
+  ProfileMainApproved,
+  ProfileMainPayout,
+  ProfileMainSchedule,
   ProfilePersonal,
 } from "@/pages/profile";
 
@@ -96,6 +99,30 @@ export const router = createBrowserRouter([
             element: (
               <Suspense fallback={<Loading />}>
                 <ProfileMain />
+              </Suspense>
+            ),
+          },
+          {
+            path: `${Routes.PROFILE}/main/:id/schedule`,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <ProfileMainSchedule />
+              </Suspense>
+            ),
+          },
+          {
+            path: `${Routes.PROFILE}/main/approved`,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <ProfileMainApproved />
+              </Suspense>
+            ),
+          },
+          {
+            path: `${Routes.PROFILE}/main/payout`,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <ProfileMainPayout />
               </Suspense>
             ),
           },

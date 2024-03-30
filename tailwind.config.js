@@ -12,6 +12,10 @@ export default {
         tablet: "900px",
         desktop: "1200px",
       },
+      flex: {
+        2: "2 2 0%",
+        3: "3 3 0%",
+      },
     },
     fontFamily: {
       inter: "var(--font-family)",
@@ -36,6 +40,8 @@ export default {
       "icon-bg": "var(--color-icon-bg)",
       "special-red": "var(--color-special-red)",
       "special-green": "var(--color-special-green)",
+      "special-green-light": "var(--color-special-green-light)",
+      "special-green-medium": "var(--color-special-green-medium)",
       "special-orange": "var(--color-special-orange)",
     },
   },

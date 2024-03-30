@@ -8,3 +8,4 @@ export { Account } from "./Account";
 export { Clock } from "./Clock";
 export { Profile } from "./Profile";
 export { Warn } from "./Warn";
+export { Chevron } from "./Chevron";
