@@ -23,6 +23,9 @@ import {
   ProfileMainPayout,
   ProfileMainSchedule,
   ProfilePersonal,
+  ProfilePersonalCard,
+  ProfilePersonalPassport,
+  ProfilePersonalPts,
 } from "@/pages/profile";
 
 export const router = createBrowserRouter([
@@ -139,6 +142,30 @@ export const router = createBrowserRouter([
             element: (
               <Suspense fallback={<Loading />}>
                 <ProfilePersonal />
+              </Suspense>
+            ),
+          },
+          {
+            path: `${Routes.PROFILE}/personal/passport`,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <ProfilePersonalPassport />
+              </Suspense>
+            ),
+          },
+          {
+            path: `${Routes.PROFILE}/personal/pts`,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <ProfilePersonalPts />
+              </Suspense>
+            ),
+          },
+          {
+            path: `${Routes.PROFILE}/personal/card`,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <ProfilePersonalCard />
               </Suspense>
             ),
           },

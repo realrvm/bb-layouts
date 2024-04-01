@@ -13,9 +13,21 @@ const ProfileMainSchedule = lazy(
 const ProfileMainApproved = lazy(
   () => import("./ui/profile-main/profile-main-approved/ProfileMainApproved"),
 );
-
 const ProfileMainPayout = lazy(
   () => import("./ui/profile-main/profile-main-payout/ProfileMainPayout"),
+);
+const ProfilePersonalPassport = lazy(
+  () =>
+    import(
+      "./ui/profile-personal/profile-personal-passport/ProfilePersonalPassport"
+    ),
+);
+const ProfilePersonalPts = lazy(
+  () => import("./ui/profile-personal/profile-personal-pts/ProfilePersonalPts"),
+);
+const ProfilePersonalCard = lazy(
+  () =>
+    import("./ui/profile-personal/profile-personal-card/ProfilePersonalCard"),
 );
 
 export {
@@ -27,6 +39,9 @@ export {
   ProfileMainSchedule,
   ProfileMainApproved,
   ProfileMainPayout,
+  ProfilePersonalPassport,
+  ProfilePersonalPts,
+  ProfilePersonalCard,
 };
 
 export { useProfile } from "./model/api/profileApi";

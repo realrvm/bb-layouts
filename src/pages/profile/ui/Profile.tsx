@@ -10,20 +10,28 @@ import { Button } from "@/shared/ui/button";
 import { ButtonThemes } from "@/shared/lib/enums";
 import { Chevron } from "@/shared/ui/icons";
 
-export const Profile: FC<PropsWithChildren<{ title: string }>> = ({
-  children,
-  title,
-}) => {
+export const Profile: FC<
+  PropsWithChildren<{ title: string; isReturn?: boolean }>
+> = ({ children, title, isReturn = false }) => {
   useProfile();
+  const { isMobile } = useIsMobile();
+  const isReturnAndMobile = isMobile && isReturn;
 
   return (
     <>
       <ProfileHeader />
       <Container>
         <section className="flex flex-col md:flex-row gap-6 md:gap-16 mt-4 md:mt-9">
-          <Sidebar />
+          {!isReturnAndMobile && <Sidebar />}
           <div className="flex flex-1 flex-col gap-6">
-            <h3 className="heading-3 md:heading-title">{title}</h3>
+            {isReturn ? (
+              <div className="flex md:flex-col items-center md:items-start gap-4 md:gap-6">
+                <ProfileReturnButton path={-1}>Назад</ProfileReturnButton>
+                <h3 className="heading-3 md:heading-title">{title}</h3>
+              </div>
+            ) : (
+              <h3 className="heading-3 md:heading-title">{title}</h3>
+            )}
             <div>{children}</div>
           </div>
         </section>
@@ -32,8 +40,8 @@ export const Profile: FC<PropsWithChildren<{ title: string }>> = ({
   );
 };
 
-export const ProfileReturnButton: FC<PropsWithChildren<{ path: string }>> =
-  memo(({ children, path }) => {
+export const ProfileReturnButton: FC<PropsWithChildren<{ path: any }>> = memo(
+  ({ children, path }) => {
     const navigate = useNavigate();
     const { isMobile } = useIsMobile();
 
@@ -59,4 +67,5 @@ export const ProfileReturnButton: FC<PropsWithChildren<{ path: string }>> =
         )}
       </>
     );
-  });
+  },
+);
