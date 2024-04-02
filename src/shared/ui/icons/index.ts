@@ -9,3 +9,5 @@ export { Clock } from "./Clock";
 export { Profile } from "./Profile";
 export { Warn } from "./Warn";
 export { Chevron } from "./Chevron";
+export { Notes } from "./Notes";
+export { Download } from "./Download";
