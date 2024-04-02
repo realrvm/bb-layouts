@@ -17,6 +17,8 @@ import { ProtectedRoute } from "../ui/ProtectedRoute";
 import {
   ProfileActive,
   ProfileClient,
+  ProfileClientMail,
+  ProfileClientPhone,
   ProfileDocs,
   ProfileMain,
   ProfileMainApproved,
@@ -182,6 +184,22 @@ export const router = createBrowserRouter([
             element: (
               <Suspense fallback={<Loading />}>
                 <ProfileClient />
+              </Suspense>
+            ),
+          },
+          {
+            path: `${Routes.PROFILE}/client/phone`,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <ProfileClientPhone />
+              </Suspense>
+            ),
+          },
+          {
+            path: `${Routes.PROFILE}/client/mail`,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <ProfileClientMail />
               </Suspense>
             ),
           },

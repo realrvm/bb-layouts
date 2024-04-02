@@ -37,7 +37,7 @@ export const Checkbox: FC<CheckboxProps> = forwardRef<
         ref={ref}
         {...rest}
       />
-      {label && <span>{label}</span>}
+      {label && <span className='text-text-gray'>{label}</span>}
     </label>
   );
 });

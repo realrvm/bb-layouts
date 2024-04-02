@@ -29,6 +29,12 @@ const ProfilePersonalCard = lazy(
   () =>
     import("./ui/profile-personal/profile-personal-card/ProfilePersonalCard"),
 );
+const ProfileClientPhone = lazy(
+  () => import("./ui/profile-client/profile-client-phone/ProfileClientPhone"),
+);
+const ProfileClientMail = lazy(
+  () => import("./ui/profile-client/profile-client-mail/ProfileClientMail"),
+);
 
 export {
   ProfileMain,
@@ -42,6 +48,8 @@ export {
   ProfilePersonalPassport,
   ProfilePersonalPts,
   ProfilePersonalCard,
+  ProfileClientPhone,
+  ProfileClientMail,
 };
 
 export { useProfile } from "./model/api/profileApi";

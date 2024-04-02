@@ -1,8 +1,9 @@
 import { FC, memo } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Profile } from "../Profile";
 import { Button } from "@/shared/ui/button";
 import { ButtonThemes } from "@/shared/lib/enums";
-import { useNavigate } from "react-router-dom";
 
 const personalItems = [
   { caption: "Паспортные данные", path: "passport" },

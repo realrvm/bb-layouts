@@ -1,8 +1,8 @@
 import { FC } from "react";
 
 import { Otp } from "@/widgets/otp";
-import { useOTP } from "../../lib/hooks";
 import { Auth } from "../Auth";
+import { useOTP } from "../../lib/hooks";
 
 const AuthOTP: FC = () => {
   const { otp, setOtp, setIsResendable, phone } = useOTP();
