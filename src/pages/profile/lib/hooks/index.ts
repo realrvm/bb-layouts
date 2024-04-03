@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useCallback, useEffect, useState } from "react";
 
 import { useProfile, useProfileLoan } from "../../model/api/profileApi";
 
@@ -34,3 +34,28 @@ export function useLoanData(id: string) {
 
   return { loan, isFetching };
 }
+
+export const usePreviewImages = () => {
+  const [previewImages, setPreviewImages] = useState<
+    string | ArrayBuffer | null
+  >();
+
+  const handleSelectImages: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      const targetFiles = e.target.files;
+      const file = targetFiles && targetFiles[0];
+
+      const fileReader = new FileReader();
+
+      fileReader.addEventListener("load", () => {
+        setPreviewImages(fileReader.result);
+        if (targetFiles) console.log(targetFiles);
+      });
+
+      if (file) fileReader.readAsDataURL(file);
+    },
+    [],
+  );
+
+  return { previewImages, handleSelectImages };
+};

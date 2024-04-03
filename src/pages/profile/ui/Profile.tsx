@@ -21,7 +21,7 @@ export const Profile: FC<
     <>
       <ProfileHeader />
       <Container>
-        <section className="flex flex-col md:flex-row gap-6 md:gap-16 mt-4 md:mt-9">
+        <section className="flex flex-col md:flex-row gap-6 md:gap-16 mt-4 pb-[100px] md:mt-9">
           {!isReturnAndMobile && <Sidebar />}
           <div className="flex flex-1 flex-col gap-6">
             {isReturn ? (
