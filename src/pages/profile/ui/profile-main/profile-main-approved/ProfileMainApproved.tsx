@@ -1,8 +1,8 @@
-import { FC, memo } from "react";
+import { ChangeEventHandler, FC, memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { cn } from "@/shared/lib/cn";
-import { usePreviewImages } from "@/pages/profile/lib/hooks";
+import { usePreviewImage, usePreviewImages } from "@/pages/profile/lib/hooks";
 import { useLocationIndex } from "@/pages/application/lib/hooks";
 import {
   ProfileMainApplicationSteps,
@@ -57,7 +57,9 @@ const ProfileMainApproved: FC = () => {
 };
 
 const ProfileDocsView: FC<{ view: Pages }> = memo(({ view }) => {
-  const { previewImages, handleSelectImages } = usePreviewImages();
+  const { previewImage, handleSelectImage } = usePreviewImage();
+  const { fileLimit, handleFileEvent, uploadedFiles, fileImages } =
+    usePreviewImages();
 
   return (
     <div
@@ -78,33 +80,91 @@ const ProfileDocsView: FC<{ view: Pages }> = memo(({ view }) => {
           </p>
         ) : null}
       </div>
-      <div>
-        {!previewImages ? (
-          <label className="relative inline-block">
-            <span className={cn("heading-5", styles["file-input"])}>
-              Прикрепить
-            </span>
-            <input
-              type="file"
-              name="file"
-              onChange={handleSelectImages}
-              accept="image/*"
-              multiple={view === "pts" ? true : false}
-              className="absolute -z-1 opacity-0 w-0 h-0"
-            />
-          </label>
+      <div className="flex items-center gap-2">
+        {view === "pts" ? (
+          <ProfileDocksViewMultipleImages
+            fileLimit={fileLimit}
+            handleFileEvent={handleFileEvent}
+            uploadedFiles={uploadedFiles}
+            fileImages={fileImages as string[]}
+          />
         ) : (
-          <div className="w-[60px] h-[60px] rounded-lg overflow-hidden">
-            <img
-              className="h-full w-full object-cover"
-              src={previewImages as string}
-              alt="uploaded image"
-            />
-          </div>
+          <ProfileDocksViewLoneImage
+            previewImage={previewImage as string}
+            handleSelectImage={handleSelectImage}
+          />
         )}
       </div>
     </div>
   );
 });
+
+const ProfileDocksViewMultipleImages: FC<{
+  fileLimit: boolean;
+  handleFileEvent: ChangeEventHandler<HTMLInputElement>;
+  uploadedFiles: File[];
+  fileImages: string[];
+}> = memo(({ fileLimit, handleFileEvent, uploadedFiles, fileImages }) => (
+  <>
+    {!uploadedFiles.length ? (
+      <label className="relative inline-block">
+        <span className={cn("heading-5", styles["file-input"])}>
+          Прикрепить
+        </span>
+        <input
+          type="file"
+          name="file"
+          onChange={handleFileEvent}
+          accept="image/*"
+          multiple
+          disabled={fileLimit}
+          className="absolute -z-1 opacity-0 w-0 h-0"
+        />
+      </label>
+    ) : (
+      <>
+        {fileImages.map((image, i) => (
+          <div key={i} className="w-[60px] h-[60px] rounded-lg overflow-hidden">
+            <img
+              className="h-full w-full object-cover"
+              src={image as string}
+              alt="uploaded image"
+            />
+          </div>
+        ))}
+      </>
+    )}
+  </>
+));
+
+const ProfileDocksViewLoneImage: FC<{
+  previewImage: string | undefined;
+  handleSelectImage: ChangeEventHandler<HTMLInputElement>;
+}> = memo(({ previewImage, handleSelectImage }) => (
+  <>
+    {!previewImage ? (
+      <label className="relative inline-block">
+        <span className={cn("heading-5", styles["file-input"])}>
+          Прикрепить
+        </span>
+        <input
+          type="file"
+          name="file"
+          onChange={handleSelectImage}
+          accept="image/*"
+          className="absolute -z-1 opacity-0 w-0 h-0"
+        />
+      </label>
+    ) : (
+      <div className="w-[60px] h-[60px] rounded-lg overflow-hidden">
+        <img
+          className="h-full w-full object-cover"
+          src={previewImage as string}
+          alt="uploaded image"
+        />
+      </div>
+    )}
+  </>
+));
 
 export default ProfileMainApproved;

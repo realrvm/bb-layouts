@@ -49,3 +49,6 @@ export const LONG_REGION_NUMBER = 3;
 
 // polling interval
 export const POLLING_INTERVAL = 1000;
+
+// photo in profile page approved
+export const MAX_PHOTO_IN_PROFILE = 5;

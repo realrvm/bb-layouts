@@ -1,6 +1,7 @@
 import { ChangeEventHandler, useCallback, useEffect, useState } from "react";
 
 import { useProfile, useProfileLoan } from "../../model/api/profileApi";
+import { MAX_PHOTO_IN_PROFILE } from "@/shared/lib/constants";
 
 export function useProfileData() {
   const { phone_number, loans } = useProfile(undefined, {
@@ -35,12 +36,12 @@ export function useLoanData(id: string) {
   return { loan, isFetching };
 }
 
-export const usePreviewImages = () => {
-  const [previewImages, setPreviewImages] = useState<
+export const usePreviewImage = () => {
+  const [previewImage, setPreviewImage] = useState<
     string | ArrayBuffer | null
   >();
 
-  const handleSelectImages: ChangeEventHandler<HTMLInputElement> = useCallback(
+  const handleSelectImage: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
       const targetFiles = e.target.files;
       const file = targetFiles && targetFiles[0];
@@ -48,7 +49,7 @@ export const usePreviewImages = () => {
       const fileReader = new FileReader();
 
       fileReader.addEventListener("load", () => {
-        setPreviewImages(fileReader.result);
+        setPreviewImage(fileReader.result);
         if (targetFiles) console.log(targetFiles);
       });
 
@@ -57,5 +58,59 @@ export const usePreviewImages = () => {
     [],
   );
 
-  return { previewImages, handleSelectImages };
+  return { previewImage, handleSelectImage };
 };
+
+export function usePreviewImages() {
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [fileLimit, setFileLimit] = useState(false);
+  const [fileImages, setFileImages] = useState<
+    Array<string | ArrayBuffer | null>
+  >([]);
+  console.log(fileImages)
+
+  const handleUploadFiles = (files: File[]) => {
+    const uploaded: File[] = [...uploadedFiles];
+    const images: Array<string | ArrayBuffer | null> = [...fileImages];
+
+    let limitExceeded = false;
+
+    files.some((file: File) => {
+      const isNotAlreadyUploaded =
+        uploaded.findIndex((f: File) => f.name === file.name) === -1;
+
+      if (isNotAlreadyUploaded) {
+        uploaded.push(file);
+
+        if (uploaded.length === MAX_PHOTO_IN_PROFILE) setFileLimit(true);
+
+        if (uploaded.length > MAX_PHOTO_IN_PROFILE) {
+          setFileLimit(false);
+
+          limitExceeded = true;
+
+          return true;
+        }
+      }
+    });
+
+    files.forEach((e) => {
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        images.push(fileReader.result);
+        if (!limitExceeded) setFileImages(images);
+      });
+      if (e) fileReader.readAsDataURL(e);
+    });
+
+    if (!limitExceeded) setUploadedFiles(uploaded);
+  };
+
+  const handleFileEvent: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const chosenFiles = Array.prototype.slice.call(e.target.files);
+
+    handleUploadFiles(chosenFiles);
+  };
+
+  return { handleFileEvent, fileLimit, uploadedFiles, fileImages };
+}
