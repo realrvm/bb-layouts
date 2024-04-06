@@ -14,6 +14,7 @@ export const Profile: FC<
   PropsWithChildren<{ title: string; isReturn?: boolean }>
 > = ({ children, title, isReturn = false }) => {
   useProfile();
+
   const { isMobile } = useIsMobile();
   const isReturnAndMobile = isMobile && isReturn;
 

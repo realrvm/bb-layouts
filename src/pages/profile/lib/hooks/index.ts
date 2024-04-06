@@ -4,14 +4,15 @@ import { useProfile, useProfileLoan } from "../../model/api/profileApi";
 import { MAX_PHOTO_IN_PROFILE } from "@/shared/lib/constants";
 
 export function useProfileData() {
-  const { phone_number, loans } = useProfile(undefined, {
+  const { phone_number, loans, identity_documents } = useProfile(undefined, {
     selectFromResult: ({ currentData }) => ({
       phone_number: currentData?.phone_number,
       loans: currentData?.loans,
+      identity_documents: currentData?.identity_documents[0],
     }),
   });
 
-  return { phone_number, loans };
+  return { phone_number, loans, identity_documents };
 }
 
 export function useLoanData(id: string) {
@@ -67,7 +68,7 @@ export function usePreviewImages() {
   const [fileImages, setFileImages] = useState<
     Array<string | ArrayBuffer | null>
   >([]);
-  console.log(fileImages)
+  console.log(fileImages);
 
   const handleUploadFiles = (files: File[]) => {
     const uploaded: File[] = [...uploadedFiles];

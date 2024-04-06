@@ -1,20 +1,38 @@
 import { FC } from "react";
 
+import { getGender } from "@/shared/lib/helpers/getGender";
+
 import { Profile } from "../../Profile";
+import { useProfileData } from "../../../lib/hooks";
 
 const ProfilePersonalPassport: FC = () => {
+  const { identity_documents } = useProfileData();
+  const {
+    first_name,
+    last_name,
+    patronymic,
+    sex,
+    date_of_birth,
+    place_of_birth,
+    series,
+    number,
+    name_of_issuer,
+    date_of_issue,
+    subdivision_code,
+  } = identity_documents || {};
+
   return (
     <Profile title="Паспортные данные" isReturn>
       <div className="flex flex-col gap-6 p-6 border border-border-gray rounded-lg max-w-[472px]">
-        <h4 className="heading-4">Игорёв Игорь Игоревич</h4>
+        <h4 className="heading-4">{`${first_name} ${last_name} ${patronymic}`}</h4>
         <div className="flex items-center justify-between gap-x-6 gap-y-9 flex-wrap">
           <dl className="flex flex-col g-1">
             <dt className="text-small text-text-gray">Пол</dt>
-            <dd>Мужской</dd>
+            <dd>{getGender(sex)}</dd>
           </dl>
           <dl className="flex flex-col g-1">
             <dt className="text-small text-text-gray">Дата рождения</dt>
-            <dd>11.02.1984</dd>
+            <dd>{date_of_birth}</dd>
           </dl>
           <dl className="flex flex-col g-1">
             <dt className="text-small text-text-gray">Гражданство</dt>
@@ -24,10 +42,7 @@ const ProfilePersonalPassport: FC = () => {
         <div className="flex items-center justify-between gap-x-6 gap-y-9 flex-wrap">
           <dl className="flex flex-col g-1">
             <dt className="text-small text-text-gray">Место рождения</dt>
-            <dd>
-              Хабаровский край г. Хабаровск, Дикопольцева д. 5, кв. 11,
-              Центральный район
-            </dd>
+            <dd>{place_of_birth}</dd>
           </dl>
         </div>
         <div className="flex items-center justify-between gap-x-6 gap-y-9 flex-wrap">
@@ -35,28 +50,25 @@ const ProfilePersonalPassport: FC = () => {
             <dt className="text-small text-text-gray">
               Серия и номер паспорта
             </dt>
-            <dd className="heading-5">0425 226644</dd>
+            <dd className="heading-5">{`${series} ${number}`}</dd>
           </dl>
         </div>
         <div className="flex items-center justify-between gap-x-6 gap-y-9 flex-wrap">
           <dl className="flex flex-col g-1">
             <dt className="text-small text-text-gray">Выдан</dt>
-            <dd>
-              Отделом УФМС России по Хабаровскому краю в Центральном районе гор.
-              Хабаровска
-            </dd>
+            <dd>{name_of_issuer}</dd>
           </dl>
         </div>
         <div className="flex items-center justify-between gap-x-6 gap-y-9 flex-wrap">
           <dl className="flex flex-col g-1">
             <dt className="text-small text-text-gray">Дата выдачи</dt>
-            <dd>05.08.2000</dd>
+            <dd>{date_of_issue}</dd>
           </dl>
         </div>
         <div className="flex items-center justify-between gap-x-6 gap-y-9 flex-wrap">
           <dl className="flex flex-col g-1">
             <dt className="text-small text-text-gray">Код подразделения</dt>
-            <dd>270-001</dd>
+            <dd>{subdivision_code}</dd>
           </dl>
         </div>
       </div>
