@@ -52,3 +52,6 @@ export const POLLING_INTERVAL = 1000;
 
 // photo in profile page approved
 export const MAX_PHOTO_IN_PROFILE = 5;
+
+// max photo size
+export const MAX_PHOTO_SIZE = 1 * 1024 * 1024; // 1mb

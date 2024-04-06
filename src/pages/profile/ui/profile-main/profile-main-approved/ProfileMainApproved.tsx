@@ -1,4 +1,11 @@
-import { ChangeEventHandler, FC, memo } from "react";
+import {
+  ChangeEventHandler,
+  FC,
+  FormEventHandler,
+  MouseEventHandler,
+  memo,
+  useCallback,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import { cn } from "@/shared/lib/cn";
@@ -24,6 +31,14 @@ const ProfileMainApproved: FC = () => {
   const { locationIndex } = useLocationIndex("profile");
   const navigate = useNavigate();
 
+  const submitApprovedForm: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      navigate("/profile/main/payout");
+    },
+    [navigate],
+  );
+
   return (
     <>
       <ProfileMainApplicationWrapper>
@@ -35,7 +50,7 @@ const ProfileMainApproved: FC = () => {
           <form
             id="profile-docs"
             className="flex flex-col md:pt-6 h-full"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={submitApprovedForm}
           >
             <div className="flex flex-col">
               {Object.keys(docsView).map((key) => (
@@ -44,11 +59,7 @@ const ProfileMainApproved: FC = () => {
             </div>
           </form>
         </div>
-        <Button
-          onClick={() => navigate("/profile/main/payout")}
-          form="profile-docs"
-          className="btn-medium w-full max-w-[824px]"
-        >
+        <Button form="profile-docs" className="btn-medium w-full max-w-[824px]">
           Продолжить
         </Button>
       </ProfileMainApplicationWrapper>
@@ -57,9 +68,15 @@ const ProfileMainApproved: FC = () => {
 };
 
 const ProfileDocsView: FC<{ view: Pages }> = memo(({ view }) => {
-  const { previewImage, handleSelectImage } = usePreviewImage();
-  const { fileLimit, handleFileEvent, uploadedFiles, fileImages } =
-    usePreviewImages();
+  const { previewImage, handleSelectImage, handleRemoveChosenImage, errors } =
+    usePreviewImage();
+  const {
+    fileLimit,
+    handleFileEvent,
+    fileImages,
+    handleRemoveChosenImages,
+    errors: errorsFiles,
+  } = usePreviewImages();
 
   return (
     <div
@@ -74,24 +91,29 @@ const ProfileDocsView: FC<{ view: Pages }> = memo(({ view }) => {
         <span className="heading-6 md:heading-5">{docsView[view]}</span>
         {view === "photo" ? (
           <p className="text-medium md:text-small text-text-gray">
-            На фото должно быть разборчиво видно
-            <br />
-            ваше ФИО и фотографию
+            На фото должны быть разборчиво видны ваши ФИО и фотография
           </p>
         ) : null}
+        {errors && view !== "pts" && (
+          <p className="text-small text-special-red">{errors}</p>
+        )}
+        {errorsFiles && view === "pts" && (
+          <p className="text-small text-special-red">{errorsFiles}</p>
+        )}
       </div>
       <div className="flex items-center gap-2">
         {view === "pts" ? (
           <ProfileDocksViewMultipleImages
             fileLimit={fileLimit}
             handleFileEvent={handleFileEvent}
-            uploadedFiles={uploadedFiles}
             fileImages={fileImages as string[]}
+            handleRemoveChosenImages={handleRemoveChosenImages}
           />
         ) : (
           <ProfileDocksViewLoneImage
             previewImage={previewImage as string}
             handleSelectImage={handleSelectImage}
+            handleRemoveChosenImage={handleRemoveChosenImage}
           />
         )}
       </div>
@@ -99,48 +121,11 @@ const ProfileDocsView: FC<{ view: Pages }> = memo(({ view }) => {
   );
 });
 
-const ProfileDocksViewMultipleImages: FC<{
-  fileLimit: boolean;
-  handleFileEvent: ChangeEventHandler<HTMLInputElement>;
-  uploadedFiles: File[];
-  fileImages: string[];
-}> = memo(({ fileLimit, handleFileEvent, uploadedFiles, fileImages }) => (
-  <>
-    {!uploadedFiles.length ? (
-      <label className="relative inline-block">
-        <span className={cn("heading-5", styles["file-input"])}>
-          Прикрепить
-        </span>
-        <input
-          type="file"
-          name="file"
-          onChange={handleFileEvent}
-          accept="image/*"
-          multiple
-          disabled={fileLimit}
-          className="absolute -z-1 opacity-0 w-0 h-0"
-        />
-      </label>
-    ) : (
-      <>
-        {fileImages.map((image, i) => (
-          <div key={i} className="w-[60px] h-[60px] rounded-lg overflow-hidden">
-            <img
-              className="h-full w-full object-cover"
-              src={image as string}
-              alt="uploaded image"
-            />
-          </div>
-        ))}
-      </>
-    )}
-  </>
-));
-
 const ProfileDocksViewLoneImage: FC<{
   previewImage: string | undefined;
   handleSelectImage: ChangeEventHandler<HTMLInputElement>;
-}> = memo(({ previewImage, handleSelectImage }) => (
+  handleRemoveChosenImage: MouseEventHandler<HTMLButtonElement>;
+}> = memo(({ previewImage, handleSelectImage, handleRemoveChosenImage }) => (
   <>
     {!previewImage ? (
       <label className="relative inline-block">
@@ -156,15 +141,64 @@ const ProfileDocksViewLoneImage: FC<{
         />
       </label>
     ) : (
-      <div className="w-[60px] h-[60px] rounded-lg overflow-hidden">
-        <img
-          className="h-full w-full object-cover"
-          src={previewImage as string}
-          alt="uploaded image"
-        />
+      <div className="w-[60px] h-[60px] rounded-lg overflow-hidden hover:opacity-50">
+        <button
+          className={cn("w-full h-full relative", styles["image-input"])}
+          onClick={handleRemoveChosenImage}
+        >
+          <img
+            className="h-full w-full object-cover"
+            src={previewImage as string}
+            alt="uploaded image"
+          />
+        </button>
       </div>
     )}
   </>
 ));
+
+const ProfileDocksViewMultipleImages: FC<{
+  fileLimit: boolean;
+  handleFileEvent: ChangeEventHandler<HTMLInputElement>;
+  fileImages: string[];
+  handleRemoveChosenImages: (i: number) => void;
+}> = memo(
+  ({ fileLimit, handleFileEvent, fileImages, handleRemoveChosenImages }) => (
+    <>
+      {!fileLimit && (
+        <label className="relative inline-block">
+          <span className={cn("heading-5", styles["file-input"])}>
+            Прикрепить
+          </span>
+          <input
+            type="file"
+            name="file"
+            onChange={handleFileEvent}
+            accept="image/*"
+            multiple
+            disabled={fileLimit}
+            className="absolute -z-1 opacity-0 w-0 h-0"
+          />
+        </label>
+      )}
+      <>
+        {fileImages.map((image, i) => (
+          <div key={i} className="w-[60px] h-[60px] rounded-lg overflow-hidden">
+            <button
+              className={cn("w-full h-full relative", styles["image-input"])}
+              onClick={() => handleRemoveChosenImages(i)}
+            >
+              <img
+                className="h-full w-full object-cover"
+                src={image as string}
+                alt="uploaded image"
+              />
+            </button>
+          </div>
+        ))}
+      </>
+    </>
+  ),
+);
 
 export default ProfileMainApproved;

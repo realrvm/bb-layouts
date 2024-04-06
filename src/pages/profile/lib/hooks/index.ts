@@ -1,7 +1,15 @@
-import { ChangeEventHandler, useCallback, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { ZodError } from "zod";
 
 import { useProfile, useProfileLoan } from "../../model/api/profileApi";
 import { MAX_PHOTO_IN_PROFILE } from "@/shared/lib/constants";
+import { checkFileSize } from "@/shared/lib/helpers/checkFileSize";
 
 export function useProfileData() {
   const { phone_number, loans, identity_documents } = useProfile(undefined, {
@@ -38,28 +46,57 @@ export function useLoanData(id: string) {
 }
 
 export const usePreviewImage = () => {
+  const [uploadedFile, setUploadedFile] = useState<File | undefined>();
   const [previewImage, setPreviewImage] = useState<
     string | ArrayBuffer | null
   >();
+  const [errors, setErrors] = useState<string | undefined>();
+
+  const schema = checkFileSize();
 
   const handleSelectImage: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
       const targetFiles = e.target.files;
-      const file = targetFiles && targetFiles[0];
+      const file = targetFiles?.length && targetFiles[0];
 
-      const fileReader = new FileReader();
+      try {
+        schema.parse({ file });
 
-      fileReader.addEventListener("load", () => {
-        setPreviewImage(fileReader.result);
-        if (targetFiles) console.log(targetFiles);
-      });
+        setUploadedFile(file as File);
+        const fileReader = new FileReader();
 
-      if (file) fileReader.readAsDataURL(file);
+        fileReader.addEventListener("load", () => {
+          setPreviewImage(fileReader.result);
+        });
+
+        if (file) fileReader.readAsDataURL(file);
+
+        setErrors(undefined);
+      } catch (error) {
+        if (error instanceof ZodError) {
+          setPreviewImage(null);
+
+          setErrors(error.errors[0].message);
+        }
+      }
     },
-    [],
+    [schema],
   );
 
-  return { previewImage, handleSelectImage };
+  const handleRemoveChosenImage: MouseEventHandler<HTMLButtonElement> =
+    useCallback(() => {
+      setUploadedFile(undefined);
+      setErrors(undefined);
+      setPreviewImage(null);
+    }, []);
+
+  return {
+    previewImage,
+    handleSelectImage,
+    errors,
+    handleRemoveChosenImage,
+    uploadedFile,
+  };
 };
 
 export function usePreviewImages() {
@@ -68,44 +105,60 @@ export function usePreviewImages() {
   const [fileImages, setFileImages] = useState<
     Array<string | ArrayBuffer | null>
   >([]);
-  console.log(fileImages);
+  const [errors, setErrors] = useState<string | undefined>();
 
-  const handleUploadFiles = (files: File[]) => {
-    const uploaded: File[] = [...uploadedFiles];
-    const images: Array<string | ArrayBuffer | null> = [...fileImages];
+  const schema = checkFileSize();
 
-    let limitExceeded = false;
+  const handleUploadFiles = useCallback(
+    (files: File[]) => {
+      const uploaded: File[] = [...uploadedFiles];
 
-    files.some((file: File) => {
-      const isNotAlreadyUploaded =
-        uploaded.findIndex((f: File) => f.name === file.name) === -1;
+      let limitExceeded = false;
 
-      if (isNotAlreadyUploaded) {
-        uploaded.push(file);
+      files.some((file: File) => {
+        const isNotAlreadyUploaded =
+          uploaded.findIndex(
+            (currentFile: File) => currentFile.name === file.name,
+          ) === -1;
 
-        if (uploaded.length === MAX_PHOTO_IN_PROFILE) setFileLimit(true);
+        if (isNotAlreadyUploaded) {
+          try {
+            setErrors(undefined);
 
-        if (uploaded.length > MAX_PHOTO_IN_PROFILE) {
-          setFileLimit(false);
+            schema.parse({ file });
 
-          limitExceeded = true;
+            uploaded.push(file);
 
-          return true;
+            if (uploaded.length === MAX_PHOTO_IN_PROFILE) setFileLimit(true);
+
+            if (uploaded.length > MAX_PHOTO_IN_PROFILE) {
+              setFileLimit(false);
+
+              limitExceeded = true;
+
+              return true;
+            }
+
+            const fileReader = new FileReader();
+
+            fileReader.addEventListener("load", () => {
+              if (!limitExceeded)
+                setFileImages((prev) => prev.concat(fileReader.result));
+            });
+
+            fileReader.readAsDataURL(file);
+          } catch (error) {
+            if (error instanceof ZodError) {
+              setErrors(error.errors[0].message);
+            }
+          }
         }
-      }
-    });
-
-    files.forEach((e) => {
-      const fileReader = new FileReader();
-      fileReader.addEventListener("load", () => {
-        images.push(fileReader.result);
-        if (!limitExceeded) setFileImages(images);
       });
-      if (e) fileReader.readAsDataURL(e);
-    });
 
-    if (!limitExceeded) setUploadedFiles(uploaded);
-  };
+      if (!limitExceeded) setUploadedFiles(uploaded);
+    },
+    [schema, uploadedFiles],
+  );
 
   const handleFileEvent: ChangeEventHandler<HTMLInputElement> = (e) => {
     const chosenFiles = Array.prototype.slice.call(e.target.files);
@@ -113,5 +166,19 @@ export function usePreviewImages() {
     handleUploadFiles(chosenFiles);
   };
 
-  return { handleFileEvent, fileLimit, uploadedFiles, fileImages };
+  const handleRemoveChosenImages = (i: number) => {
+    setUploadedFiles((prev) => prev.filter((_, index) => index !== i));
+    setFileImages((prev) => prev.filter((_, index) => index !== i));
+    setFileLimit(false);
+    setErrors(undefined);
+  };
+
+  return {
+    handleFileEvent,
+    fileLimit,
+    uploadedFiles,
+    fileImages,
+    handleRemoveChosenImages,
+    errors,
+  };
 }
