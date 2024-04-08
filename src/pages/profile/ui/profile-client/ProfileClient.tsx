@@ -4,12 +4,13 @@ import { Button } from "@/shared/ui/button";
 import { ButtonThemes } from "@/shared/lib/enums";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { useNavigate } from "react-router-dom";
-
-const client = { phone_number: "+7 924 225 92 27", email: "" };
+import { useProfileData } from "../../lib/hooks";
 
 const ProfileClient: FC = () => {
   const [checked, setChecked] = useState(false);
   const navigate = useNavigate();
+  const { phone_number } = useProfileData();
+  const client = { phone_number, email: "" };
 
   const handleCheck = useCallback((state: boolean) => {
     setChecked(state);
