@@ -78,7 +78,9 @@ const ProfilePersonalPassport: FC = () => {
           </div>
         </div>
       ) : (
-        <ProfileNotProvided />
+        <ProfileNotProvided>
+          Данные ещё не предоставлены пользователем
+        </ProfileNotProvided>
       )}
     </Profile>
   );

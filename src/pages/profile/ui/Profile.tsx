@@ -71,8 +71,10 @@ export const ProfileReturnButton: FC<PropsWithChildren<{ path: any }>> = memo(
   },
 );
 
-export const ProfileNotProvided: FC = memo(() => (
-  <div className="py-3 px-5 rounded-lg bg-[#fff5e1] heading-5 inline-block">
-    Данные ещё не предоставлены пользователем
-  </div>
-));
+export const ProfileNotProvided: FC<PropsWithChildren> = memo(
+  ({ children }) => (
+    <div className="py-3 px-5 rounded-lg bg-[#fff5e1] heading-5 inline-block self-start">
+      {children}
+    </div>
+  ),
+);

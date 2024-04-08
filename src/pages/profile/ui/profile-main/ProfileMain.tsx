@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, memo, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Profile, ProfileReturnButton } from "../Profile";
+import { Profile, ProfileNotProvided, ProfileReturnButton } from "../Profile";
 import { Button } from "@/shared/ui/button";
 import { ButtonThemes } from "@/shared/lib/enums";
 import { cn } from "@/shared/lib/cn";
@@ -27,10 +27,13 @@ const ProfileMain: FC = () => {
   return (
     <Profile title="Заявки">
       <div className="flex flex-col gap-y-3 mb-6">
-        {loans?.length &&
-          loans.map((loan) => (
+        {loans?.length ? (
+          loans?.map((loan) => (
             <ProfileMainApplication key={loan.id} loan={loan} />
-          ))}
+          ))
+        ) : (
+          <ProfileNotProvided>У Вас нет ни одной заявки.</ProfileNotProvided>
+        )}
       </div>
     </Profile>
   );
