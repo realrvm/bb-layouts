@@ -16,7 +16,7 @@ export function useProfileData() {
     selectFromResult: ({ currentData }) => ({
       phone_number: currentData?.phone_number,
       loans: currentData?.loans,
-      identity_documents: currentData?.identity_documents[0],
+      identity_documents: currentData?.identity_documents,
     }),
   });
 
