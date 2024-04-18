@@ -58,13 +58,17 @@ const ApplicationDocs: FC = () => {
 };
 
 const ApplicationDocsView: FC<{ view: Side }> = memo(({ view }) => {
-  const { previewImage, handleSelectImage } = usePreviewImage();
+  const { previewImage, handleSelectImage, handleRemoveChosenImage, errors } =
+    usePreviewImage();
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        <span className={cn(styles["placeholder-img"], styles[view])}></span>
-        <span className="heading-5">{autoView[view]}</span>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-3">
+          <span className={cn(styles["placeholder-img"], styles[view])}></span>
+          <span className="heading-5">{autoView[view]}</span>
+        </div>
+        {errors && <p className="text-small text-special-red">{errors}</p>}
       </div>
       <div>
         {!previewImage ? (
@@ -81,12 +85,17 @@ const ApplicationDocsView: FC<{ view: Side }> = memo(({ view }) => {
             />
           </label>
         ) : (
-          <div className="w-[60px] h-[60px] rounded-lg overflow-hidden">
-            <img
-              className="h-full w-full object-cover"
-              src={previewImage as string}
-              alt="uploaded image"
-            />
+          <div className="w-[60px] h-[60px] rounded-lg overflow-hidden hover:opacity-50">
+            <button
+              className={cn("w-full h-full relative", styles["image-input"])}
+              onClick={handleRemoveChosenImage}
+            >
+              <img
+                className="h-full w-full object-cover"
+                src={previewImage as string}
+                alt="uploaded image"
+              />
+            </button>
           </div>
         )}
       </div>

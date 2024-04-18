@@ -42,7 +42,8 @@ import {
 
 import { ZodError } from "zod";
 import { vehicleSchema } from "../../config/schema";
-import { useCreateModel } from "../../model/api/vehiclesApi";
+//import { useCreateModel, useSelectCarData } from "../../model/api/vehiclesApi";
+import { useSelectCarData } from "../../model/api/vehiclesApi";
 import { initialForm } from "../../constants";
 
 import styles from "./styles.module.css";
@@ -60,8 +61,12 @@ const ApplicationVehicle: FC = () => {
 
   const navigate = useNavigate();
 
-  const [createModel] = useCreateModel({
-    fixedCacheKey: "shared-create-model-post",
+  // const [createModel] = useCreateModel({
+  //   fixedCacheKey: "shared-create-model-post",
+  // });
+
+  const [selectCarData] = useSelectCarData({
+    fixedCacheKey: "shared-select-car-data",
   });
 
   const { handleInitiateReport, autoData, isLoading, isError } = useGetAutoData(
@@ -93,7 +98,9 @@ const ApplicationVehicle: FC = () => {
       try {
         vehicleSchema.parse(formData);
 
-        await createModel(formData as any);
+        // TODO
+        //await createModel(formData as any).unwrap();
+        await selectCarData(formData as any).unwrap();
 
         navigate("/application/docs");
       } catch (e) {
@@ -112,12 +119,13 @@ const ApplicationVehicle: FC = () => {
         if (e instanceof Error) {
           console.log(e);
         }
+        // TODO удалить после того как бекенд разберется с роутами
+        navigate("/application/docs");
       }
     },
     [
       autoData,
       brand.id,
-      createModel,
       isError,
       isManualInput,
       manufactureYear,
@@ -125,6 +133,7 @@ const ApplicationVehicle: FC = () => {
       plate,
       region,
       vinBody,
+      selectCarData,
     ],
   );
 

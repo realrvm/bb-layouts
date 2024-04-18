@@ -1,6 +1,7 @@
 import {
   ChangeEventHandler,
   FormEventHandler,
+  MouseEventHandler,
   useCallback,
   useEffect,
   useState,
@@ -11,7 +12,9 @@ import { SingleValue } from "react-select";
 import { ApplicationPages, Months } from "@/shared/lib/types";
 import { calcLoanCredit, getOnlyDigits } from "@/widgets/calculator/lib/utils";
 import { useActionCreators } from "@/app/providers/rtk";
-import { loanActions, usePostLoan } from "@/entities/loan";
+//import { loanActions, useExpectedPostLoan, usePostLoan } from "@/entities/loan";
+// TODO
+import { loanActions, useExpectedPostLoan } from "@/entities/loan";
 import { POLLING_INTERVAL } from "@/shared/lib/constants";
 import { ReportsRetrieveSchema } from "../../model/types";
 import {
@@ -31,9 +34,11 @@ import {
   VehicleBrandTypeWithLabel,
 } from "../types";
 import { initialForm } from "../../constants";
+import { checkFileSize } from "@/shared/lib/helpers/checkFileSize";
+import { ZodError } from "zod";
 
 const pagesApplication: ApplicationPages[] = ["calculator", "vehicle", "docs"];
-const profilePages = ["schedule", "approved", "payout"];
+const profilePages: string[] = ["schedule", "approved", "payout"];
 
 export function useLocationIndex(paths = "application") {
   const pages = paths === "profile" ? profilePages : pagesApplication;
@@ -53,7 +58,8 @@ export function useApplicationCalculator(
 ) {
   const navigate = useNavigate();
   const loanAction = useActionCreators(loanActions);
-  const [postLoan, { isLoading }] = usePostLoan();
+  //const [postLoan, { isLoading }] = usePostLoan();
+  const [postExpectedLoan, { isLoading }] = useExpectedPostLoan();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -65,11 +71,17 @@ export function useApplicationCalculator(
     loanAction.setLoan({ term: activeTerm, sum });
 
     try {
-      await postLoan({ term: activeTerm, sum }).unwrap();
+      // await postLoan({ term: activeTerm, sum }).unwrap();
+      await postExpectedLoan({
+        expected_sum: getOnlyDigits(value),
+        expected_term: Number(activeTerm),
+      }).unwrap();
 
       navigate("/application/vehicle");
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
+      // TODO: удалить после того как бекенд определится с роутом
+      navigate("/application/vehicle");
     }
   };
 
@@ -190,6 +202,10 @@ export const usePreviewImage = () => {
   const [previewImage, setPreviewImage] = useState<
     string | ArrayBuffer | null
   >();
+  const [uploadedFile, setUploadedFile] = useState<File | undefined>();
+  const [errors, setErrors] = useState<string | undefined>();
+
+  const schema = checkFileSize();
 
   const { upload } = usePresign();
 
@@ -198,19 +214,45 @@ export const usePreviewImage = () => {
       const targetFiles = e.target.files;
       const file = targetFiles && targetFiles[0];
 
-      const fileReader = new FileReader();
+      try {
+        schema.parse({ file });
 
-      fileReader.addEventListener("load", () => {
-        setPreviewImage(fileReader.result);
-        if (targetFiles) upload(targetFiles);
-      });
+        setUploadedFile(file as File);
+        const fileReader = new FileReader();
 
-      if (file) fileReader.readAsDataURL(file);
+        fileReader.addEventListener("load", () => {
+          setPreviewImage(fileReader.result);
+          if (targetFiles) upload(targetFiles);
+        });
+
+        if (file) fileReader.readAsDataURL(file);
+
+        setErrors(undefined);
+      } catch (error) {
+        if (error instanceof ZodError) {
+          setPreviewImage(null);
+
+          setErrors(error.errors[0].message);
+        }
+      }
     },
-    [upload],
+    [upload, schema],
   );
 
-  return { previewImage, handleSelectImage };
+  const handleRemoveChosenImage: MouseEventHandler<HTMLButtonElement> =
+    useCallback(() => {
+      setUploadedFile(undefined);
+      setErrors(undefined);
+      setPreviewImage(null);
+    }, []);
+
+  return {
+    previewImage,
+    handleSelectImage,
+    handleRemoveChosenImage,
+    errors,
+    uploadedFile,
+  };
 };
 
 export function useGetBrandModel(setBrand: any, setModel: any) {

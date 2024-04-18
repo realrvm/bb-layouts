@@ -58,3 +58,8 @@ export type LoansRequestSchema = {
   borrower?: number;
   vehicle?: 0;
 };
+
+export type ExpectedLoansRequestSchema = {
+  expected_sum: string;
+  expected_term: number;
+};
