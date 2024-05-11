@@ -1,6 +1,6 @@
 type ProfileLoan = {
   id: number;
-  sum: string;
+  expected_sum: string;
   term: number;
   created_at: string;
 };

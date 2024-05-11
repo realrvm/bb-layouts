@@ -16,7 +16,7 @@ import styles from "./styles.module.css";
 type ProfileMainApplicationProps = {
   loan: {
     id: number;
-    sum: string;
+    expected_sum: string;
     created_at: string;
   };
 };
@@ -41,7 +41,7 @@ const ProfileMain: FC = () => {
 
 const ProfileMainApplication: FC<ProfileMainApplicationProps> = memo(
   ({ loan }) => {
-    const { id, sum, created_at } = loan;
+    const { id, expected_sum, created_at } = loan;
     const localDate = convertISOtoLocaleDate(created_at);
     const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ const ProfileMainApplication: FC<ProfileMainApplicationProps> = memo(
       <div className="flex items-end md:items-center p-4 border border-border-gray rounded-lg gap-4 md:gap-10">
         <div className="flex items-start md:items-center flex-col md:flex-row flex-1 md:flex-2 justify-between gap-4 md:gap-6">
           <span className="heading-5 md:order-last">
-            Займ на сумму <span className="text-nowrap">{parseInt(sum)} ₽</span>
+            Займ на сумму <span className="text-nowrap">{parseInt(expected_sum)} ₽</span>
           </span>
           <span
             className={cn(
