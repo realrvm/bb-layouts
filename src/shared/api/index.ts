@@ -7,6 +7,9 @@ import type {
 
 import {
   API_URL,
+  DEV_PASSWORD,
+  DEV_USERNAME,
+  IS_DEV,
   STORAGE,
   STORAGE_TOKEN,
   TOKEN_REFRESH,
@@ -15,6 +18,8 @@ import { RootState } from "@/app/providers/rtk/";
 import { authActions } from "@/features/auth";
 import { encode } from "base-64";
 
+const basicAuth = "Basic " + encode(`${DEV_USERNAME}:${DEV_PASSWORD}`);
+
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
   prepareHeaders: (headers, { getState }) => {
@@ -22,14 +27,12 @@ const baseQuery = fetchBaseQuery({
 
     const token = state.auth.accessToken;
 
-    // BASIC AUTH используется только для DEVELOPMENT стенда
-    // TODO Отрефакторить для опционального использования, должно задаваться через переменные окружения
-    let username = 'tester';
-    let password = 'nH7w1<!464H$';
-    const basic_auth = 'Basic ' + encode(`${username}:${password}`)
-    headers.set('Authorization', basic_auth)
-    if (token) {
-      headers.set("Authorization", `${basic_auth}, Bearer ${token}`);
+    if (IS_DEV) {
+      headers.set("Authorization", basicAuth);
+    }
+
+    if (!IS_DEV && token) {
+      headers.set("Authorization", `Bearer ${token}`);
     }
 
     return headers;

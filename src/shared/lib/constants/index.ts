@@ -1,6 +1,10 @@
 // url
 export const API_URL = '/api/v1';
 
+// development basic auth
+export const DEV_USERNAME = import.meta.env.VITE_DEV_USERNAME;
+export const DEV_PASSWORD = import.meta.env.VITE_DEV_PASSWORD;
+
 // paths
 export const TOKEN_REFRESH = "/token/refresh/";
 export const CONFIG_PATH = "/config/";
