@@ -7,8 +7,8 @@ import type {
 
 import {
   API_URL,
-  DEV_PASSWORD,
-  DEV_USERNAME,
+  //DEV_PASSWORD,
+  //DEV_USERNAME,
   IS_DEV,
   STORAGE,
   STORAGE_TOKEN,
@@ -16,9 +16,9 @@ import {
 } from "@/shared/lib/constants";
 import { RootState } from "@/app/providers/rtk/";
 import { authActions } from "@/features/auth";
-import { encode } from "base-64";
+//import { encode } from "base-64";
 
-const basicAuth = "Basic " + encode(`${DEV_USERNAME}:${DEV_PASSWORD}`);
+//const basicAuth = "Basic " + encode(`${DEV_USERNAME}:${DEV_PASSWORD}`);
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
@@ -28,7 +28,7 @@ const baseQuery = fetchBaseQuery({
     const token = state.auth.accessToken;
 
     if (IS_DEV) {
-      headers.set("Authorization", basicAuth);
+      headers.set("Authorization", "Basic dGVzdGVyOm5IN3cxPCE0NjRIJA==");
     }
 
     if (!IS_DEV && token) {
