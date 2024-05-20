@@ -1,5 +1,5 @@
 // url
-export const API_URL = "https://api.bibimoney.ru/api/v1";
+export const API_URL = '/api/v1';
 
 // paths
 export const TOKEN_REFRESH = "/token/refresh/";

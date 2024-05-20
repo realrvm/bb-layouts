@@ -13,6 +13,7 @@ import {
 } from "@/shared/lib/constants";
 import { RootState } from "@/app/providers/rtk/";
 import { authActions } from "@/features/auth";
+import { encode } from "base-64";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
@@ -21,8 +22,14 @@ const baseQuery = fetchBaseQuery({
 
     const token = state.auth.accessToken;
 
+    // BASIC AUTH используется только для DEVELOPMENT стенда
+    // TODO Отрефакторить для опционального использования, должно задаваться через переменные окружения
+    let username = 'tester';
+    let password = 'nH7w1<!464H$';
+    const basic_auth = 'Basic ' + encode(`${username}:${password}`)
+    headers.set('Authorization', basic_auth)
     if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
+      headers.set("Authorization", `${basic_auth}, Bearer ${token}`);
     }
 
     return headers;
