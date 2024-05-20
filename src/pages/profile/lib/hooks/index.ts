@@ -7,42 +7,41 @@ import {
 } from "react";
 import { ZodError } from "zod";
 
-import { useProfile, useProfileLoan } from "../../model/api/profileApi";
+import { useProfile, useProfileLoans } from "../../model/api/profileApi";
 import { MAX_PHOTO_IN_PROFILE } from "@/shared/lib/constants";
 import { checkFileSize } from "@/shared/lib/helpers/checkFileSize";
+import { ProfileLoansSchema } from "../../model/types";
 
 export function useProfileData() {
-  const { phone_number, loans, identity_documents } = useProfile(undefined, {
+  const { phone_number } = useProfile(undefined, {
     selectFromResult: ({ currentData }) => ({
       phone_number: currentData?.phone_number,
-      loans: currentData?.loans,
-      identity_documents: currentData?.identity_documents,
     }),
   });
 
-  return { phone_number, loans, identity_documents };
+  return { phone_number };
 }
 
-export function useLoanData(id: string) {
-  const [loan, setLoan] = useState();
+export function useLoansData() {
+  const [loans, setLoans] = useState<ProfileLoansSchema>();
 
-  const [getProfileLoan, { isFetching }] = useProfileLoan();
+  const [getProfileLoan, { isFetching }] = useProfileLoans();
 
   useEffect(() => {
     async function fn() {
       try {
-        const res = await getProfileLoan(id as string).unwrap();
+        const res = await getProfileLoan().unwrap();
 
-        setLoan(res);
+        setLoans(res);
       } catch (e) {
         console.log(e);
       }
     }
 
     fn();
-  }, [getProfileLoan, id]);
+  }, [getProfileLoan]);
 
-  return { loan, isFetching };
+  return { loans, isFetching };
 }
 
 export const usePreviewImage = () => {

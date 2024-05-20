@@ -1,14 +1,29 @@
 import { $api } from "@/shared/api";
 
-import { ProfileResponseSchema } from "../types";
+import {
+  ActiveLoansResponseSchema,
+  ProfileIdentitySchema,
+  ProfileLoansSchema,
+  ProfileResponseSchema,
+  ProfileVehicleSchema,
+} from "../types";
 
 const profileApi = $api.injectEndpoints({
   endpoints: (builder) => ({
     getProfile: builder.query<ProfileResponseSchema, void>({
       query: () => "/profile/",
     }),
-    getProfileLoan: builder.query<any, string>({
-      query: (id: string) => `/loans/${id}/`,
+    getProfileLoans: builder.query<ProfileLoansSchema, void>({
+      query: () => `/loans/`,
+    }),
+    getActiveLoans: builder.query<ActiveLoansResponseSchema, void>({
+      query: () => "/loans/get_active/",
+    }),
+    getProfileIdentity: builder.query<ProfileIdentitySchema, void>({
+      query: () => "/identity/",
+    }),
+    getProfileVehicle: builder.query<ProfileVehicleSchema, void>({
+      query: () => "/vehicle-licenses/",
     }),
     // TODO тестовый займ УДАЛИТЬ!!!
     getProfileTestLoan: builder.query<any, any>({
@@ -24,7 +39,10 @@ const profileApi = $api.injectEndpoints({
 
 export const useGetProfile = profileApi.useLazyGetProfileQuery;
 export const useProfile = profileApi.useGetProfileQuery;
-export const useProfileLoan = profileApi.useLazyGetProfileLoanQuery;
+export const useProfileLoans = profileApi.useLazyGetProfileLoansQuery;
+export const useGetActiveLoans = profileApi.useGetActiveLoansQuery;
+export const useGetProfileIdentity = profileApi.useGetProfileIdentityQuery;
+export const useGetProfileVehicle = profileApi.useGetProfileVehicleQuery;
 // TODO хуки для тестов Удалить!!!
 export const useProfileTestLoan = profileApi.useGetProfileTestLoanQuery;
 export const useProfileTestLoanPayouts =

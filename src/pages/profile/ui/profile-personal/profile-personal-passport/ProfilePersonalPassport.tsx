@@ -3,16 +3,18 @@ import { FC } from "react";
 import { getGender } from "@/shared/lib/helpers/getGender";
 
 import { Profile, ProfileNotProvided } from "../../Profile";
-import { useProfileData } from "../../../lib/hooks";
+import { useGetProfileIdentity } from "@/pages/profile/model/api/profileApi";
 
 const ProfilePersonalPassport: FC = () => {
-  const { identity_documents } = useProfileData();
+  const { data: identity } = useGetProfileIdentity();
+  const identity_documents = identity?.results[0];
 
   const hasIdentityDocuments =
-    identity_documents && identity_documents.length > 0;
+    identity?.results && identity?.results?.length > 0;
 
   const {
     first_name,
+    citizenship,
     last_name,
     patronymic,
     sex,
@@ -23,7 +25,7 @@ const ProfilePersonalPassport: FC = () => {
     name_of_issuer,
     date_of_issue,
     subdivision_code,
-  } = (hasIdentityDocuments && identity_documents[0]) || {};
+  } = (hasIdentityDocuments && identity_documents) || {};
 
   return (
     <Profile title="Паспортные данные" isReturn>
@@ -41,7 +43,7 @@ const ProfilePersonalPassport: FC = () => {
             </dl>
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Гражданство</dt>
-              <dd>Россия</dd>
+              <dd>{citizenship}</dd>
             </dl>
           </div>
           <div className="flex items-center justify-between gap-x-6 gap-y-9 flex-wrap">

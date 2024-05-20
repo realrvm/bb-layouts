@@ -1,5 +1,8 @@
 import { FC, useCallback, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  // useParams
+} from "react-router-dom";
 
 import { cn } from "@/shared/lib/cn";
 import {
@@ -10,14 +13,14 @@ import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { AppLink } from "@/shared/ui/app-link";
 import { useSwipe } from "@/shared/lib/hooks/useSwipe";
-import { useLoanData } from "@/pages/profile/lib/hooks";
+//import { useLoansData } from "@/pages/profile/lib/hooks";
 import { Loader } from "@/shared/ui/loader";
 import { useLocationIndex } from "@/pages/application/lib/hooks";
 
 const ProfileMainSchedule: FC = () => {
   const [checked, setChecked] = useState(false);
   const { locationIndex } = useLocationIndex("profile");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleCheck = useCallback((state: boolean) => {
     setChecked(state);
@@ -26,10 +29,11 @@ const ProfileMainSchedule: FC = () => {
   const refSchedule = useRef<HTMLDivElement | null>(null);
   useSwipe(refSchedule);
 
-  const { id } = useParams();
+  //const { id } = useParams();
 
-  const { loan, isFetching } = useLoanData(id as string);
-  console.log(loan);
+  //const { loans, isFetching } = useLoansData(id as string);
+  // TODO удалить
+  const isFetching = false;
 
   return (
     <>
@@ -78,7 +82,7 @@ const ProfileMainSchedule: FC = () => {
         <div className="px-7 lg:px-0">
           <Button
             className="btn-medium w-full"
-            onClick={() => navigate('/profile/main/approved')}
+            onClick={() => navigate("/profile/main/approved")}
             disabled={!checked}
           >
             Подтвердить и продолжить

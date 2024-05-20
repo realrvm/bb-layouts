@@ -1,75 +1,92 @@
 import { FC } from "react";
 
 import { Profile, ProfileNotProvided } from "../../Profile";
+import { useGetProfileVehicle } from "@/pages/profile/model/api/profileApi";
 
 const ProfilePersonalPts: FC = () => {
-  // TODO проверка на наличие документа
-  const hasPTSDocuments = true;
+  const { data: vehicle } = useGetProfileVehicle();
+  const vehicleDocuments = vehicle?.results[0];
+
+  const hasVehicleDocuments = vehicle?.results && vehicle.results.length > 0;
+
+  const {
+    vehicle: vehicleData,
+    category,
+    body_number,
+    engine_model_number,
+    frame_number,
+    free_weight,
+    engine_volume,
+    engine_power,
+    body_color,
+  } = (hasVehicleDocuments && vehicleDocuments) || {};
 
   return (
     <Profile title="ПТС" isReturn>
-      {hasPTSDocuments ? (
+      {hasVehicleDocuments ? (
         <div className="flex flex-col gap-6 p-6 border border-border-gray rounded-lg max-w-[472px]">
           <div className="flex items-center justify-between gap-x-6 gap-y-9 flex-wrap">
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Автомобиль</dt>
-              <dd className="heading-4">Kia K5</dd>
+              <dd className="heading-4">
+                {vehicleData?.model.make.name} {vehicleData?.model.name}
+              </dd>
             </dl>
           </div>
           <div className="grid grid-cols-2 gap-9">
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Категория ТС</dt>
-              <dd>B</dd>
+              <dd>{category}</dd>
             </dl>
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Госномер</dt>
-              <dd>А 654 МХ 27</dd>
+              <dd>{vehicleData?.plate}</dd>
             </dl>
           </div>
           <div className="grid grid-cols-2 gap-9">
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Номер кузова</dt>
-              <dd>XYZ12-3456789</dd>
+              <dd>{body_number}</dd>
             </dl>
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Модель, № двигателя</dt>
-              <dd>Отсутствует</dd>
+              <dd>{engine_model_number}</dd>
             </dl>
           </div>
           <div className="grid grid-cols-2 gap-9">
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Номер шасси</dt>
-              <dd>Отсутствует</dd>
+              <dd>{frame_number}</dd>
             </dl>
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Год</dt>
-              <dd>2019</dd>
+              <dd>{vehicleData?.manufacture_year}</dd>
             </dl>
           </div>
           <div className="grid grid-cols-2 gap-9">
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Масса автомобиля</dt>
-              <dd>1410 кг</dd>
+              <dd>{free_weight}</dd>
             </dl>
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Расположение руля</dt>
-              <dd>правый руль</dd>
+              <dd>-</dd>
             </dl>
           </div>
           <div className="grid grid-cols-2 gap-9">
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Объем двигателя</dt>
-              <dd>2994 куб. см</dd>
+              <dd>{engine_volume}</dd>
             </dl>
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Мощность</dt>
-              <dd>210 л. с.</dd>
+              <dd>{engine_power}</dd>
             </dl>
           </div>
           <div className="grid grid-cols-2 gap-9">
             <dl className="flex flex-col g-1">
               <dt className="text-small text-text-gray">Цвет кузова</dt>
-              <dd>Серый</dd>
+              <dd>{body_color}</dd>
             </dl>
           </div>
         </div>

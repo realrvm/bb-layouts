@@ -9,7 +9,7 @@ import { convertISOtoLocaleDate } from "@/shared/lib/helpers/convertISOtoLocaleD
 import { useIsMobile } from "@/widgets/header/lib/hooks";
 import { ProfileHeader } from "@/widgets/header";
 import { Container } from "@/widgets/container";
-import { useProfileData } from "../../lib/hooks";
+import { useLoansData } from "../../lib/hooks";
 
 import styles from "./styles.module.css";
 
@@ -22,13 +22,13 @@ type ProfileMainApplicationProps = {
 };
 
 const ProfileMain: FC = () => {
-  const { loans } = useProfileData();
+  const { loans } = useLoansData();
 
   return (
     <Profile title="Заявки">
       <div className="flex flex-col gap-y-3 mb-6">
-        {loans?.length ? (
-          loans?.map((loan) => (
+        {loans?.results.length ? (
+          loans.results.map((loan) => (
             <ProfileMainApplication key={loan.id} loan={loan} />
           ))
         ) : (
@@ -49,7 +49,8 @@ const ProfileMainApplication: FC<ProfileMainApplicationProps> = memo(
       <div className="flex items-end md:items-center p-4 border border-border-gray rounded-lg gap-4 md:gap-10">
         <div className="flex items-start md:items-center flex-col md:flex-row flex-1 md:flex-2 justify-between gap-4 md:gap-6">
           <span className="heading-5 md:order-last">
-            Займ на сумму <span className="text-nowrap">{parseInt(expected_sum)} ₽</span>
+            Займ на сумму{" "}
+            <span className="text-nowrap">{parseInt(expected_sum)} ₽</span>
           </span>
           <span
             className={cn(

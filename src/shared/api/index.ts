@@ -9,6 +9,7 @@ import {
   API_URL,
   //DEV_PASSWORD,
   //DEV_USERNAME,
+  IS_DEV,
   STORAGE,
   STORAGE_TOKEN,
   TOKEN_REFRESH,
@@ -27,7 +28,17 @@ const baseQuery = fetchBaseQuery({
 
     const token = state.auth.accessToken;
 
-    headers.set("Authorization", `${basicAuth}, Bearer ${token}`);
+    if (IS_DEV && !token) {
+      headers.set("Authorization", basicAuth);
+    }
+
+    if (IS_DEV && token) {
+      headers.set("Authorization", `${basicAuth} ,Bearer ${token}`);
+    }
+
+    if (!IS_DEV && token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
 
     return headers;
   },
