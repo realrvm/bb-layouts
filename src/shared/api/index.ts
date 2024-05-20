@@ -9,7 +9,6 @@ import {
   API_URL,
   //DEV_PASSWORD,
   //DEV_USERNAME,
-  IS_DEV,
   STORAGE,
   STORAGE_TOKEN,
   TOKEN_REFRESH,
@@ -19,6 +18,7 @@ import { authActions } from "@/features/auth";
 //import { encode } from "base-64";
 
 //const basicAuth = "Basic " + encode(`${DEV_USERNAME}:${DEV_PASSWORD}`);
+const basicAuth = "Basic dGVzdGVyOm5IN3cxPCE0NjRIJA==";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
@@ -27,13 +27,7 @@ const baseQuery = fetchBaseQuery({
 
     const token = state.auth.accessToken;
 
-    if (IS_DEV) {
-      headers.set("Authorization", "Basic dGVzdGVyOm5IN3cxPCE0NjRIJA==");
-    }
-
-    if (!IS_DEV && token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
+    headers.set("Authorization", `${basicAuth}, Bearer ${token}`);
 
     return headers;
   },
