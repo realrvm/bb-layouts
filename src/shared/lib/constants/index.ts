@@ -10,7 +10,7 @@ export const TOKEN_REFRESH = "/token/refresh/";
 export const CONFIG_PATH = "/config/";
 
 // mods
-export const IS_DEV = import.meta.env.DEV;
+export const IS_DEV = true;
 
 // widths
 export const DESKTOP_WIDTH = 1240;
