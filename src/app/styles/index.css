@@ -145,6 +145,22 @@
   .btn-icon-secondary {
     @apply btn-secondary p-2;
   }
+
+  .approved {
+    @apply text-special-green-medium bg-[#dbf6e3];
+  }
+
+  .under-consideration {
+    @apply text-special-orange bg-[#feedd9];
+  }
+
+  .refused {
+    @apply text-special-red bg-[#fce0e0];
+  }
+
+  .not-completed {
+    @apply text-text-gray bg-[#ececec];
+  }
 }
 
 @layer utilities {

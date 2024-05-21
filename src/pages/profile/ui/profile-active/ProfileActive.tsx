@@ -6,6 +6,8 @@ import { ButtonThemes } from "@/shared/lib/enums";
 import { useGetActiveLoans } from "../../model/api/profileApi";
 import { ActiveLoansResponseResultsSchema } from "../../model/types";
 import { Loader } from "@/shared/ui/loader";
+import { convertISOtoLocaleDate } from "@/shared/lib/helpers/convertISOtoLocaleDate";
+import { formatNumber } from "@/shared/lib/helpers/formatNumber";
 
 const ProfileActive: FC = () => {
   const {
@@ -44,16 +46,20 @@ const ProfileActive: FC = () => {
 const ProfileActiveApplication: FC<{ loan: ActiveLoansResponseResultsSchema }> =
   memo(({ loan }) => {
     const { expected_sum, appointed_sum, loaned_until } = loan;
+    const localDate = convertISOtoLocaleDate(loaned_until);
 
     return (
       <div className="flex flex-col lg:flex-row lg:items-center p-4 border border-border-gray rounded-lg gap-4 lg:gap-10">
         <div className="flex items-start md:items-center flex-col md:flex-row flex-1 lg:flex-2 justify-between gap-2 md:gap-10">
           <span className="heading-5 text-nowrap">
-            Займ на сумму <span className="text-nowrap">{appointed_sum}</span>
+            Займ на сумму{" "}
+            <span className="text-nowrap">{formatNumber(expected_sum)}</span>
           </span>
-          <div className="flex items-center gap-2">
-            <span className="text-nowrap heading-6">{expected_sum} ₽</span>
-            <span className="text-nowrap text-small">До {loaned_until}</span>
+          <div className="flex items-center gap-4">
+            <span className="text-nowrap heading-6">
+              {formatNumber(appointed_sum)} ₽
+            </span>
+            <span className="text-nowrap text-small">До {localDate}</span>
           </div>
         </div>
         <div className="flex items-end lg:items-center md:justify-end lg:flex-3 gap-4">

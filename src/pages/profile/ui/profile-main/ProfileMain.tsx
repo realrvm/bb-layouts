@@ -12,12 +12,15 @@ import { Container } from "@/widgets/container";
 import { useLoansData } from "../../lib/hooks";
 
 import styles from "./styles.module.css";
+import { getStatusState } from "@/shared/lib/helpers/getStatusState";
+import { formatNumber } from "@/shared/lib/helpers/formatNumber";
 
 type ProfileMainApplicationProps = {
   loan: {
     id: number;
     expected_sum: string;
     created_at: string;
+    status: string;
   };
 };
 
@@ -41,7 +44,7 @@ const ProfileMain: FC = () => {
 
 const ProfileMainApplication: FC<ProfileMainApplicationProps> = memo(
   ({ loan }) => {
-    const { id, expected_sum, created_at } = loan;
+    const { id, expected_sum, created_at, status } = loan;
     const localDate = convertISOtoLocaleDate(created_at);
     const navigate = useNavigate();
 
@@ -50,15 +53,15 @@ const ProfileMainApplication: FC<ProfileMainApplicationProps> = memo(
         <div className="flex items-start md:items-center flex-col md:flex-row flex-1 md:flex-2 justify-between gap-4 md:gap-6">
           <span className="heading-5 md:order-last">
             Займ на сумму{" "}
-            <span className="text-nowrap">{parseInt(expected_sum)} ₽</span>
+            <span className="text-nowrap">{formatNumber(expected_sum)} ₽</span>
           </span>
           <span
             className={cn(
-              "py-1 px-2 text-small rounded-lg",
-              "bg-special-green-light text-special-green-medium",
+              "py-1 px-2 text-small rounded-lg text-nowrap",
+              getStatusState(status)[1],
             )}
           >
-            Одобрена
+            {getStatusState(status)[0]}
           </span>
         </div>
         <div className="flex flex-col md:flex-row items-end md:items-center justify-between flex-initial md:flex-3 gap-4">
