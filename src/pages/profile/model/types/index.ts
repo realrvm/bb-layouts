@@ -142,3 +142,18 @@ export type ActiveLoansResponseSchema = {
   previous?: boolean;
   results: ActiveLoansResponseResultsSchema[];
 };
+
+export type ProfileAgreementsResultsSchema = {
+  id: number;
+  agreement_type: "deposit" | "loan";
+  file: string;
+  user: number;
+  loan: number;
+};
+
+export type ProfileAgreementsSchema = {
+  count: number;
+  next: null;
+  previous: null;
+  results: ProfileAgreementsResultsSchema[];
+};

@@ -2,6 +2,7 @@ import { $api } from "@/shared/api";
 
 import {
   ActiveLoansResponseSchema,
+  ProfileAgreementsSchema,
   ProfileIdentitySchema,
   ProfileLoansSchema,
   ProfileResponsePaymentsScheduleSchema,
@@ -32,6 +33,9 @@ const profileApi = $api.injectEndpoints({
     >({
       query: (id: string) => `/loans/${id}/payments/`,
     }),
+    getProfileAgreements: builder.query<ProfileAgreementsSchema, void>({
+      query: () => "/agreements/",
+    }),
     // TODO тестовый займ УДАЛИТЬ!!!
     getProfileTestLoan: builder.query<any, any>({
       query: () => `/loans/?borrower=15/`,
@@ -52,6 +56,7 @@ export const useGetProfileIdentity = profileApi.useGetProfileIdentityQuery;
 export const useGetProfileVehicle = profileApi.useGetProfileVehicleQuery;
 export const useGetProfilePaymentsShedule =
   profileApi.useGetProfilePaymentsSheduleQuery;
+export const useGetProfileAgreements = profileApi.useGetProfileAgreementsQuery;
 // TODO хуки для тестов Удалить!!!
 export const useProfileTestLoan = profileApi.useGetProfileTestLoanQuery;
 export const useProfileTestLoanPayouts =
