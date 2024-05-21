@@ -52,6 +52,24 @@ export type ProfileResponseSchema = {
   phone_number: "string";
 };
 
+export type ProfileResponsePaymentsSheduleResultsSchema = {
+  id: number;
+  sum: string;
+  body: string;
+  percents: string;
+  commission: string;
+  debt_balance: string;
+  scheduled_at: string;
+  paid_at: null;
+};
+
+export type ProfileResponsePaymentsScheduleSchema = {
+  count: number;
+  next: null;
+  previous: null;
+  results: ProfileResponsePaymentsSheduleResultsSchema[];
+};
+
 type ProfileVehicleResultsSchema = {
   id: number;
   vehicle: {

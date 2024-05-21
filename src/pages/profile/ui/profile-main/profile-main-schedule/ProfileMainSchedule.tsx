@@ -1,4 +1,4 @@
-import { FC, useCallback, useRef, useState } from "react";
+import { FC, memo, useCallback, useRef, useState } from "react";
 import {
   useNavigate,
   // useParams
@@ -13,14 +13,23 @@ import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { AppLink } from "@/shared/ui/app-link";
 import { useSwipe } from "@/shared/lib/hooks/useSwipe";
-//import { useLoansData } from "@/pages/profile/lib/hooks";
 import { Loader } from "@/shared/ui/loader";
 import { useLocationIndex } from "@/pages/application/lib/hooks";
+import { useGetProfilePaymentsShedule } from "@/pages/profile/model/api/profileApi";
+import { ProfileResponsePaymentsSheduleResultsSchema } from "@/pages/profile/model/types";
+import { transformDate } from "@/shared/lib/helpers/transformDate";
+import { formatNumber } from "@/shared/lib/helpers/formatNumber";
+import { ButtonThemes } from "@/shared/lib/enums";
 
 const ProfileMainSchedule: FC = () => {
   const [checked, setChecked] = useState(false);
   const { locationIndex } = useLocationIndex("profile");
   const navigate = useNavigate();
+
+  //const { id } = useParams();
+  // TODO заменить 2 на id
+  const { data: paymentsSchedule, isFetching } =
+    useGetProfilePaymentsShedule("2");
 
   const handleCheck = useCallback((state: boolean) => {
     setChecked(state);
@@ -29,18 +38,13 @@ const ProfileMainSchedule: FC = () => {
   const refSchedule = useRef<HTMLDivElement | null>(null);
   useSwipe(refSchedule);
 
-  //const { id } = useParams();
-
-  //const { loans, isFetching } = useLoansData(id as string);
-  // TODO удалить
-  const isFetching = false;
-
   return (
     <>
       <ProfileMainApplicationWrapper>
         <ProfileMainApplicationSteps locationIndex={locationIndex} />
       </ProfileMainApplicationWrapper>
       <div className="max-w-[1000px] mx-auto pb-16">
+        <ProfileMainScheduleNewOffer />
         <h3 className="heading-5 mb-4 px-7 lg:px-0">
           Просмотрите график и подтвердите, что вам подходят условия
         </h3>
@@ -63,7 +67,13 @@ const ProfileMainSchedule: FC = () => {
                       <td className="p-4 text-right">Остаток долга</td>
                     </tr>
                   </thead>
-                  <tbody>{!isFetching && <ProfileMainScheduleRow />}</tbody>
+                  <tbody>
+                    {!isFetching && (
+                      <ProfileMainScheduleRows
+                        payments={paymentsSchedule?.results}
+                      />
+                    )}
+                  </tbody>
                 </table>
                 {isFetching && <Loader className="flex justify-center" />}
               </div>
@@ -93,31 +103,87 @@ const ProfileMainSchedule: FC = () => {
   );
 };
 
-const ProfileMainScheduleRow: FC = () => {
+const ProfileMainScheduleRows: FC<{
+  payments?: ProfileResponsePaymentsSheduleResultsSchema[];
+}> = memo(({ payments }) => {
   return (
     <>
-      {Array.from({ length: 10 }).map((_, i, arr) => {
-        const isLast = i === arr.length - 1;
+      {payments &&
+        payments.map((payment, i, arr) => {
+          const isLast = i === arr.length - 1;
+          const {
+            id,
+            scheduled_at,
+            sum,
+            body,
+            percents,
+            commission,
+            debt_balance,
+          } = payment;
 
-        return (
-          <tr
-            key={i}
-            className={cn("text-small  px-4", {
-              "border-b border-border-gray": !isLast,
-            })}
-          >
-            <td className="py-4 pl-4 text-left">1</td>
-            <td className="p-4 text-left">3 января 2024 г.</td>
-            <td className="p-4 text-right">17 520,14</td>
-            <td className="p-4 text-right">3 437,90</td>
-            <td className="p-4 text-right">14 000,00</td>
-            <td className="p-4 text-right">83,33</td>
-            <td className="p-4 text-right">196 562,20</td>
-          </tr>
-        );
-      })}
+          return (
+            <tr
+              key={id}
+              className={cn("text-small  px-4", {
+                "border-b border-border-gray": !isLast,
+              })}
+            >
+              <td className="py-4 pl-4 text-left">{i + 1}</td>
+              <td className="p-4 text-left">{transformDate(scheduled_at)}</td>
+              <td className="p-4 text-right">{formatNumber(sum)}</td>
+              <td className="p-4 text-right">{formatNumber(body)}</td>
+              <td className="p-4 text-right">{formatNumber(percents)}</td>
+              <td className="p-4 text-right">{formatNumber(commission)}</td>
+              <td className="p-4 text-right">{formatNumber(debt_balance)}</td>
+            </tr>
+          );
+        })}
     </>
   );
-};
+});
+
+const ProfileMainScheduleNewOffer: FC = memo(() => {
+  return (
+    <div className="mb-4 border border-border-gray rounded-lg p-6">
+      <h4 className="heading-4 mb-2">Вам предложены новые условия</h4>
+      <p className="mb-6 text-small">
+        Возможно, эти условия окажутся более привлекательными для вас
+      </p>
+      <div className="flex items-center gap-4 mb-9">
+        <div className="flex flex-col basis-[163px]">
+          <span className="text-small text-text-gray">Сумма займа</span>
+          <span className="heading-6 line-through">197 000 ₽</span>
+          <span className="heading-5 text-special-green">250 000 ₽</span>
+        </div>
+        <div className="flex flex-col basis-[163px]">
+          <span className="text-small text-text-gray">Срок</span>
+          <span className="heading-6 line-through">24 месяца</span>
+          <span className="heading-5 text-special-green">36 месяца</span>
+        </div>
+        <div className="flex flex-col basis-[163px]">
+          <span className="text-small text-text-gray">Процентная ставка</span>
+          <span className="heading-6 line-through">26%</span>
+          <span className="heading-5 text-special-green">18%</span>
+        </div>
+        <div className="flex flex-col basis-[163px]">
+          <span className="text-small text-text-gray">Обязательный платёж</span>
+          <span className="heading-6 line-through">17 520,14 ₽</span>
+          <span className="heading-5 text-special-green">8 194 ₽</span>
+        </div>
+      </div>
+      <div className="flex item-center justify-between">
+        <div className="flex gap-3">
+          <Button onClick={() => {}}>Принять</Button>
+          <Button onClick={() => {}} variant={ButtonThemes.DANGER}>
+            Отказаться
+          </Button>
+        </div>
+        <Button variant={ButtonThemes.SECONDARY} onClick={() => {}}>
+          График платежей по новым условиям
+        </Button>
+      </div>
+    </div>
+  );
+});
 
 export default ProfileMainSchedule;

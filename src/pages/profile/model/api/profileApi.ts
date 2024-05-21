@@ -4,6 +4,7 @@ import {
   ActiveLoansResponseSchema,
   ProfileIdentitySchema,
   ProfileLoansSchema,
+  ProfileResponsePaymentsScheduleSchema,
   ProfileResponseSchema,
   ProfileVehicleSchema,
 } from "../types";
@@ -25,6 +26,12 @@ const profileApi = $api.injectEndpoints({
     getProfileVehicle: builder.query<ProfileVehicleSchema, void>({
       query: () => "/vehicle-licenses/",
     }),
+    getProfilePaymentsShedule: builder.query<
+      ProfileResponsePaymentsScheduleSchema,
+      string
+    >({
+      query: (id: string) => `/loans/${id}/payments/`,
+    }),
     // TODO тестовый займ УДАЛИТЬ!!!
     getProfileTestLoan: builder.query<any, any>({
       query: () => `/loans/?borrower=15/`,
@@ -43,6 +50,8 @@ export const useProfileLoans = profileApi.useLazyGetProfileLoansQuery;
 export const useGetActiveLoans = profileApi.useGetActiveLoansQuery;
 export const useGetProfileIdentity = profileApi.useGetProfileIdentityQuery;
 export const useGetProfileVehicle = profileApi.useGetProfileVehicleQuery;
+export const useGetProfilePaymentsShedule =
+  profileApi.useGetProfilePaymentsSheduleQuery;
 // TODO хуки для тестов Удалить!!!
 export const useProfileTestLoan = profileApi.useGetProfileTestLoanQuery;
 export const useProfileTestLoanPayouts =
