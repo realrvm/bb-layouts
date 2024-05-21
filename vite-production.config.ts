@@ -17,12 +17,4 @@ export default defineConfig({
       ],
     }),
   ],
-  server: {
-    proxy: {
-      '/api/v1': {
-        target: 'http://api.onelinelater.ru/',
-        changeOrigin: true,
-      },
-    },
-  },
 });
