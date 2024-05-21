@@ -1,5 +1,5 @@
 // url
-export const API_URL = import.meta.env.API_URL || '/api/v1';
+export const API_URL = import.meta.env.API_URL;
 
 // development basic auth
 export const DEV_USERNAME = import.meta.env.VITE_DEV_USERNAME;
