@@ -10,7 +10,6 @@ import { setAgreementsTitle } from "../../lib/helpers";
 
 const ProfileDocs: FC = () => {
   const { data: docsData, isFetching, isSuccess } = useGetProfileAgreements();
-  console.log(docsData)
 
   const { results: docs } = docsData || {};
 
@@ -38,8 +37,10 @@ const ProfileDocs: FC = () => {
                 </div>
                 <AppLink
                   to={file}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   download
-                  className="btn-small flex items-center gap-1 heading-6 border border-border-gray rounded-lg bg-common-brand hover:bg-text-dark"
+                  className="btn-small text-common-white flex items-center gap-1 heading-6 border border-border-gray rounded-lg bg-common-brand hover:bg-brand-secondary hover:disabled:bg-common-brand"
                 >
                   <Download />
                   <span>Скачать</span>
