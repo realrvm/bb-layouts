@@ -18,7 +18,7 @@ import { authActions } from "@/features/auth";
 import { encode } from "base-64";
 
 //const basicAuth = "Basic " + encode(`${DEV_USERNAME}:${DEV_PASSWORD}`);
-// const basicAuth = "Basic dGVzdGVyOm5IN3cxPCE0NjRIJA==";
+//const basicAuth = "Basic dGVzdGVyOm5IN3cxPCE0NjRIJA==";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
@@ -27,10 +27,13 @@ const baseQuery = fetchBaseQuery({
 
     const token = state.auth.accessToken;
 
-    let username = 'tester';
-    let password = 'nH7w1<!464H$';
-    const basic_auth = 'Basic ' + encode(`${username}:${password}`)
-    headers.set('Authorization', basic_auth)
+    const username = "tester";
+    const password = "nH7w1<!464H$";
+
+    const basic_auth = "Basic " + encode(`${username}:${password}`);
+
+    headers.set("Authorization", basic_auth);
+
     if (token) {
       headers.set("Authorization", `${basic_auth}, Bearer ${token}`);
     }

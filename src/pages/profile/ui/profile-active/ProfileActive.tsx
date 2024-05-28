@@ -27,7 +27,7 @@ const ProfileActive: FC = () => {
           </ProfileNotProvided>
         )}
         {isSuccess &&
-          activeLoans?.results.length &&
+          activeLoans?.results.length > 0 &&
           activeLoans.results.map(
             (activeLoan: ActiveLoansResponseResultsSchema) => (
               <ProfileActiveApplication key={activeLoan.id} loan={activeLoan} />

@@ -1,5 +1,5 @@
 // url
-export const API_URL = '/api/v1';
+export const API_URL = "/api/v1";
 
 // development basic auth
 export const DEV_USERNAME = import.meta.env.VITE_DEV_USERNAME;
@@ -10,7 +10,8 @@ export const TOKEN_REFRESH = "/token/refresh/";
 export const CONFIG_PATH = "/config/";
 
 // mods
-export const IS_DEV = true;
+export const IS_DEV = import.meta.env.DEV;
+export const CLOSED_STAND = true;
 
 // widths
 export const DESKTOP_WIDTH = 1240;

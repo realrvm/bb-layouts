@@ -6,6 +6,7 @@ import { targetPageActions } from "@/entities/target-page";
 import { TargetPages } from "@/shared/lib/enums";
 import { useGetProfile } from "@/pages/profile/model/api/profileApi";
 import { getLoan, usePostLoan } from "@/entities/loan";
+import { STORAGE, STORAGE_TOKEN } from "../constants";
 
 export function useNavigateTo(page: TargetPages) {
   const navigate = useNavigate();
@@ -20,6 +21,14 @@ export function useNavigateTo(page: TargetPages) {
   const handleNavigateTo = useCallback(async () => {
     try {
       targetPageAction.setTargetPage(page);
+
+      const token = JSON.parse(
+        STORAGE.getItem(STORAGE_TOKEN) || JSON.stringify(""),
+      ) as string;
+
+      if(!token) {
+        throw new Error('no token')
+      }
 
       if (page === TargetPages.APPLICATION_VEHICLE) {
         await postLoan(loan).unwrap();
