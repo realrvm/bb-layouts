@@ -22,7 +22,9 @@ import {
   ProfileDocs,
   ProfileMain,
   ProfileMainApproved,
+  ProfileMainConsidered,
   ProfileMainPayout,
+  ProfileMainRefused,
   ProfileMainSchedule,
   ProfilePersonal,
   ProfilePersonalCard,
@@ -130,6 +132,14 @@ export const router = createBrowserRouter([
                 <ProfileMainPayout />
               </Suspense>
             ),
+          },
+          {
+            path: `${Routes.PROFILE}/main/:id/refused`,
+            element: <ProfileMainRefused />,
+          },
+          {
+            path: `${Routes.PROFILE}/main/:id/considered`,
+            element: <ProfileMainConsidered />,
           },
           {
             path: `${Routes.PROFILE}/active`,

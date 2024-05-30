@@ -35,4 +35,11 @@ export const enum ServerErrors {
 
 export const enum ApplicationStatus {
   LOAN_SUM_SELECTED = "loan_sum_selected",
+  CAR_DATA_SELECTED = "car_data_selected",
+  CAR_EVALUATED = "car_evaluated",
+  APPROVED = "approved",
+  DATA_CHECK = "data_check",
+  AGENT_WORK = "agent_work",
+  ACTIVE = "active",
+  REFUSED = "refused",
 }

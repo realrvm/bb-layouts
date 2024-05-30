@@ -1,8 +1,5 @@
 import { FC, memo, useCallback, useRef, useState } from "react";
-import {
-  useNavigate,
-  // useParams
-} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { cn } from "@/shared/lib/cn";
 import {
@@ -26,10 +23,10 @@ const ProfileMainSchedule: FC = () => {
   const { locationIndex } = useLocationIndex("profile");
   const navigate = useNavigate();
 
-  //const { id } = useParams();
-  // TODO заменить 2 на id
-  const { data: paymentsSchedule, isFetching } =
-    useGetProfilePaymentsShedule("2");
+  const { id } = useParams();
+  const { data: paymentsSchedule, isFetching } = useGetProfilePaymentsShedule(
+    id as string,
+  );
 
   const handleCheck = useCallback((state: boolean) => {
     setChecked(state);

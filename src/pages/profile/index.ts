@@ -53,3 +53,5 @@ export {
 };
 
 export { useProfile } from "./model/api/profileApi";
+export { ProfileMainRefused } from "./ui/profile-main/profile-main-refused/ProfileMainRefused";
+export { ProfileMainConsidered } from "./ui/profile-main/profile-main-considered/ProfileMainConsidered";

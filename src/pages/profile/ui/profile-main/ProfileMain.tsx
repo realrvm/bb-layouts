@@ -1,9 +1,16 @@
-import { FC, PropsWithChildren, memo, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  FC,
+  PropsWithChildren,
+  memo,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Profile, ProfileNotProvided, ProfileReturnButton } from "../Profile";
 import { Button } from "@/shared/ui/button";
-import { ButtonThemes } from "@/shared/lib/enums";
+import { ApplicationStatus, ButtonThemes } from "@/shared/lib/enums";
 import { cn } from "@/shared/lib/cn";
 import { convertISOtoLocaleDate } from "@/shared/lib/helpers/convertISOtoLocaleDate";
 import { useIsMobile } from "@/widgets/header/lib/hooks";
@@ -11,10 +18,12 @@ import { ProfileHeader } from "@/widgets/header";
 import { Container } from "@/widgets/container";
 import { useLoansData } from "../../lib/hooks";
 
-import styles from "./styles.module.css";
 import { getStatusState } from "@/shared/lib/helpers/getStatusState";
 import { formatNumber } from "@/shared/lib/helpers/formatNumber";
 import { Loader } from "@/shared/ui/loader";
+import { navigateByApplicationStatus } from "../../lib/helpers";
+
+import styles from "./styles.module.css";
 
 type ProfileMainApplicationProps = {
   loan: {
@@ -52,6 +61,9 @@ const ProfileMainApplication: FC<ProfileMainApplicationProps> = memo(
     const { id, expected_sum, created_at, status } = loan;
     const localDate = convertISOtoLocaleDate(created_at);
     const navigate = useNavigate();
+    const [statusValue, statusStyle] = getStatusState(
+      status as ApplicationStatus,
+    );
 
     return (
       <div className="flex items-end md:items-center p-4 border border-border-gray rounded-lg gap-4 md:gap-10">
@@ -63,10 +75,10 @@ const ProfileMainApplication: FC<ProfileMainApplicationProps> = memo(
           <span
             className={cn(
               "py-1 px-2 text-small rounded-lg text-nowrap",
-              getStatusState(status)[1],
+              statusStyle,
             )}
           >
-            {getStatusState(status)[0]}
+            {statusValue}
           </span>
         </div>
         <div className="flex flex-col md:flex-row items-end md:items-center justify-between flex-initial md:flex-3 gap-4">
@@ -74,7 +86,11 @@ const ProfileMainApplication: FC<ProfileMainApplicationProps> = memo(
           <Button
             variant={ButtonThemes.SECONDARY}
             className="btn-small"
-            onClick={() => navigate(`/profile/main/${id}/schedule`)}
+            onClick={() =>
+              navigate(
+                navigateByApplicationStatus(status as ApplicationStatus, id),
+              )
+            }
           >
             Подробнее
           </Button>
@@ -88,6 +104,21 @@ export const ProfileMainApplicationWrapper: FC<PropsWithChildren> = ({
   children,
 }) => {
   const { isMobile } = useIsMobile();
+  const [status, setStatus] = useState<ApplicationStatus>(
+    ApplicationStatus.LOAN_SUM_SELECTED,
+  );
+
+  const [statusValue, statusStyle] = getStatusState(status);
+
+  const { id } = useParams();
+  const { loans } = useLoansData();
+
+  useEffect(() => {
+    if (loans && loans.results.length > 0) {
+      const loan = loans.results.find((loan) => loan.id === Number(id!));
+      setStatus(loan?.status as ApplicationStatus);
+    }
+  }, [loans, id]);
 
   return (
     <>
@@ -101,11 +132,11 @@ export const ProfileMainApplicationWrapper: FC<PropsWithChildren> = ({
             <span
               className={cn(
                 "py-1 px-2 text-small rounded-lg mx-auto",
-                "bg-special-green-light text-special-green-medium",
+                statusStyle,
                 `${!isMobile ? "-translate-x-[58px]" : "-translate-x-[17px]"}`,
               )}
             >
-              Одобрена
+              {statusValue}
             </span>
           </div>
           <div className="flex justify-center items-center gap-3 mb-9">
@@ -124,8 +155,8 @@ export const ProfileMainApplicationWrapper: FC<PropsWithChildren> = ({
 export const ProfileMainApplicationSteps: FC<{ locationIndex: number }> = memo(
   ({ locationIndex }) => {
     return (
-      <div className="grid grid-cols-3 md:flex md:flex-center items-start  md:items-center mx-auto mb-9 gap-3">
-        {Array.from({ length: 3 }).map((_, i) => (
+      <div className="grid grid-cols-4 md:flex md:flex-center items-start  md:items-center mx-auto mb-9 gap-3">
+        {Array.from({ length: 4 }).map((_, i) => (
           <ProfileMainApplicationStep
             key={i}
             locationIndex={locationIndex}
@@ -145,6 +176,7 @@ const ProfileMainApplicationStep: FC<{
     () => [
       "Подтверждение графика платежей",
       "Прикрепление документов",
+      "Выбор способа получения денег",
       "Получение денег",
     ],
     [],
