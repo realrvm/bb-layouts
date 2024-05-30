@@ -1,6 +1,7 @@
 import { $api } from "@/shared/api";
 import {
   ExpectedLoansRequestSchema,
+  LastLoanSchema,
   LoansRequestSchema,
   LoansResponseSchema,
   LoansSchema,
@@ -13,6 +14,12 @@ const loanApi = $api
       getLoans: build.query<LoansSchema, void>({
         query: () => ({
           url: `/loans/`,
+        }),
+        providesTags: ["Loans"],
+      }),
+      getLastLoan: build.query<LastLoanSchema, void>({
+        query: () => ({
+          url: `/loans/get_last/`,
         }),
         providesTags: ["Loans"],
       }),
@@ -36,7 +43,7 @@ const loanApi = $api
     overrideExisting: false,
   });
 
-// TODO Разобраться с роутами
 export const useGetLoans = loanApi.useLazyGetLoansQuery;
+export const useGetLastLoan = loanApi.useGetLastLoanQuery;
 export const usePostLoan = loanApi.usePostLoanMutation;
 export const useExpectedPostLoan = loanApi.usePostExpectedLoanMutation;

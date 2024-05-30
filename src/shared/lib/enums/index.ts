@@ -32,3 +32,7 @@ export const enum ServerErrors {
   WRONG_PHONE = "message is denied",
   WRONG_SMS = "No active account found with the given credentials",
 }
+
+export const enum ApplicationStatus {
+  LOAN_SUM_SELECTED = "loan_sum_selected",
+}

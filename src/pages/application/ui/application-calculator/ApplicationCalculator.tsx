@@ -17,10 +17,13 @@ import { Application, ApplicationTitle } from "../Application";
 import { useApplicationCalculator } from "../../lib/hooks";
 
 import styles from "./styles.module.css";
+import { useGetLastLoan } from "@/entities/loan";
 
 const ApplicationCalculator: FC = () => {
   const [rangeValue, setRangeValue] = useState(1);
   const [activeTerm, setActiveTerm] = useState<Months>(terms[0]);
+  const { data: lastLoan } = useGetLastLoan();
+  console.log(lastLoan);
 
   const { handleSubmit } = useApplicationCalculator(rangeValue, activeTerm);
 
