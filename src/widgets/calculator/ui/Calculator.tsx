@@ -39,17 +39,20 @@ export const Calculator: FC = () => {
 
   const loanAction = useActionCreators(loanActions);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
+  const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const value = calcLoanCredit(rangeValue);
+      const value = calcLoanCredit(rangeValue);
 
-    const sum = Number(getOnlyDigits(value));
+      const sum = Number(getOnlyDigits(value));
 
-    loanAction.setLoan({ term: activeTerm, sum });
+      loanAction.setLoan({ appointed_term: activeTerm, appointed_sum: sum });
 
-    handleNavigateToApplication();
-  };
+      handleNavigateToApplication();
+    },
+    [activeTerm, handleNavigateToApplication, loanAction, rangeValue],
+  );
 
   return (
     <form className="flex flex-col" onSubmit={handleSubmit}>

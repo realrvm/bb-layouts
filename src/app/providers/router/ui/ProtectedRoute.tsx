@@ -3,11 +3,13 @@ import { Navigate, Outlet } from "react-router-dom";
 
 import { useStateSelector } from "../../rtk";
 import { getAccessToken } from "@/features/auth";
+import { STORAGE, STORAGE_TOKEN } from "@/shared/lib/constants";
 
 export const ProtectedRoute: FC = () => {
-  const token = useStateSelector(getAccessToken);
+  const accessToken = useStateSelector(getAccessToken);
+  const refreshToken = STORAGE.getItem(STORAGE_TOKEN);
 
-  if (!token) {
+  if (!accessToken && !refreshToken) {
     return <Navigate to="/" />;
   }
 

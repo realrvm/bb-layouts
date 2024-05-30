@@ -25,7 +25,7 @@ export function useProfileData() {
 export function useLoansData() {
   const [loans, setLoans] = useState<ProfileLoansSchema>();
 
-  const [getProfileLoan, { isFetching }] = useProfileLoans();
+  const [getProfileLoan, { isFetching, isSuccess, isError }] = useProfileLoans();
 
   useEffect(() => {
     async function fn() {
@@ -41,7 +41,7 @@ export function useLoansData() {
     fn();
   }, [getProfileLoan]);
 
-  return { loans, isFetching };
+  return { loans, isFetching, isSuccess, isError };
 }
 
 export const usePreviewImage = () => {

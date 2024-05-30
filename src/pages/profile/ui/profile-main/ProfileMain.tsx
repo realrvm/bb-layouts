@@ -14,6 +14,7 @@ import { useLoansData } from "../../lib/hooks";
 import styles from "./styles.module.css";
 import { getStatusState } from "@/shared/lib/helpers/getStatusState";
 import { formatNumber } from "@/shared/lib/helpers/formatNumber";
+import { Loader } from "@/shared/ui/loader";
 
 type ProfileMainApplicationProps = {
   loan: {
@@ -25,18 +26,22 @@ type ProfileMainApplicationProps = {
 };
 
 const ProfileMain: FC = () => {
-  const { loans } = useLoansData();
+  const { loans, isFetching, isSuccess, isError } = useLoansData();
 
   return (
     <Profile title="Заявки">
       <div className="flex flex-col gap-y-3 mb-6">
-        {loans?.results.length ? (
+        {isFetching && <Loader />}
+        {loans?.results &&
+          loans.results.length > 0 &&
+          isSuccess &&
           loans.results.map((loan) => (
             <ProfileMainApplication key={loan.id} loan={loan} />
-          ))
-        ) : (
+          ))}
+        {isSuccess && loans?.results && loans.results.length === 0 && (
           <ProfileNotProvided>У Вас нет ни одной заявки.</ProfileNotProvided>
         )}
+        {isError && <p className="ml-10">Ошибка сервера</p>}
       </div>
     </Profile>
   );

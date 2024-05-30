@@ -1,8 +1,8 @@
 import { Months } from "@/shared/lib/types";
 
 export type LoanSchema = {
-  term: Months;
-  sum: number;
+  appointed_term: Months;
+  appointed_sum: number;
 };
 
 type LoansResultPayments = {
@@ -51,12 +51,8 @@ export type LoansResponseSchema = {
 };
 
 export type LoansRequestSchema = {
-  approved_at?: string;
-  loaned_at?: string;
-  sum: number;
-  term: Months;
-  borrower?: number;
-  vehicle?: 0;
+  appointed_sum: number;
+  appointed_term: Months;
 };
 
 export type ExpectedLoansRequestSchema = {

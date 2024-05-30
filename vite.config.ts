@@ -17,12 +17,12 @@ export default defineConfig({
       ],
     }),
   ],
-  server: {
-    proxy: {
-      '/api/v1': {
-        target: 'https://api.onelinelater.ru/',
-        changeOrigin: true,
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     '/api/v1': {
+  //       target: 'https://api.onelinelater.ru/',
+  //       changeOrigin: true,
+  //     },
+  //   },
+ // },
 });

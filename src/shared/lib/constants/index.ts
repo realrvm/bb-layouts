@@ -1,5 +1,6 @@
 // url
-export const API_URL = "/api/v1";
+//export const API_URL = "/api/v1";
+export const API_URL = "https://api.onelinelater.ru/api/v1/";
 
 // development basic auth
 export const DEV_USERNAME = import.meta.env.VITE_DEV_USERNAME;

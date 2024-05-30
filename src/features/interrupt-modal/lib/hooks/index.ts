@@ -8,7 +8,7 @@ export function useHandleInterruption() {
   const loanAction = useActionCreators(loanActions);
 
   const handleInterruption = () => {
-    loanAction.setLoan({ term: "24", sum: 50000 });
+    loanAction.setLoan({ appointed_term: "24", appointed_sum: 50000 });
 
     navigate("/");
   };

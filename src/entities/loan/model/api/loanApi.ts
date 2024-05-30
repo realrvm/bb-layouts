@@ -18,7 +18,7 @@ const loanApi = $api
       }),
       postLoan: build.mutation<LoansResponseSchema, LoansRequestSchema>({
         query: (loanBody) => ({
-          url: `/loans/`,
+          url: `/loans/payments-preview/`,
           method: "POST",
           body: loanBody,
         }),

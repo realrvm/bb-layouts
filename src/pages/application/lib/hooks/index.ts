@@ -68,7 +68,7 @@ export function useApplicationCalculator(
 
     const sum = Number(getOnlyDigits(value));
 
-    loanAction.setLoan({ term: activeTerm, sum });
+    loanAction.setLoan({ appointed_term: activeTerm, appointed_sum: sum });
 
     try {
       // await postLoan({ term: activeTerm, sum }).unwrap();

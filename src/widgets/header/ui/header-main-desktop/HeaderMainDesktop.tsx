@@ -5,12 +5,11 @@ import { ButtonThemes, TargetPages, Widths } from "@/shared/lib/enums";
 import { AppLink } from "@/shared/ui/app-link";
 import { Button } from "@/shared/ui/button";
 import { useNavigateTo } from "@/shared/lib/hooks/useNavigateTo";
-import { useStateSelector } from "@/app/providers/rtk";
-import { getAccessToken } from "@/features/auth";
 import { ProfileIconPhone } from "@/shared/ui/profile-icon-phone";
+import { STORAGE, STORAGE_TOKEN } from "@/shared/lib/constants";
 
 export const HeaderMainDesktop: FC = () => {
-  const token = useStateSelector(getAccessToken);
+  const token = STORAGE.getItem(STORAGE_TOKEN);
 
   const {
     handleNavigateTo: handleNavigateToProfile,
