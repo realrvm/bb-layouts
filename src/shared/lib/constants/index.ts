@@ -28,6 +28,7 @@ export const LOCAL_STORAGE_SITE_HAS_VISITED = "has_visited";
 
 // storage tokens
 export const STORAGE_TOKEN = "token";
+export const STORAGE_EXPECTED = "expected";
 
 // loan credit values
 export const MIN_LOAN_VALUE = 50_000;

@@ -6,6 +6,7 @@ import {
   memo,
   useState,
   useCallback,
+  useEffect,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import AsyncSelect from "react-select/async";
@@ -16,10 +17,14 @@ import { Button } from "@/shared/ui/button";
 import { InputMaskPlate } from "@/shared/ui/input-mask-plate";
 import { InputMaskRegion } from "@/shared/ui/input-mask-region";
 
-import { ButtonThemes } from "@/shared/lib/enums";
+import { ButtonThemes, TargetPages } from "@/shared/lib/enums";
 
 import { Loader } from "@/shared/ui/loader";
-import { CORRECT_PLATE_LENGTH } from "@/shared/lib/constants";
+import {
+  CORRECT_PLATE_LENGTH,
+  STORAGE,
+  STORAGE_EXPECTED,
+} from "@/shared/lib/constants";
 import {
   useGetAutoData,
   useGetBrandModel,
@@ -46,6 +51,8 @@ import { useCreateModel, useSelectCarData } from "../../model/api/vehiclesApi";
 import { initialForm } from "../../constants";
 
 import styles from "./styles.module.css";
+import { useExpectedPostLoan } from "@/entities/loan";
+import { getOnlyDigits } from "@/widgets/calculator/lib/utils";
 
 const ApplicationVehicle: FC = () => {
   const [plate, setPlate] = useState("");
@@ -57,6 +64,28 @@ const ApplicationVehicle: FC = () => {
   const [model, setModel] = useState<VehicleBrandTypeWithLabel | string>("");
   const [isManualInput, setIsManualInput] = useState(false);
   const [errors, setErrors] = useState<FormType>(initialForm);
+  const [postExpectedLoan] = useExpectedPostLoan();
+
+  useEffect(() => {
+    const expectedLoan = JSON.parse(
+      STORAGE.getItem(STORAGE_EXPECTED) || JSON.stringify(""),
+    );
+
+    async function fn() {
+      try {
+        await postExpectedLoan({
+          expected_sum: getOnlyDigits(expectedLoan.expected_sum),
+          expected_term: expectedLoan.expected_term,
+        }).unwrap();
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (expectedLoan) {
+      fn();
+    }
+  }, [postExpectedLoan]);
 
   const navigate = useNavigate();
 
@@ -92,6 +121,7 @@ const ApplicationVehicle: FC = () => {
           : manufacture_year?.toString(),
         body: isNotAutoInput ? vinBody : body,
         vin: isNotAutoInput ? vinBody : vin,
+        owner: 1,
       };
 
       try {
@@ -209,7 +239,7 @@ const ApplicationVehicle: FC = () => {
           <Button
             type="button"
             variant={ButtonThemes.SECONDARY}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(`/${TargetPages.APPLICATION_CALCULATOR}`)}
           >
             Назад
           </Button>

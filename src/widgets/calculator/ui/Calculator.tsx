@@ -4,6 +4,7 @@ import {
   FormEventHandler,
   memo,
   useCallback,
+  useEffect,
   useState,
 } from "react";
 import RangeSlider from "react-range-slider-input";
@@ -23,21 +24,48 @@ import {
 } from "../lib/utils";
 import { useHelpText, useLoanCalculator } from "../lib/hooks";
 
-import { useActionCreators } from "@/app/providers/rtk";
-import { loanActions } from "@/entities/loan";
 import { useNavigateTo } from "@/shared/lib/hooks/useNavigateTo";
 import { TargetPages } from "@/shared/lib/enums";
+
+import {
+  STORAGE,
+  STORAGE_EXPECTED,
+  STORAGE_TOKEN,
+} from "@/shared/lib/constants";
+import { useGetLastLoan } from "@/entities/loan";
 
 import "react-range-slider-input/dist/style.css";
 
 export const Calculator: FC = () => {
-  const [rangeValue, setRangeValue] = useState(1);
+  const [rangeValue, setRangeValue] = useState(0);
+  const [expectedSum, setExpectedSum] = useState<number>(0);
   const [marketPrice, setMarketPrice] = useState("");
-  const [activeTerm, setActiveTerm] = useState<Months>(terms[0]);
+  const [activeTerm, setActiveTerm] = useState<Months | string>(terms[0]);
+  const [getLastLoan] = useGetLastLoan();
   const { handleNavigateTo: handleNavigateToApplication, isNavigateFetching } =
     useNavigateTo(TargetPages.APPLICATION_VEHICLE);
 
-  const loanAction = useActionCreators(loanActions);
+  useEffect(() => {
+    const token = JSON.parse(
+      STORAGE.getItem(STORAGE_TOKEN) || JSON.stringify(""),
+    );
+
+    async function fn() {
+      const lastLoan = await getLastLoan().unwrap();
+      setActiveTerm(
+        (lastLoan?.expected_term &&
+          (lastLoan?.expected_term.toString() as string)) ||
+          terms[0],
+      );
+      setExpectedSum(
+        lastLoan?.expected_sum ? Number(lastLoan?.expected_sum) / 10000 : 0,
+      );
+    }
+
+    if (token) {
+      fn();
+    }
+  }, [getLastLoan]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
@@ -47,11 +75,16 @@ export const Calculator: FC = () => {
 
       const sum = Number(getOnlyDigits(value));
 
-      loanAction.setLoan({ appointed_term: activeTerm, appointed_sum: sum });
+      const expectedLoan = {
+        expected_term: activeTerm,
+        expected_sum: sum.toString(),
+      };
+
+      STORAGE.setItem(STORAGE_EXPECTED, JSON.stringify(expectedLoan));
 
       handleNavigateToApplication();
     },
-    [activeTerm, handleNavigateToApplication, loanAction, rangeValue],
+    [activeTerm, handleNavigateToApplication, rangeValue],
   );
 
   return (
@@ -59,18 +92,21 @@ export const Calculator: FC = () => {
       <div className="mb-6">
         <p className="mb-2">Сумма кредита</p>
         <div className="py-4 px-5 rounded-lg flex items-center justify-between border border-border-gray heading-5">
-          <span>{calcLoanCredit(rangeValue)}</span>
+          <span>{calcLoanCredit(rangeValue || expectedSum)}</span>
           <span>₽</span>
         </div>
         <div className="mx-auto w-[90%] -translate-y-0.5">
-          <CalculatorRangeSlider setRangeValue={setRangeValue} />
+          <CalculatorRangeSlider
+            setRangeValue={setRangeValue}
+            defaultValue={expectedSum}
+          />
         </div>
       </div>
       <div className="mb-6">
         <p className="mb-2">Срок займа, месяцев</p>
         <div className="p-0.5 rounded-lg border border-border-gray">
           <CalculatorMonthsList
-            activeTerm={activeTerm}
+            activeTerm={activeTerm as Months}
             setActiveTerm={setActiveTerm}
           />
         </div>
@@ -88,7 +124,7 @@ export const Calculator: FC = () => {
         <div className="py-3 px-4 flex flex-col border-b border-b-border-gray md:border-r md:border-r-border-gray md:border-b-0">
           <CalculatorMonthlyPayment
             rangeValue={rangeValue}
-            activeTerm={activeTerm}
+            activeTerm={activeTerm as Months}
           />
         </div>
         <div className="py-3 px-4 flex flex-col">
@@ -105,13 +141,15 @@ export const Calculator: FC = () => {
 
 export const CalculatorRangeSlider: FC<{
   setRangeValue: (val: number) => void;
-}> = memo(({ setRangeValue }) => {
+  defaultValue?: number;
+}> = memo(({ setRangeValue, defaultValue = 0 }) => {
   return (
     <RangeSlider
+      key={defaultValue}
       className="bb__range-slider"
       min={5}
       max={100}
-      defaultValue={[0, 0]}
+      defaultValue={[defaultValue, 0]}
       thumbsDisabled={[true, false]}
       rangeSlideDisabled={true}
       onInput={(val: number[]) => setRangeValue(val[1])}

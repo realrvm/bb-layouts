@@ -26,6 +26,10 @@ export function navigateByApplicationStatus(
       return `/profile/main/${id}/considered`;
     case ApplicationStatus.ACTIVE:
       return "/profile/active";
+    case ApplicationStatus.LOAN_SUM_SELECTED:
+      return "/application/vehicle";
+    case ApplicationStatus.CAR_DATA_SELECTED:
+      return "/application/docs";
     default:
       return `/application/calculator`;
   }

@@ -34,13 +34,12 @@ const vehiclesApi = $api
       }),
       getUrlImagesPresign: build.mutation<
         { url: string },
-        { uid: string; file_name: string }
+        { body: File, uid?:number }
       >({
-        query: ({ file_name, uid }) => ({
+        query: ({body, uid = 2}) => ({
           url: `/vehicles/${uid}/images/add/`,
-          //url: `/vehicles/${uid}/images/presign/`,
           method: "POST",
-          body: { file_name },
+          body,
         }),
       }),
     }),

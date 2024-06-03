@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Application, ApplicationTitle } from "../Application";
 import { Button } from "@/shared/ui/button";
-import { ButtonThemes } from "@/shared/lib/enums";
+import { ButtonThemes, TargetPages } from "@/shared/lib/enums";
 
 import { cn } from "@/shared/lib/cn";
 
@@ -41,7 +41,7 @@ const ApplicationDocs: FC = () => {
           <Button
             type="button"
             variant={ButtonThemes.SECONDARY}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(`/${TargetPages.APPLICATION_VEHICLE}`)}
           >
             Назад
           </Button>

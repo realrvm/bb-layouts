@@ -2,8 +2,8 @@ import { ApplicationStatus } from "@/shared/lib/enums";
 import { Months } from "@/shared/lib/types";
 
 export type LoanSchema = {
-  appointed_term: Months;
-  appointed_sum: number;
+  expected_term: Months;
+  expected_sum: string;
 };
 
 type LoansResultPayments = {
@@ -58,10 +58,10 @@ export type LoansRequestSchema = {
 
 export type ExpectedLoansRequestSchema = {
   expected_sum: string;
-  expected_term: number;
+  expected_term: Months;
 };
 
-type LastLoanResultsSchema = {
+export type LastLoanSchema = {
   id: number;
   borrower: number;
   status: ApplicationStatus;
@@ -74,11 +74,4 @@ type LastLoanResultsSchema = {
   appointed_term: number;
   vehicle: number;
   appointer: number;
-};
-
-export type LastLoanSchema = {
-  count: number;
-  next: string;
-  previous: string;
-  results: LastLoanResultsSchema[];
 };

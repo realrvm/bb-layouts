@@ -11,11 +11,12 @@ import { SingleValue } from "react-select";
 
 import { ApplicationPages, Months } from "@/shared/lib/types";
 import { calcLoanCredit, getOnlyDigits } from "@/widgets/calculator/lib/utils";
-import { useActionCreators } from "@/app/providers/rtk";
-//import { loanActions, useExpectedPostLoan, usePostLoan } from "@/entities/loan";
-// TODO
-import { loanActions, useExpectedPostLoan } from "@/entities/loan";
-import { POLLING_INTERVAL } from "@/shared/lib/constants";
+import { useExpectedPostLoan } from "@/entities/loan";
+import {
+  POLLING_INTERVAL,
+  STORAGE,
+  STORAGE_EXPECTED,
+} from "@/shared/lib/constants";
 import { ReportsRetrieveSchema } from "../../model/types";
 import {
   useGetRetrievedReport,
@@ -57,8 +58,6 @@ export function useApplicationCalculator(
   activeTerm: Months,
 ) {
   const navigate = useNavigate();
-  const loanAction = useActionCreators(loanActions);
-  //const [postLoan, { isLoading }] = usePostLoan();
   const [postExpectedLoan, { isLoading }] = useExpectedPostLoan();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
@@ -66,22 +65,17 @@ export function useApplicationCalculator(
 
     const value = calcLoanCredit(rangeValue);
 
-    const sum = Number(getOnlyDigits(value));
-
-    loanAction.setLoan({ appointed_term: activeTerm, appointed_sum: sum });
+    STORAGE.removeItem(STORAGE_EXPECTED);
 
     try {
-      // await postLoan({ term: activeTerm, sum }).unwrap();
       await postExpectedLoan({
         expected_sum: getOnlyDigits(value),
-        expected_term: Number(activeTerm),
+        expected_term: activeTerm,
       }).unwrap();
 
       navigate("/application/vehicle");
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
-      // TODO: удалить после того как бекенд определится с роутом
-      navigate("/application/vehicle");
     }
   };
 
@@ -159,40 +153,20 @@ const usePresign = () => {
   });
   const [getPresign] = useGetPresign();
 
-  function upload(files: FileList) {
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
-      retrieveNewURL(file, (file: File, url: string) => {
-        uploadFile(file, url);
-      });
-    }
-  }
-
-  async function retrieveNewURL(
-    file: File,
-    cb: (file: File, url: string) => void,
-  ) {
-    try {
-      if (vehicleUid) {
-        const res = await getPresign({
-          uid: vehicleUid.id.toString(),
-          file_name: file.name,
-        }).unwrap();
-
-        if (res) cb(file, res.url);
-      }
-    } catch (e) {
-      if (e instanceof Error) console.log(e.message);
-    }
-  }
-
-  async function uploadFile(file: File, url: string) {
-    try {
-      await fetch(url, { method: "PUT", body: file });
-    } catch (e) {
-      if (e instanceof Error) console.log(e.message);
-    }
+  // params : files: FileList -старое значние
+  async function upload(file: File) {
+    // for (let i = 0; i < files.length; i++) {
+    //   const file = files[i];
+    //
+    //   await getPresign({
+    //     body: file,
+    //     uid: vehicleUid?.id,
+    //   }).unwrap();
+    // }
+    await getPresign({
+      body: file,
+      uid: vehicleUid?.id,
+    }).unwrap();
   }
 
   return { upload };
@@ -222,7 +196,7 @@ export const usePreviewImage = () => {
 
         fileReader.addEventListener("load", () => {
           setPreviewImage(fileReader.result);
-          if (targetFiles) upload(targetFiles);
+          if (targetFiles) upload(targetFiles[0]);
         });
 
         if (file) fileReader.readAsDataURL(file);

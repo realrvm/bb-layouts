@@ -4,14 +4,17 @@ import { AppLink } from "@/shared/ui/app-link";
 import { Button } from "@/shared/ui/button";
 import { Logo } from "@/shared/ui/icons";
 import { Container } from "@/widgets/container";
-import { Widths } from "@/shared/lib/enums";
+import { TargetPages, Widths } from "@/shared/lib/enums";
 import { ProfileIconPhone } from "@/shared/ui/profile-icon-phone";
 import { useIsMobile } from "../lib/hooks";
-import { useNavigate } from "react-router-dom";
+import { useNavigateTo } from "@/shared/lib/hooks/useNavigateTo";
 
 export const ProfileHeader: FC = () => {
   const { isMobile } = useIsMobile();
-  const navigate = useNavigate();
+
+  const { handleNavigateTo: handleNavigateToApplication } = useNavigateTo(
+    TargetPages.APPLICATION_CALCULATOR,
+  );
 
   return (
     <header className="h-20 md:h-[76px]">
@@ -22,10 +25,7 @@ export const ProfileHeader: FC = () => {
           </AppLink>
           <div className="flex items-center gap-12">
             <ProfileIconPhone />
-            <Button
-              className="btn-small"
-              onClick={() => navigate("/application/calculator")}
-            >
+            <Button className="btn-small" onClick={handleNavigateToApplication}>
               Получить займ
             </Button>
           </div>

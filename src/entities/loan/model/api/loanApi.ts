@@ -44,6 +44,6 @@ const loanApi = $api
   });
 
 export const useGetLoans = loanApi.useLazyGetLoansQuery;
-export const useGetLastLoan = loanApi.useGetLastLoanQuery;
+export const useGetLastLoan = loanApi.useLazyGetLastLoanQuery;
 export const usePostLoan = loanApi.usePostLoanMutation;
 export const useExpectedPostLoan = loanApi.usePostExpectedLoanMutation;

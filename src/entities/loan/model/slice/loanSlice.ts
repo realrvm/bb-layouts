@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LoanSchema } from "../types";
 
 const initialState: LoanSchema = {
-  appointed_term: "24",
-  appointed_sum: 50000,
+  expected_term: "24",
+  expected_sum: "50000",
 };
 
 const loanSlice = createSlice({
@@ -12,8 +12,8 @@ const loanSlice = createSlice({
   initialState,
   reducers: (create) => ({
     setLoan: create.reducer<LoanSchema>((state, { payload }) => {
-      state.appointed_term = payload.appointed_term;
-      state.appointed_sum = payload.appointed_sum;
+      state.expected_term = payload.expected_term;
+      state.expected_sum = payload.expected_sum;
     }),
   }),
   selectors: {
