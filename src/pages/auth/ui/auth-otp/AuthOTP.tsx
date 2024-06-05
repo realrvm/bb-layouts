@@ -1,11 +1,20 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 import { Otp } from "@/widgets/otp";
 import { Auth } from "../Auth";
 import { useOTP } from "../../lib/hooks";
+import { useRegisterApi } from "../../model/api/registerApi";
 
 const AuthOTP: FC = () => {
   const { otp, setOtp, setIsResendable, phone } = useOTP();
+
+  const [, result] = useRegisterApi({
+    fixedCacheKey: "shared-register-post",
+  });
+
+  useEffect(() => {
+    alert(`Код OTP : ${result.data?.otp}`);
+  }, [result]);
 
   return (
     <Auth>

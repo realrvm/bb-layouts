@@ -33,14 +33,20 @@ const vehiclesApi = $api
         }),
       }),
       getUrlImagesPresign: build.mutation<
-        { url: string },
-        { body: File, uid?:number }
+        unknown,
+        { body: File; uid?: number }
       >({
-        query: ({body, uid = 2}) => ({
-          url: `/vehicles/${uid}/images/add/`,
-          method: "POST",
-          body,
-        }),
+        query: ({ body, uid = 17 }) => {
+          const formData = new FormData();
+
+          formData.append("image", body);
+
+          return {
+            url: `/vehicles/${uid}/images/add/`,
+            method: "POST",
+            body: formData,
+          };
+        },
       }),
     }),
     overrideExisting: false,

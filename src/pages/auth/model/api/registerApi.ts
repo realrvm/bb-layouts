@@ -1,10 +1,10 @@
 import { $api } from "@/shared/api";
 
-import { RegisterSchema } from "../types";
+import { RegisterResponseSchema, RegisterSchema } from "../types";
 
 const registerApi = $api.injectEndpoints({
   endpoints: (build) => ({
-    register: build.mutation<RegisterSchema, RegisterSchema>({
+    register: build.mutation<RegisterResponseSchema, RegisterSchema>({
       query(regData) {
         return {
           method: "POST",

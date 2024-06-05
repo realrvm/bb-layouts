@@ -22,7 +22,7 @@ import { encode } from "base-64";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers, { getState, endpoint }) => {
     const state = getState() as RootState;
 
     const token = state.auth.accessToken;
@@ -31,6 +31,10 @@ const baseQuery = fetchBaseQuery({
     const password = "nH7w1<!464H$";
 
     const basic_auth = "Basic " + encode(`${username}:${password}`);
+
+    if (endpoint === "getUrlImagesPresign") {
+      headers.set("Content-Type", "multipart/form-data");
+    }
 
     headers.set("Authorization", basic_auth);
 

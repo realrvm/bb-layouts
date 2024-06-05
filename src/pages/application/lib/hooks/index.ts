@@ -163,10 +163,14 @@ const usePresign = () => {
     //     uid: vehicleUid?.id,
     //   }).unwrap();
     // }
-    await getPresign({
-      body: file,
-      uid: vehicleUid?.id,
-    }).unwrap();
+    try {
+      await getPresign({
+        body: file,
+        uid: vehicleUid?.id,
+      }).unwrap();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return { upload };
