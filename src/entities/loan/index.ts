@@ -7,4 +7,5 @@ export {
   usePostLoan,
   useExpectedPostLoan,
   useGetLastLoan,
+  useLastLoan,
 } from "./model/api/loanApi";

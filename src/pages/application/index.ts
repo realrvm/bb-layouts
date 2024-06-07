@@ -25,5 +25,4 @@ export {
   useGetPresign,
   useGetBrands,
   useGetModel,
-  useSelectCarData,
 } from "./model/api/vehiclesApi";

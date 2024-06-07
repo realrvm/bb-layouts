@@ -20,6 +20,8 @@ import { encode } from "base-64";
 //const basicAuth = "Basic " + encode(`${DEV_USERNAME}:${DEV_PASSWORD}`);
 //const basicAuth = "Basic dGVzdGVyOm5IN3cxPCE0NjRIJA==";
 
+let isError401 = false;
+
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
   prepareHeaders: (headers, { getState, endpoint }) => {
@@ -32,14 +34,15 @@ const baseQuery = fetchBaseQuery({
 
     const basic_auth = "Basic " + encode(`${username}:${password}`);
 
-    if (endpoint === "getUrlImagesPresign") {
+    if (endpoint === "getUrlImagesPresign" && !isError401) {
       headers.set("Content-Type", "multipart/form-data");
     }
 
     headers.set("Authorization", basic_auth);
 
     if (token) {
-      headers.set("Authorization", `${basic_auth}, Bearer ${token}`);
+      //headers.set("Authorization", `${basic_auth}, Bearer ${token}`);
+      headers.set("Authorization", `Bearer ${token}`);
     }
 
     return headers;
@@ -56,6 +59,8 @@ const baseQueryWithReauth: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {
+    isError401 = true;
+
     try {
       const token = JSON.parse(
         STORAGE.getItem(STORAGE_TOKEN) || JSON.stringify(""),
@@ -84,6 +89,8 @@ const baseQueryWithReauth: BaseQueryFn<
         console.log(e.message);
       }
     }
+  } else {
+    isError401 = false;
   }
 
   return result;

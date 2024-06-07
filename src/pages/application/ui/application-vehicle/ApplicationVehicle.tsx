@@ -47,12 +47,14 @@ import {
 
 import { ZodError } from "zod";
 import { vehicleSchema } from "../../config/schema";
-import { useCreateModel, useSelectCarData } from "../../model/api/vehiclesApi";
+import { useCreateModel } from "../../model/api/vehiclesApi";
 import { initialForm } from "../../constants";
 
-import styles from "./styles.module.css";
 import { useExpectedPostLoan } from "@/entities/loan";
 import { getOnlyDigits } from "@/widgets/calculator/lib/utils";
+import { useProfile } from "@/pages/profile/model/api/profileApi";
+
+import styles from "./styles.module.css";
 
 const ApplicationVehicle: FC = () => {
   const [plate, setPlate] = useState("");
@@ -93,10 +95,6 @@ const ApplicationVehicle: FC = () => {
     fixedCacheKey: "shared-create-model-post",
   });
 
-  const [selectCarData] = useSelectCarData({
-    fixedCacheKey: "shared-select-car-data",
-  });
-
   const { handleInitiateReport, autoData, isLoading, isError } = useGetAutoData(
     plate,
     region,
@@ -105,6 +103,7 @@ const ApplicationVehicle: FC = () => {
   );
   const { manufactureYear, handleManufactureYear } = useManufactureYear();
   const { vinBody, handleVinBody } = useVinBody();
+  const { data: profile } = useProfile();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
@@ -121,14 +120,14 @@ const ApplicationVehicle: FC = () => {
           : manufacture_year?.toString(),
         body: isNotAutoInput ? vinBody : body,
         vin: isNotAutoInput ? vinBody : vin,
-        owner: 1,
+        owner: profile?.id,
       };
 
       try {
         vehicleSchema.parse(formData);
 
-        await createModel(formData as any).unwrap();
-        await selectCarData(formData as any).unwrap();
+        const res = await createModel(formData as any).unwrap();
+        console.log(res);
 
         navigate("/application/docs");
       } catch (e) {
@@ -159,8 +158,8 @@ const ApplicationVehicle: FC = () => {
       plate,
       region,
       vinBody,
-      selectCarData,
       createModel,
+      profile?.id,
     ],
   );
 

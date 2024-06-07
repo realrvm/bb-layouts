@@ -11,7 +11,7 @@ import { SingleValue } from "react-select";
 
 import { ApplicationPages, Months } from "@/shared/lib/types";
 import { calcLoanCredit, getOnlyDigits } from "@/widgets/calculator/lib/utils";
-import { useExpectedPostLoan } from "@/entities/loan";
+import { useExpectedPostLoan, useLastLoan } from "@/entities/loan";
 import {
   POLLING_INTERVAL,
   STORAGE,
@@ -24,7 +24,6 @@ import {
 } from "../../model/api/reportsApi";
 import { isPlateTheRequiredLength } from "../utils";
 import {
-  useCreateModel,
   useGetBrands,
   useGetModel,
   useGetPresign,
@@ -148,9 +147,7 @@ export function useGetAutoData(
 }
 
 const usePresign = () => {
-  const [, { data: vehicleUid }] = useCreateModel({
-    fixedCacheKey: "shared-create-model-post",
-  });
+  const {data: lastLoan} = useLastLoan()
   const [getPresign] = useGetPresign();
 
   // params : files: FileList -старое значние
@@ -166,7 +163,7 @@ const usePresign = () => {
     try {
       await getPresign({
         body: file,
-        uid: vehicleUid?.id,
+        uid: lastLoan?.vehicle || 1,
       }).unwrap();
     } catch (e) {
       console.log(e);

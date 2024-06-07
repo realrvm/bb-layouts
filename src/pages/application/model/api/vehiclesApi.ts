@@ -20,13 +20,6 @@ const vehiclesApi = $api
           body,
         }),
       }),
-      selectCarData: build.mutation<any, any>({
-        query: (body) => ({
-          url: "/loans/select_car_data/",
-          method: "POST",
-          body,
-        }),
-      }),
       getListVehiclesBrands: build.query<any, void>({
         query: () => ({
           url: "/vehicles/makes/",
@@ -36,7 +29,7 @@ const vehiclesApi = $api
         unknown,
         { body: File; uid?: number }
       >({
-        query: ({ body, uid = 17 }) => {
+        query: ({ body, uid = 1 }) => {
           const formData = new FormData();
 
           formData.append("image", body);
@@ -56,4 +49,3 @@ export const useGetModel = vehiclesApi.useLazyGetModelQuery;
 export const useCreateModel = vehiclesApi.useCreateModelObjectMutation;
 export const useGetPresign = vehiclesApi.useGetUrlImagesPresignMutation;
 export const useGetBrands = vehiclesApi.useLazyGetListVehiclesBrandsQuery;
-export const useSelectCarData = vehiclesApi.useSelectCarDataMutation;
