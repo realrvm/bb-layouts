@@ -1,4 +1,11 @@
-import { FC, memo, useCallback, useRef, useState } from "react";
+import {
+  FC,
+  memo,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { cn } from "@/shared/lib/cn";
@@ -16,10 +23,16 @@ import { useGetProfilePaymentsShedule } from "@/pages/profile/model/api/profileA
 import { ProfileResponsePaymentsSheduleResultsSchema } from "@/pages/profile/model/types";
 import { transformDate } from "@/shared/lib/helpers/transformDate";
 import { formatNumber } from "@/shared/lib/helpers/formatNumber";
-import { ButtonThemes } from "@/shared/lib/enums";
+import { LoanResult, useGetLoans } from "@/entities/loan";
+import { calcMonthlyPayment } from "@/widgets/calculator/lib/utils";
+import { Months } from "@/shared/lib/types";
+import { useLoanCalculator } from "@/widgets/calculator/lib/hooks";
 
 const ProfileMainSchedule: FC = () => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState<boolean>(false);
+  const [isNewOffer, setIsNewOffer] = useState<boolean>(false);
+  const [newOffer, setNewOffer] = useState<LoanResult>();
+
   const { locationIndex } = useLocationIndex("profile");
   const navigate = useNavigate();
 
@@ -27,6 +40,36 @@ const ProfileMainSchedule: FC = () => {
   const { data: paymentsSchedule, isFetching } = useGetProfilePaymentsShedule(
     id as string,
   );
+  const { rate } = useLoanCalculator();
+
+  const [getLoan] = useGetLoans();
+
+  useLayoutEffect(() => {
+    async function fn() {
+      const res = await getLoan().unwrap();
+
+      if (res && res.results && res.results.length > 0) {
+        const loan = res.results.find((val) => val.id === Number(id));
+
+        if (
+          loan &&
+          loan.appointed_term &&
+          loan.expected_term &&
+          loan.expected_sum &&
+          loan.appointed_sum
+        ) {
+          const isEqualSum = loan?.appointed_sum === loan?.expected_sum;
+
+          const isEqualTerm = loan?.expected_term === loan?.appointed_term;
+
+          setIsNewOffer(isEqualSum && isEqualTerm);
+          setNewOffer(loan);
+        }
+      }
+    }
+
+    fn();
+  }, [getLoan, id]);
 
   const handleCheck = useCallback((state: boolean) => {
     setChecked(state);
@@ -41,7 +84,9 @@ const ProfileMainSchedule: FC = () => {
         <ProfileMainApplicationSteps locationIndex={locationIndex} />
       </ProfileMainApplicationWrapper>
       <div className="max-w-[1000px] mx-auto pb-16">
-        <ProfileMainScheduleNewOffer />
+        {isNewOffer ? null : (
+          <ProfileMainScheduleNewOffer newOffer={newOffer} rate={rate} />
+        )}
         <h3 className="heading-5 mb-4 px-7 lg:px-0">
           Просмотрите график и подтвердите, что вам подходят условия
         </h3>
@@ -139,45 +184,64 @@ const ProfileMainScheduleRows: FC<{
   );
 });
 
-const ProfileMainScheduleNewOffer: FC = memo(() => {
+const ProfileMainScheduleNewOffer: FC<{
+  newOffer?: LoanResult;
+  rate?: number;
+}> = memo(({ newOffer, rate }) => {
+  const { expected_sum, expected_term, appointed_sum, appointed_term } =
+    newOffer || {};
+
+  const calcutatedExpectedMonthlyPayment = calcMonthlyPayment(
+    Number(expected_sum!),
+    expected_term?.toString() as Months,
+    rate,
+  );
+  const calcutatedAppointedMonthlyPayment = calcMonthlyPayment(
+    Number(appointed_sum!),
+    appointed_term?.toString() as Months,
+    rate,
+  );
+
   return (
-    <div className="mb-4 border border-border-gray rounded-lg p-6">
-      <h4 className="heading-4 mb-2">Вам предложены новые условия</h4>
-      <p className="mb-6 text-small">
-        Возможно, эти условия окажутся более привлекательными для вас
-      </p>
-      <div className="flex items-center gap-4 mb-9">
+    <div className="mb-4 border border-border-gray rounded-lg p-6 flex justify-between gap-9">
+      <div className="flex flex-col justify-between flex-1">
+        <h4 className="heading-4 mb-2">Вам предложены новые условия</h4>
+        <p className="mb-6 text-small">
+          Возможно, эти условия окажутся более привлекательными для вас. Однако,
+          если эти условия вас не устроят, вы можете отказаться от займа
+          полностью.
+        </p>
+      </div>
+      <div className="grid grid-cols-2 flex-1 gap-y-4">
         <div className="flex flex-col basis-[163px]">
           <span className="text-small text-text-gray">Сумма займа</span>
-          <span className="heading-6 line-through">197 000 ₽</span>
-          <span className="heading-5 text-special-green">250 000 ₽</span>
+          <span className="heading-6 line-through">
+            {formatNumber(expected_sum!)} ₽
+          </span>
+          <span className="heading-5 text-special-green">
+            {formatNumber(appointed_sum!)} ₽
+          </span>
         </div>
         <div className="flex flex-col basis-[163px]">
           <span className="text-small text-text-gray">Срок</span>
-          <span className="heading-6 line-through">24 месяца</span>
-          <span className="heading-5 text-special-green">36 месяца</span>
+          <span className="heading-6 line-through">{expected_term} месяца</span>
+          <span className="heading-5 text-special-green">
+            {appointed_term} месяца
+          </span>
         </div>
-        <div className="flex flex-col basis-[163px]">
+        <div className="flex flex-col basis-[163px] gap-y-1">
           <span className="text-small text-text-gray">Процентная ставка</span>
-          <span className="heading-6 line-through">26%</span>
-          <span className="heading-5 text-special-green">18%</span>
+          <span className="heading-5 text-special-green">{rate || "18"}%</span>
         </div>
         <div className="flex flex-col basis-[163px]">
           <span className="text-small text-text-gray">Обязательный платёж</span>
-          <span className="heading-6 line-through">17 520,14 ₽</span>
-          <span className="heading-5 text-special-green">8 194 ₽</span>
+          <span className="heading-6 line-through">
+            {formatNumber(calcutatedExpectedMonthlyPayment)} ₽
+          </span>
+          <span className="heading-5 text-special-green">
+            {formatNumber(calcutatedAppointedMonthlyPayment)} ₽
+          </span>
         </div>
-      </div>
-      <div className="flex item-center justify-between">
-        <div className="flex gap-3">
-          <Button onClick={() => {}}>Принять</Button>
-          <Button onClick={() => {}} variant={ButtonThemes.DANGER}>
-            Отказаться
-          </Button>
-        </div>
-        <Button variant={ButtonThemes.SECONDARY} onClick={() => {}}>
-          График платежей по новым условиям
-        </Button>
       </div>
     </div>
   );

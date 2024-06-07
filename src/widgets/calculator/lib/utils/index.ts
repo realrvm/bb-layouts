@@ -34,8 +34,8 @@ export function getWithSpaces(num: number): string {
   return num.toLocaleString().replace(/[,. ]/g, " ");
 }
 
-export function calcMonthlyPayment(sum: string, period: Months, rate = 18) {
-  const amount = getOnlyDigits(sum);
+export function calcMonthlyPayment(sum: string | number, period: Months, rate = 18) {
+  const amount = getOnlyDigits(sum.toString());
 
   const term = Number(period);
 

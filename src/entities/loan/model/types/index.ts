@@ -6,30 +6,27 @@ export type LoanSchema = {
   expected_sum: string;
 };
 
-type LoansResultPayments = {
+export type LoanResult = {
   id: number;
-  sum: string;
-  scheduled_at: string;
-  paid_at: string;
-};
-
-type LoansResult = {
-  id: number;
-  payments: LoansResultPayments[];
-  created_at: string;
-  approved_at: string;
-  loaned_at: string;
-  sum: string;
-  term: number;
   borrower: number;
-  vehicle: number;
+  status: string;
+  payment_status: string;
+  created_at: string;
+  loaned_at: string;
+  loaned_until: string;
+  expected_sum: string;
+  expected_term: number;
+  appointed_sum: string;
+  appointed_term: number;
+  vehicle: number | null;
+  appointer: number | null;
 };
 
 export type LoansSchema = {
   count: number;
   next: string;
   previous: string;
-  results: LoansResult[];
+  results: LoanResult[];
 };
 
 type LoansResponsePayments = {
