@@ -6,7 +6,7 @@ import {
   memo,
   useCallback,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { cn } from "@/shared/lib/cn";
 import { usePreviewImage, usePreviewImages } from "@/pages/profile/lib/hooks";
@@ -18,6 +18,7 @@ import {
 import { Button } from "@/shared/ui/button";
 
 import styles from "./styles.module.css";
+import { useGetProfileIdentity } from "@/pages/profile/model/api/profileApi";
 
 type Pages = "photo" | "address" | "pts";
 
@@ -30,14 +31,18 @@ const docsView: Record<Pages, string> = Object.freeze({
 const ProfileMainApproved: FC = () => {
   const { locationIndex } = useLocationIndex("profile");
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const submitApprovedForm: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       e.preventDefault();
-      navigate("/profile/main/payout");
+      navigate(`/profile/main/${id}/payout`);
     },
-    [navigate],
+    [navigate, id],
   );
+
+  const { data: identity } = useGetProfileIdentity();
+  console.log(identity);
 
   return (
     <>

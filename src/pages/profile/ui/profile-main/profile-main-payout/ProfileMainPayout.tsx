@@ -11,6 +11,7 @@ const ProfileMainPayout = () => {
     <>
       <ProfileMainApplicationWrapper>
         <ProfileMainApplicationSteps locationIndex={locationIndex} />
+        <h3 className="heading-5">В течении 20 мин. с вами свяжется наш менеджер</h3>
       </ProfileMainApplicationWrapper>
     </>
   );

@@ -118,7 +118,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: `${Routes.PROFILE}/main/approved`,
+            path: `${Routes.PROFILE}/main/:id/approved`,
             element: (
               <Suspense fallback={<Loading />}>
                 <ProfileMainApproved />
@@ -126,7 +126,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: `${Routes.PROFILE}/main/payout`,
+            path: `${Routes.PROFILE}/main/:id/payout`,
             element: (
               <Suspense fallback={<Loading />}>
                 <ProfileMainPayout />

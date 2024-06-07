@@ -29,7 +29,7 @@ const vehiclesApi = $api
         unknown,
         { body: File; uid?: number }
       >({
-        query: ({ body, uid = 1 }) => {
+        query: ({ body, uid  }) => {
           const formData = new FormData();
 
           formData.append("image", body);

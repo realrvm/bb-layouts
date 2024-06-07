@@ -1,11 +1,4 @@
-import {
-  FC,
-  memo,
-  useCallback,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { cn } from "@/shared/lib/cn";
@@ -44,7 +37,7 @@ const ProfileMainSchedule: FC = () => {
 
   const [getLoan] = useGetLoans();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     async function fn() {
       const res = await getLoan().unwrap();
 
@@ -58,11 +51,11 @@ const ProfileMainSchedule: FC = () => {
           loan.expected_sum &&
           loan.appointed_sum
         ) {
-          const isEqualSum = loan?.appointed_sum === loan?.expected_sum;
+          const isEqualSum = loan?.appointed_sum !== loan?.expected_sum;
 
-          const isEqualTerm = loan?.expected_term === loan?.appointed_term;
+          const isEqualTerm = loan?.expected_term !== loan?.appointed_term;
 
-          setIsNewOffer(isEqualSum && isEqualTerm);
+          setIsNewOffer(isEqualSum || isEqualTerm);
           setNewOffer(loan);
         }
       }
@@ -84,9 +77,9 @@ const ProfileMainSchedule: FC = () => {
         <ProfileMainApplicationSteps locationIndex={locationIndex} />
       </ProfileMainApplicationWrapper>
       <div className="max-w-[1000px] mx-auto pb-16">
-        {isNewOffer ? null : (
+        {isNewOffer ? (
           <ProfileMainScheduleNewOffer newOffer={newOffer} rate={rate} />
-        )}
+        ) : null}
         <h3 className="heading-5 mb-4 px-7 lg:px-0">
           Просмотрите график и подтвердите, что вам подходят условия
         </h3>
@@ -134,7 +127,7 @@ const ProfileMainSchedule: FC = () => {
         <div className="px-7 lg:px-0">
           <Button
             className="btn-medium w-full"
-            onClick={() => navigate("/profile/main/approved")}
+            onClick={() => navigate(`/profile/main/${id}/approved`)}
             disabled={!checked}
           >
             Подтвердить и продолжить

@@ -126,8 +126,7 @@ const ApplicationVehicle: FC = () => {
       try {
         vehicleSchema.parse(formData);
 
-        const res = await createModel(formData as any).unwrap();
-        console.log(res);
+        await createModel(formData as any).unwrap();
 
         navigate("/application/docs");
       } catch (e) {

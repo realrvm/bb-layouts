@@ -11,7 +11,10 @@ import { SingleValue } from "react-select";
 
 import { ApplicationPages, Months } from "@/shared/lib/types";
 import { calcLoanCredit, getOnlyDigits } from "@/widgets/calculator/lib/utils";
-import { useExpectedPostLoan, useLastLoan } from "@/entities/loan";
+import {
+  useExpectedPostLoan,
+  // useLastLoan
+} from "@/entities/loan";
 import {
   POLLING_INTERVAL,
   STORAGE,
@@ -24,6 +27,7 @@ import {
 } from "../../model/api/reportsApi";
 import { isPlateTheRequiredLength } from "../utils";
 import {
+  useCreateModel,
   useGetBrands,
   useGetModel,
   useGetPresign,
@@ -38,7 +42,7 @@ import { checkFileSize } from "@/shared/lib/helpers/checkFileSize";
 import { ZodError } from "zod";
 
 const pagesApplication: ApplicationPages[] = ["calculator", "vehicle", "docs"];
-const profilePages: string[] = ["schedule", "approved", "payout"];
+const profilePages: string[] = ["schedule", "approved", "method", "payout"];
 
 export function useLocationIndex(paths = "application") {
   const pages = paths === "profile" ? profilePages : pagesApplication;
@@ -147,8 +151,13 @@ export function useGetAutoData(
 }
 
 const usePresign = () => {
-  const {data: lastLoan} = useLastLoan()
+  //const {data: lastLoan} = useLastLoan()
   const [getPresign] = useGetPresign();
+
+  // TODO получает id машинки. заменить на другой способ получения id
+  const [, model] = useCreateModel({
+    fixedCacheKey: "shared-create-model-post",
+  });
 
   // params : files: FileList -старое значние
   async function upload(file: File) {
@@ -163,7 +172,7 @@ const usePresign = () => {
     try {
       await getPresign({
         body: file,
-        uid: lastLoan?.vehicle || 1,
+        uid: model.data?.id || 1,
       }).unwrap();
     } catch (e) {
       console.log(e);

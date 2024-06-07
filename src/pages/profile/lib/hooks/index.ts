@@ -25,7 +25,8 @@ export function useProfileData() {
 export function useLoansData() {
   const [loans, setLoans] = useState<ProfileLoansSchema>();
 
-  const [getProfileLoan, { isFetching, isSuccess, isError }] = useProfileLoans();
+  const [getProfileLoan, { isFetching, isSuccess, isError }] =
+    useProfileLoans();
 
   useEffect(() => {
     async function fn() {
@@ -44,12 +45,38 @@ export function useLoansData() {
   return { loans, isFetching, isSuccess, isError };
 }
 
+const useUploadDocs = () => {
+  async function upload(file: File) {
+    // for (let i = 0; i < files.length; i++) {
+    //   const file = files[i];
+    //
+    //   await getPresign({
+    //     body: file,
+    //     uid: vehicleUid?.id,
+    //   }).unwrap();
+    // }
+    // try {
+    //   await getPresign({
+    //     body: file,
+    //     uid: model.data?.id || 1,
+    //   }).unwrap();
+    // } catch (e) {
+    //   console.log(e);
+    // }
+    console.log(file)
+  }
+
+  return { upload };
+};
+
 export const usePreviewImage = () => {
   const [uploadedFile, setUploadedFile] = useState<File | undefined>();
   const [previewImage, setPreviewImage] = useState<
     string | ArrayBuffer | null
   >();
   const [errors, setErrors] = useState<string | undefined>();
+
+  const { upload } = useUploadDocs();
 
   const schema = checkFileSize();
 
@@ -66,6 +93,7 @@ export const usePreviewImage = () => {
 
         fileReader.addEventListener("load", () => {
           setPreviewImage(fileReader.result);
+          if (targetFiles) upload(targetFiles[0]);
         });
 
         if (file) fileReader.readAsDataURL(file);
